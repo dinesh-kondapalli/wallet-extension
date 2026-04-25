@@ -4,14 +4,13 @@ import { UIText } from 'src/ui/ui-kit/UIText';
 import { DialogTitle } from 'src/ui/ui-kit/ModalDialogs/DialogTitle';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import { Button } from 'src/ui/ui-kit/Button';
-import PremiumIcon from 'jsx:src/ui/assets/premium.svg';
 import ChartPromoIcon from 'jsx:src/ui/assets/chart-promo.svg';
 import ReducedFeesPromoIcon from 'jsx:src/ui/assets/reduced-fees-promo.svg';
 import CsvPromoIcon from 'jsx:src/ui/assets/csv-promo.svg';
 import { focusNode } from 'src/ui/shared/focusNode';
 import type { ReferrerData } from 'src/modules/zerion-api/requests/check-referral';
 import { ReferrerLink } from '../shared/ReferrerLink';
-import { PremiumTrialBanner } from '../shared/PremiumTrialBanner';
+
 import { FeatureCard } from '../shared/FeatureCard';
 import * as styles from './styles.module.css';
 
@@ -44,7 +43,6 @@ export function SuccessDialog({
         ) : null}
       </VStack>
       <VStack gap={8}>
-        <PremiumTrialBanner backgroundColor="var(--white)" />
         <HStack gap={8} style={{ gridAutoColumns: '1fr 2fr' }}>
           <FeatureCard
             icon="🚀"
@@ -52,8 +50,8 @@ export function SuccessDialog({
             text="Early Access"
           />
           <FeatureCard
-            icon={<PremiumIcon style={{ width: 36, height: 36 }} />}
-            text="Perks for All Wallets"
+            icon={<ChartPromoIcon />}
+            text="Multichain Profit/Loss"
           />
         </HStack>
         <HStack gap={8} style={{ gridAutoColumns: 'auto 1fr' }}>

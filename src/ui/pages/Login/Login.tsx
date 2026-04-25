@@ -19,7 +19,7 @@ import { VStack } from 'src/ui/ui-kit/VStack';
 import * as s from 'src/ui/style/helpers.module.css';
 import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import { Input } from 'src/ui/ui-kit/Input';
-import ZerionLogo from 'jsx:src/ui/assets/zerion-squircle.svg';
+import WalletLogo from 'url:src/images/sample-avatar.png';
 import { useBodyStyle } from 'src/ui/components/Background/Background';
 import { zeroizeAfterSubmission } from 'src/ui/shared/zeroize-submission';
 import { PageFullBleedColumn } from 'src/ui/components/PageFullBleedColumn';
@@ -62,7 +62,11 @@ function LoginPageAnimation({ address }: { address: string | null }) {
       <Spacer height={130} />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <ZStack style={{ placeItems: 'center' }}>
-          <ZerionLogo style={{ width: 54, height: 54 }} />
+          <img
+            src={WalletLogo}
+            alt="Wallet"
+            style={{ width: 54, height: 54 }}
+          />
           {address ? (
             <div
               style={{

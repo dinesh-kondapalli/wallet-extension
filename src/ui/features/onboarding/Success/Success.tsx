@@ -7,7 +7,7 @@ import { useWindowSizeStore } from 'src/ui/shared/useWindowSizeStore';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';
-import ZerionIcon from 'jsx:./assets/zerion.svg';
+import WalletIcon from 'url:src/images/sample-avatar.png';
 import PinIcon from 'jsx:./assets/pin.svg';
 import JigsawIcon from 'jsx:./assets/jigsaw.svg';
 import coinImgSrc from 'url:src/ui/assets/zer_coin.png';
@@ -169,7 +169,7 @@ export function Success() {
               Self-Custodial Human!
             </div>
             <UIText kind="headline/h3" color="var(--always-white)">
-              Zerion makes exploring web3 feel better than ever.
+              Wallet makes exploring web3 feel better than ever.
               {isNarrowView ? ' ' : <br />}
               You can close this tab to get started.
             </UIText>
@@ -204,11 +204,13 @@ export function Success() {
         </div>
         <animated.div className={styles.pinner} style={pinnerStyle}>
           <VStack gap={0}>
-            <ZerionIcon
-              style={{ width: 16, height: 16, color: 'var(--black)' }}
+            <img
+              src={WalletIcon}
+              alt="Wallet"
+              style={{ width: 16, height: 16 }}
             />
             <Spacer height={16} />
-            <UIText kind="headline/h3">Pin Zerion extension</UIText>
+            <UIText kind="headline/h3">Pin Wallet extension</UIText>
             <Spacer height={24} />
             <UIText kind="body/regular">
               Click

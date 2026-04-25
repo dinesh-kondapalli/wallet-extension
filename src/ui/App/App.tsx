@@ -88,7 +88,7 @@ import { ActionInfo } from '../pages/ActionInfo';
 import { TurnstileTokenHandler } from '../features/turnstile';
 import { AnalyticsIdHandler } from '../shared/analytics/AnalyticsIdHandler';
 import { ScreenViewTracker } from '../shared/ScreenViewTracker';
-import { PremiumPage } from '../pages/Premium';
+
 import { RestoreData } from '../pages/RestoreData';
 import { useRedirectToRestorePage } from '../pages/RestoreData/useRedirectToRestorePage';
 import { RouteRestoration, registerPersistentRoute } from './RouteRestoration';
@@ -435,14 +435,7 @@ function Views({ initialRoute }: { initialRoute?: string }) {
             </RequireAuth>
           }
         />
-        <Route
-          path="/premium"
-          element={
-            <RequireAuth>
-              <PremiumPage />
-            </RequireAuth>
-          }
-        />
+
         <Route
           path="/not-implemented"
           element={

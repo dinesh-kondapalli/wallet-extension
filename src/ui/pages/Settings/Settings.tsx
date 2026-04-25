@@ -16,7 +16,7 @@ import LockIcon from 'jsx:src/ui/assets/lock-outline.svg';
 import GlobeIcon from 'jsx:src/ui/assets/globe.svg';
 import QuestionIcon from 'jsx:src/ui/assets/question-hint.svg';
 import BulbIcon from 'jsx:src/ui/assets/bulb.svg';
-import PremiumIcon from 'jsx:src/ui/assets/premium.svg';
+
 import ExperimentsIcon from 'jsx:src/ui/assets/experimental.svg';
 import DarkModeLampIcon from 'jsx:src/ui/assets/dark-mode-lamp.svg';
 import NetworksIcon from 'jsx:src/ui/assets/network.svg';
@@ -59,7 +59,6 @@ import { useCopyToClipboard } from 'src/ui/shared/useCopyToClipboard';
 import { getCurrentUser } from 'src/shared/getCurrentUser';
 import { useStore } from '@store-unit/react';
 import { metaAppState } from 'src/ui/shared/meta-app-state';
-import { isEthereumAddress } from 'src/shared/isEthereumAddress';
 import { isMacOS } from 'src/ui/shared/isMacos';
 import { Security } from '../Security';
 import { BackupFlowSettingsSection } from './BackupFlowSettingsSection';
@@ -117,9 +116,6 @@ function SettingsMain() {
   useBackgroundKind({ kind: 'white' });
 
   const { hasTestWallet } = useStore(metaAppState);
-  const evmAddress = currentWallet
-    ? isEthereumAddress(currentWallet.address)
-    : false;
 
   return (
     <PageColumn>
@@ -184,29 +180,6 @@ function SettingsMain() {
         </Frame>
         <Frame>
           <VStack gap={0}>
-            {evmAddress ? (
-              <FrameListItemLink to="/premium">
-                <AngleRightRow>
-                  <HStack gap={8} alignItems="center">
-                    <PremiumIcon />
-                    <UIText kind="body/regular">Zerion Premium</UIText>
-                  </HStack>
-                </AngleRightRow>
-              </FrameListItemLink>
-            ) : (
-              <FrameListItemAnchor
-                href="http://zerion.io/premium"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <AngleRightRow kind="link">
-                  <HStack gap={8} alignItems="center">
-                    <PremiumIcon />
-                    <UIText kind="body/regular">Zerion Premium</UIText>
-                  </HStack>
-                </AngleRightRow>
-              </FrameListItemAnchor>
-            )}
             {FEATURE_LOYALTY_FLOW === 'on' && loyaltyEnabled ? (
               <FrameListItemLink
                 to="/invite"
@@ -465,8 +438,8 @@ function DeveloperTools() {
             }}
             detailText={
               <span>
-                When enabled, we add Zerion Wallet label to connect buttons in
-                DApps so that they{apostrophe}re easier to spot
+                When enabled, we add Wallet label to connect buttons in DApps so
+                that they{apostrophe}re easier to spot
               </span>
             }
           />
@@ -565,7 +538,7 @@ function Privacy() {
             detailText={
               <span>
                 Help us improve our app experience by sharing anonymous
-                statistics about how you use Zerion. We will not associate any
+                statistics about how you use Wallet. We will not associate any
                 of this to you and your personal data will not be sent to us.
                 Read more in our{' '}
                 <UnstyledAnchor

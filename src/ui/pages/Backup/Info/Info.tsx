@@ -216,7 +216,7 @@ export function Info({
                       className={styles.cardImg}
                     />
                   }
-                  text="Never share your recovery phrase or passcode with anyone, including Zerion team members."
+                  text="Never share your recovery phrase or passcode with anyone, including Wallet team members."
                 />
               </div>
               <VStack gap={12} style={{ justifyContent: 'center' }}>

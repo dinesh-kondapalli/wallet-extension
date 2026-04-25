@@ -140,7 +140,7 @@ const IMPORT_OPTIONS: ImportOptionConfig[] = [
   },
   {
     title: 'Connect Ledger',
-    subtitle: 'Use your hardware wallet with Zerion',
+    subtitle: 'Use your hardware wallet with Wallet',
     to: '/onboarding/hardware',
     className: cn(styles.option, styles.hardware),
     primaryImage: (
@@ -207,7 +207,7 @@ function Banner() {
           color: 'var(--always-white)',
         }}
       >
-        Welcome to Zerion
+        Welcome to Wallet
       </div>
       <UIText
         kind={isNarrowView ? 'body/accent' : 'headline/h3'}

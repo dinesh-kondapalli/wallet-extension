@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import type { QueryKeyHashFunction } from '@tanstack/react-query';
 import { useQuery, hashQueryKey } from '@tanstack/react-query';
 import { queryClient } from 'src/ui/shared/requests/queryClient';
@@ -153,5 +153,26 @@ export function useSearchNetworks({ query = '' }: { query?: string }) {
     keepPreviousData: true,
   });
   const { networks } = useNetworks();
-  return { networks, ...queryResult };
+  const filteredFromSaved = useMemo(() => {
+    if (!query || !networks) {
+      return [];
+    }
+    const q = query.trim().toLowerCase();
+    const savedNetworks = networks.getNetworks();
+    return savedNetworks.filter(
+      (n) =>
+        n.id.toLowerCase().includes(q) ||
+        n.name.toLowerCase().includes(q) ||
+        (n.specification.cosmos?.chain_id || '').toLowerCase().includes(q)
+    );
+  }, [query, networks]);
+  const combinedData = useMemo(() => {
+    if (!queryData) {
+      return filteredFromSaved;
+    }
+    const querySet = new Set(queryData.map((n) => n.id));
+    const filtered = filteredFromSaved.filter((n) => !querySet.has(n.id));
+    return [...queryData, ...filtered];
+  }, [queryData, filteredFromSaved]);
+  return { networks, ...queryResult, data: combinedData };
 }

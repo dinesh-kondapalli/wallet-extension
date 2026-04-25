@@ -6,7 +6,7 @@ import { VStack } from 'src/ui/ui-kit/VStack';
 import { Button } from 'src/ui/ui-kit/Button';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { HStack } from 'src/ui/ui-kit/HStack';
-import ZerionIcon from 'jsx:src/ui/assets/zerion-logo.svg';
+import WalletIcon from 'url:src/images/sample-avatar.png';
 import BlockaidLogo from 'jsx:src/ui/components/PhishingDefence/blockaid.svg';
 import { UnstyledAnchor } from 'src/ui/ui-kit/UnstyledAnchor';
 import browser from 'webextension-polyfill';
@@ -88,11 +88,13 @@ export function PhishingWarningPage() {
               <UIText kind="body/accent" color="var(--always-black)">
                 Connection blocked by
               </UIText>
-              <ZerionIcon
-                style={{ color: 'var(--always-black)', width: 20, height: 20 }}
+              <img
+                src={WalletIcon}
+                alt="Wallet"
+                style={{ width: 20, height: 20 }}
               />
               <UIText kind="body/accent" color="var(--always-black)">
-                Zerion
+                Wallet
               </UIText>
             </HStack>
           </div>

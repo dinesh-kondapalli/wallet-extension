@@ -1,4 +1,5 @@
 import React, { useCallback, useId, useMemo, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { hashQueryKey, useMutation, useQuery } from '@tanstack/react-query';
 import type { AddressPosition } from 'defi-sdk';
 import { Client } from 'defi-sdk';
@@ -112,6 +113,8 @@ function SendFormComponent() {
   const { innerHeight } = useWindowSizeStore();
 
   const [userFormState, setUserFormState] = useSearchParamsObj<SendFormState>();
+  const [urlSearchParams] = useSearchParams();
+  const chainFromOverviewLink = urlSearchParams.get('chain') || '';
 
   const handleChange = useCallback(
     <K extends keyof SendFormState>(key: K, value?: SendFormState[K]) =>
@@ -132,13 +135,16 @@ function SendFormComponent() {
     [address, allPositions]
   );
 
-  const preState = useMemo(
-    () => ({
+  const preState = useMemo(() => {
+    const merged: SendFormState = {
       ...defaultFormValues,
       ...userFormState,
-    }),
-    [userFormState, defaultFormValues]
-  );
+    };
+    if (!merged.tokenChain && chainFromOverviewLink) {
+      merged.tokenChain = chainFromOverviewLink;
+    }
+    return merged;
+  }, [userFormState, defaultFormValues, chainFromOverviewLink]);
 
   const { data: positionsForChain } = useAddressPositionsFromBackendOrNode({
     address,
@@ -309,11 +315,22 @@ function SendFormComponent() {
 
   const addressType = getAddressType(address);
 
+  const { data: networkFromQuery } = useNetworkConfig(tokenChain || null);
+  const effectiveStandard = networkFromQuery?.standard || addressType;
+  const standardForSelect =
+    effectiveStandard === 'eip155'
+      ? 'evm'
+      : effectiveStandard === 'solana'
+      ? 'solana'
+      : effectiveStandard === 'cosmos'
+      ? 'cosmos'
+      : addressType;
+
   const addressFilterPredicate = useCallback(
     (value: string) => {
-      return isMatchForEcosystem(value, addressType);
+      return isMatchForEcosystem(value, standardForSelect);
     },
-    [addressType]
+    [standardForSelect]
   );
 
   if (sendTxMutation.isSuccess) {
@@ -401,7 +418,7 @@ function SendFormComponent() {
           <div style={{ display: 'flex' }}>
             {type === 'token' ? (
               <NetworkSelect
-                standard={addressType}
+                standard={standardForSelect}
                 showEcosystemHint={true}
                 value={tokenChain ?? ''}
                 onChange={(value) => {
@@ -412,13 +429,13 @@ function SendFormComponent() {
                   const isTestMode = Boolean(preferences?.testnetMode?.on);
                   return (
                     isTestMode === Boolean(network.is_testnet) &&
-                    Networks.predicate(addressType, network)
+                    Networks.predicate(standardForSelect, network)
                   );
                 }}
               />
             ) : (
               <NetworkSelect
-                standard={addressType}
+                standard={standardForSelect}
                 showEcosystemHint={true}
                 value={tokenChain ?? ''}
                 onChange={(value) => {
@@ -427,7 +444,7 @@ function SendFormComponent() {
                 dialogRootNode={rootNode}
                 filterPredicate={(network) =>
                   network.supports_nft_positions &&
-                  Networks.predicate(addressType, network)
+                  Networks.predicate(standardForSelect, network)
                 }
               />
             )}
@@ -475,7 +492,7 @@ function SendFormComponent() {
             ) : null}
             {preferences?.configurableTransactionData &&
             isNativeAsset &&
-            addressType === 'evm' ? (
+            effectiveStandard === 'evm' ? (
               <FormFieldset
                 title="Data"
                 style={{ borderBottomRightRadius: 4 }}
@@ -563,7 +580,7 @@ function SendFormComponent() {
               interactiveNetworkFee={true}
             />
           </React.Suspense>
-        ) : addressType === 'solana' ? (
+        ) : effectiveStandard === 'solana' ? (
           <div style={{ display: 'grid' }}>
             {sendData?.transaction?.solana && sendData.networkFee ? (
               <NetworkFeeLineInfo networkFee={sendData.networkFee} />

@@ -79,6 +79,7 @@ export function FeeDescription({
                       <UIText
                         kind="small/accent"
                         className={
+                          item.title.includes('Wallet') ||
                           item.title.includes('Zerion')
                             ? styles.gradientText
                             : null

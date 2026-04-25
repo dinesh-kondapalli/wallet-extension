@@ -370,7 +370,7 @@ function TransactionDefaultView({
           <UIText kind="headline/h2">{addressAction.type.displayValue}</UIText>
           <UIText kind="small/accent" color="var(--neutral-500)">
             {origin === INTERNAL_ORIGIN ? (
-              'Zerion'
+              'Wallet'
             ) : originForHref ? (
               <TextAnchor
                 href={originForHref.href}
@@ -1029,7 +1029,7 @@ function SolDefaultView({
           <UIText kind="headline/h2">{addressAction.type.displayValue}</UIText>
           <UIText kind="small/accent" color="var(--neutral-500)">
             {origin === INTERNAL_ORIGIN ? (
-              'Zerion'
+              'Wallet'
             ) : originForHref ? (
               <TextAnchor
                 href={originForHref.href}

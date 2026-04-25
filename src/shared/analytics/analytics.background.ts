@@ -58,8 +58,14 @@ import { omitNullParams } from './shared/omitNullParams';
 import { gaCollect, prepareGaParams } from './google-analytics';
 import { waitForAnalyticsIdSet } from './analyticsId';
 
-const toEcosystemProperty = (value: 'evm' | 'solana') =>
-  value === 'evm' ? 'EVM' : value === 'solana' ? 'Solana' : value;
+const toEcosystemProperty = (value: 'evm' | 'solana' | 'cosmos') =>
+  value === 'evm'
+    ? 'EVM'
+    : value === 'solana'
+    ? 'Solana'
+    : value === 'cosmos'
+    ? 'Cosmos'
+    : value;
 
 function queryWalletProvider(account: Account, address: string) {
   const apiLayer = account.getCurrentWallet();

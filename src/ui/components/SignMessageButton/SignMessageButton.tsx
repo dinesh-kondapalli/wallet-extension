@@ -176,6 +176,7 @@ export const SignMessageButton = React.forwardRef(function SignMessageButton(
     buttonKind !== 'danger' &&
     !disabled &&
     !isLoading;
+  const hardwareEcosystem = getAddressType(wallet.address);
 
   return isDeviceAccount(wallet) ? (
     <>
@@ -186,7 +187,7 @@ export const SignMessageButton = React.forwardRef(function SignMessageButton(
       />
       <HardwareSignMessage
         ref={hardwareSignRef}
-        ecosystem={getAddressType(wallet.address)}
+        ecosystem={hardwareEcosystem === 'cosmos' ? 'evm' : hardwareEcosystem}
         derivationPath={wallet.derivationPath}
         isSigning={isLoading}
         children={children}

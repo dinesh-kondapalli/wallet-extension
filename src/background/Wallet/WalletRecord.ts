@@ -4,9 +4,11 @@ import { produce } from 'immer';
 import { nanoid } from 'nanoid';
 import sortBy from 'lodash/sortBy';
 import { toChecksumAddress } from 'src/modules/ethereum/toChecksumAddress';
+import { isEthereumAddress } from 'src/shared/isEthereumAddress';
 import type { Chain } from 'src/modules/networks/Chain';
 import { createChain } from 'src/modules/networks/Chain';
 import { normalizeAddress } from 'src/shared/normalizeAddress';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import { getIndexFromPath } from 'src/shared/wallet/derivation-paths';
 import {
   isEncryptedMnemonic,
@@ -28,7 +30,6 @@ import type { LocallyEncoded } from 'src/shared/wallet/encode-locally';
 import { encodeForMasking } from 'src/shared/wallet/encode-locally';
 import { isSolanaAddress } from 'src/modules/solana/shared';
 import type { AtLeastOneOf } from 'src/shared/type-utils/OneOf';
-import type { BlockchainType } from 'src/shared/wallet/classifiers';
 import { DEFAULT_WALLET_LIST_GROUPS } from 'src/shared/wallet/wallet-list';
 import type { Credentials, SessionCredentials } from '../account/Credentials';
 import { emitter } from '../events';
@@ -566,7 +567,9 @@ export class WalletRecordModel {
     record: WalletRecord,
     { address }: { address: string }
   ) {
-    const checkSumAddress = toChecksumAddress(address);
+    const checkSumAddress = isEthereumAddress(address)
+      ? toChecksumAddress(address)
+      : address;
     return produce(record, (draft) => {
       draft.walletManager.currentAddress = checkSumAddress;
     });
@@ -763,7 +766,7 @@ export class WalletRecordModel {
 
   static getChainForOrigin(
     record: WalletRecord,
-    { origin, standard }: { origin: string; standard: BlockchainType }
+    { origin, standard }: { origin: string; standard: NetworkBlockchainType }
   ): Chain | null {
     let value: string | null = null;
     if (standard === 'solana') {

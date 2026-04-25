@@ -129,7 +129,7 @@ function ImportForm({
               }}
             >
               <ShieldIcon />
-              <span>Zerion passed security audits</span>
+              <span>Wallet passed security audits</span>
             </HStack>
           </UIText>
           <Button style={{ width: '100%' }}>Import</Button>

@@ -172,7 +172,7 @@ export function QuoteList({
             <UnstyledButton
               type="button"
               style={{ color: 'var(--primary)' }}
-              title="Zerion fees description"
+              title="Wallet fees description"
               onClick={() => {
                 feeDescriptionDialogRef.current?.showModal();
                 emitter.emit('buttonClicked', {

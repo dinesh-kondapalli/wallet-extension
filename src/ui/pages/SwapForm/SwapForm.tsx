@@ -98,7 +98,7 @@ import { useUKDetection } from 'src/ui/components/UKDisclaimer/useUKDetection';
 import { UKDisclaimer } from 'src/ui/components/UKDisclaimer/UKDisclaimer';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import { getError } from 'get-error';
-import { PremiumFormBanner } from 'src/ui/features/premium/banners/FormBanner';
+
 import type { AddressAction } from 'src/modules/zerion-api/requests/wallet-get-actions';
 import { useAssetFullInfo } from 'src/modules/zerion-api/hooks/useAssetFullInfo';
 import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
@@ -1456,7 +1456,7 @@ function SwapFormComponent() {
           ) : null}
           {selectedQuote?.protocolFee.percentage === 0 ? (
             <HStack gap={8} justifyContent="space-between">
-              <UIText kind="small/regular">Zerion Fee</UIText>
+              <UIText kind="small/regular">Wallet Fee</UIText>
               <UIText kind="small/accent" className={styles.gradientText}>
                 Free
               </UIText>
@@ -1464,7 +1464,7 @@ function SwapFormComponent() {
           ) : null}
         </VStack>
         {isUK ? <UKDisclaimer style={{ marginBottom: 8 }} /> : null}
-        <PremiumFormBanner address={address} style={{ marginBottom: 8 }} />
+
         {selectedQuote?.error?.message ? (
           <TransactionWarning
             title="Warning"

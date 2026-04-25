@@ -26,10 +26,10 @@ export function ZerionFeeLine({ quote }: { quote: Quote2 | null }) {
   return (
     <HStack gap={12} justifyContent="space-between" alignItems="center">
       <HStack gap={4} alignItems="center">
-        <UIText kind="small/regular">Zerion Fee</UIText>
+        <UIText kind="small/regular">Wallet Fee</UIText>
         {isConfigLoading ? null : (
           <UnstyledAnchor
-            title="Applies to all Multichain transactions. Zerion Premium DNA holders get discounts. Click to learn more."
+            title="Applies to all Multichain transactions. Wallet Premium DNA holders get discounts. Click to learn more."
             href={config?.zerion_fee_learn_more_link}
             rel="noopener noreferrer"
             target="_blank"

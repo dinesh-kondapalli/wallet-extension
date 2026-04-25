@@ -27,7 +27,7 @@ export function InviteFriendsBanner({ onDismiss }: { onDismiss?(): void }) {
               Invite Friends
             </UIText>
             <UIText kind="small/regular" color="var(--always-black)">
-              Earn XP & Gift Free Premium
+              Earn XP
             </UIText>
           </VStack>
         </div>

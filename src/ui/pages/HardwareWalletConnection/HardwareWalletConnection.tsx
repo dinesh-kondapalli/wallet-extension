@@ -19,7 +19,7 @@ import {
 } from 'src/ui/components/Background/Background';
 import { NavigationBackButton } from 'src/ui/components/NavigationBackButton';
 import { PageColumn } from 'src/ui/components/PageColumn';
-import FullTextLogo from 'jsx:src/ui/assets/zerion-full-logo.svg';
+import WalletLogo from 'url:src/images/sample-avatar.png';
 import { PrivacyFooter } from 'src/ui/components/PrivacyFooter';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
@@ -57,7 +57,11 @@ export function FrameLayout({
         }}
       >
         <div style={{ paddingTop: 24, paddingBottom: 25 }}>
-          <FullTextLogo />
+          <img
+            src={WalletLogo}
+            alt="Wallet"
+            style={{ width: 36, height: 36 }}
+          />
         </div>
         <div
           style={{

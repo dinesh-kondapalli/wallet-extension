@@ -179,7 +179,7 @@ export function Success() {
             )}
             <VStack gap={0} style={{ justifyItems: 'center' }}>
               <UIText kind="small/accent" color="var(--neutral-600)">
-                Zerion is the safest and easiest way to explore web3.
+                Wallet is the safest and easiest way to explore web3.
               </UIText>
               <HStack gap={13} alignItems="center">
                 <UIText kind="small/accent" color="var(--neutral-600)">

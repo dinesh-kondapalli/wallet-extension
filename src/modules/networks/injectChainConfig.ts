@@ -28,6 +28,16 @@ export function injectChainConfig(
         networkConfig.native_asset?.id ||
         chainConfig.nativeCurrency.symbol.toLowerCase(),
     },
+    specification:
+      chainConfig.standard === 'cosmos'
+        ? {
+            ...networkConfig.specification,
+            cosmos: {
+              chain_id: chainConfig.chainId,
+              bech32_prefix: chainConfig.bech32Prefix || null,
+            },
+          }
+        : networkConfig.specification,
     hidden: chainConfig.hidden ?? networkConfig.hidden,
     is_testnet: chainConfig.is_testnet ?? networkConfig.is_testnet,
   };

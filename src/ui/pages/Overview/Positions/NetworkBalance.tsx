@@ -17,8 +17,7 @@ import { UIText } from 'src/ui/ui-kit/UIText';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import { usePreferences } from 'src/ui/features/preferences';
 import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
-import type { BlockchainType } from 'src/shared/wallet/classifiers';
-import { Networks } from 'src/modules/networks/Networks';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import { NetworkId } from 'src/modules/networks/NetworkId';
 import { BlurrableBalance } from 'src/ui/components/BlurrableBalance';
 import { NetworkSelect } from '../../Networks/NetworkSelect';
@@ -130,7 +129,7 @@ export function NetworkBalance({
   showAllNetworksOption = true,
 }: {
   value: React.ReactNode | null;
-  standard?: BlockchainType;
+  standard?: NetworkBlockchainType;
   selectedChain: string | null;
   dappChain: string | null;
   onChange(value: string | null): void;
@@ -175,11 +174,13 @@ export function NetworkBalance({
   const testnetMode = preferences?.testnetMode?.on;
   const networksPredicate = useMemo(() => {
     return (network: NetworkConfig) => {
+      const matchesStandard =
+        network.standard === 'solana' || network.standard === 'cosmos';
       if (testnetMode) {
         const isTestnet = Boolean(network.is_testnet);
-        return isTestnet && Networks.predicate(standard, network);
+        return isTestnet && matchesStandard;
       } else {
-        return Networks.predicate(standard, network);
+        return matchesStandard;
       }
     };
   }, [testnetMode, standard]);
@@ -249,7 +250,7 @@ export function NetworkBalance({
           showEcosystemHint={false}
           showAllNetworksOption={showAllNetworksOption}
           value={chain}
-          standard={standard}
+          standard="all"
           onChange={(value) => {
             onChange(value === NetworkSelectValue.All ? null : value);
           }}

@@ -6,20 +6,20 @@
   "default_locale": "en",
   "description": "__MSG_appDescription__",
   "icons": {
-    "16": "images/logo-icon-16.png",
-    "32": "images/logo-icon-32.png",
-    "48": "images/logo-icon-48.png",
-    "128": "images/logo-icon-128.png"
+    "16": "images/sample-avatar.png",
+    "32": "images/sample-avatar.png",
+    "48": "images/sample-avatar.png",
+    "128": "images/sample-avatar.png"
   },
   "author": "https://zerion.io/",
   "action": {
     "default_icon": {
-      "16": "images/logo-icon-16.png",
-      "32": "images/logo-icon-32.png",
-      "48": "images/logo-icon-48.png",
-      "128": "images/logo-icon-128.png"
+      "16": "images/sample-avatar.png",
+      "32": "images/sample-avatar.png",
+      "48": "images/sample-avatar.png",
+      "128": "images/sample-avatar.png"
     },
-    "default_title": "Zerion",
+    "default_title": "Wallet",
     "default_popup": "ui/popup.html"
   },
   "commands": {

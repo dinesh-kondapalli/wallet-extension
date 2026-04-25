@@ -17,12 +17,16 @@ import { Frame } from 'src/ui/ui-kit/Frame';
 import { collectData } from 'src/ui/shared/form-data';
 import type { AddEthereumChainParameter } from 'src/modules/ethereum/types/AddEthereumChainParameter';
 import {
-  toCustomNetworkId,
+  toCustomNetworkIdFromConfig,
   isCustomNetworkId,
 } from 'src/modules/ethereum/chains/helpers';
 import { normalizeChainId } from 'src/shared/normalizeChainId';
-import type { ChainId } from 'src/modules/ethereum/transactions/ChainId';
+import {
+  isCosmosBech32Prefix,
+  isCosmosChainId,
+} from 'src/modules/cosmos/shared';
 import { apostrophe } from 'src/ui/shared/typography';
+import * as inputStyles from 'src/ui/ui-kit/Input/styles.module.css';
 
 export function Field({
   label,
@@ -76,13 +80,16 @@ export function Field({
 
 type Validators = Record<
   string,
-  (event: HTMLInputElement) => string | undefined
+  (event: HTMLInputElement | HTMLSelectElement) => string | undefined
 >;
 
 function collectErrors(form: HTMLFormElement, validators: Validators) {
   const errors: Record<string, string | undefined> = {};
   for (const element of form.elements) {
-    if (element instanceof HTMLInputElement) {
+    if (
+      element instanceof HTMLInputElement ||
+      element instanceof HTMLSelectElement
+    ) {
       const validity = validators[element.name]?.(element);
       if (validity) {
         errors[element.name] = validity;
@@ -104,8 +111,15 @@ function findInput(
 
 function hasChanges(form: HTMLFormElement) {
   for (const element of form.elements) {
-    if (element instanceof HTMLInputElement) {
-      if (element.value !== element.defaultValue) {
+    if (
+      element instanceof HTMLInputElement ||
+      element instanceof HTMLSelectElement
+    ) {
+      const defaultValue =
+        element instanceof HTMLInputElement
+          ? element.defaultValue
+          : element.dataset.defaultValue || '';
+      if (element.value !== defaultValue) {
         return true;
       }
     }
@@ -115,8 +129,7 @@ function hasChanges(form: HTMLFormElement) {
 
 const parsers = {
   chainId: (untypedValue: unknown) => {
-    const value = untypedValue as string;
-    return normalizeChainId(value);
+    return untypedValue as string;
   },
   hidden: (untypedValue: unknown) => {
     const value = untypedValue as 'on' | null;
@@ -130,7 +143,39 @@ const parsers = {
     const value = untypedValue as string;
     return Number(value);
   },
+  standard: (untypedValue: unknown) => {
+    return untypedValue as NonNullable<AddEthereumChainParameter['standard']>;
+  },
 };
+
+function SelectField({
+  label,
+  children,
+  disabled,
+  ...props
+}: {
+  label: React.ReactNode;
+  children: React.ReactNode;
+} & React.SelectHTMLAttributes<HTMLSelectElement>) {
+  const id = useId();
+  return (
+    <VStack gap={4}>
+      <UIText kind="small/accent" as="label" htmlFor={id}>
+        {label}
+      </UIText>
+      <select
+        id={id}
+        disabled={disabled}
+        data-default-value={props.defaultValue}
+        className={inputStyles.input}
+        style={{ height: 40 }}
+        {...props}
+      >
+        {children}
+      </select>
+    </VStack>
+  );
+}
 
 function NetworkHiddenFieldLine({
   name,
@@ -208,21 +253,50 @@ export function NetworkForm({
   onReset?: () => void;
   onRemoveFromVisited?: () => void;
   footerRenderArea?: string;
-  restrictedChainIds: Set<ChainId>;
+  restrictedChainIds: Set<string>;
   disabledFields: null | Set<string>;
 }) {
   const id = useId();
+  const initialStandard = chainConfig.standard || 'eip155';
+  const [standard, setStandard] = useState(initialStandard);
   const validators: Validators = {
     chainId: (element) => {
-      const value = parsers.chainId(element.value);
-      if (restrictedChainIds.has(value)) {
-        return 'Network already exists';
+      const standardInput = element.form?.elements.namedItem('standard');
+      const currentStandard =
+        standardInput instanceof HTMLSelectElement
+          ? standardInput.value
+          : standard;
+      if (currentStandard === 'cosmos') {
+        if (!isCosmosChainId(element.value)) {
+          return 'Chain ID must look like cosmoshub-4';
+        }
+        if (restrictedChainIds.has(element.value)) {
+          return 'Network already exists';
+        }
+        return;
       }
       try {
+        const value = normalizeChainId(element.value);
+        if (restrictedChainIds.has(value)) {
+          return 'Network already exists';
+        }
         normalizeChainId(value);
         normalizeChainId(Number(value));
       } catch (error) {
         return `Unsupported chainId${apostrophe}s format`;
+      }
+    },
+    bech32Prefix: (element) => {
+      const standardInput = element.form?.elements.namedItem('standard');
+      const currentStandard =
+        standardInput instanceof HTMLSelectElement
+          ? standardInput.value
+          : standard;
+      if (currentStandard !== 'cosmos') {
+        return;
+      }
+      if (!isCosmosBech32Prefix(element.value)) {
+        return 'Bech32 prefix must be lowercase letters and numbers';
       }
     },
   };
@@ -249,7 +323,18 @@ export function NetworkForm({
     <>
       <form
         id={id}
-        onChange={() => setErrors(EMPTY_OBJECT)}
+        onChange={(event) => {
+          setErrors(EMPTY_OBJECT);
+          const target = event.target;
+          if (
+            target instanceof HTMLSelectElement &&
+            target.name === 'standard'
+          ) {
+            setStandard(
+              target.value as NonNullable<AddEthereumChainParameter['standard']>
+            );
+          }
+        }}
         onSubmit={(event) => {
           event.preventDefault();
           if (!hasChanges(event.currentTarget)) {
@@ -265,13 +350,16 @@ export function NetworkForm({
             return;
           }
           const formObject = collectData(event.currentTarget, parsers);
+          if (formObject.standard !== 'cosmos') {
+            formObject.chainId = normalizeChainId(formObject.chainId);
+          }
           const result = produce(chainConfig, (draft) =>
             merge(draft, formObject)
           );
           onSubmit(
             // custom network id should be generated from (probably) updated chainId
             !chain || isCustomNetworkId(chain)
-              ? toCustomNetworkId(result.chainId)
+              ? toCustomNetworkIdFromConfig(result)
               : chain,
             result
           );
@@ -285,8 +373,17 @@ export function NetworkForm({
             disabled={disabledFields?.has('chainName')}
             required
           />
+          <SelectField
+            label="Network Type"
+            name="standard"
+            defaultValue={standard}
+            disabled={disabledFields?.has('standard')}
+          >
+            <option value="eip155">EVM</option>
+            <option value="cosmos">Cosmos</option>
+          </SelectField>
           <Field
-            label="RPC URL"
+            label={standard === 'cosmos' ? 'RPC / REST URL' : 'RPC URL'}
             name="rpcUrls[]"
             placeholder={chainConfig.rpcUrls[0]}
             type="url"
@@ -300,19 +397,41 @@ export function NetworkForm({
             name="chainId"
             title={chainConfig.chainId}
             defaultValue={
-              chainConfig.chainId ? String(parseInt(chainConfig.chainId)) : ''
+              standard === 'cosmos'
+                ? chainConfig.chainId
+                : chainConfig.chainId
+                ? String(parseInt(chainConfig.chainId))
+                : ''
             }
-            pattern="^0x[\dabcdef]+|\d+"
+            pattern={
+              standard === 'cosmos'
+                ? '^[a-z0-9][a-z0-9-]{1,62}$'
+                : '^0x[\\dabcdef]+|\\d+'
+            }
             error={errors.chainId}
             onInvalid={(event) =>
               event.currentTarget.setCustomValidity(
-                'Chain ID must be either a 0x-prefixed hex value or an integer'
+                standard === 'cosmos'
+                  ? 'Chain ID must look like cosmoshub-4'
+                  : 'Chain ID must be either a 0x-prefixed hex value or an integer'
               )
             }
             onInput={(event) => event.currentTarget.setCustomValidity('')}
             disabled={disabledFields?.has('chainId')}
             required
           />
+          {standard === 'cosmos' ? (
+            <Field
+              label="Bech32 Prefix"
+              name="bech32Prefix"
+              defaultValue={chainConfig.bech32Prefix || ''}
+              placeholder="cosmos"
+              error={errors.bech32Prefix}
+              onInput={(event) => event.currentTarget.setCustomValidity('')}
+              disabled={disabledFields?.has('bech32Prefix')}
+              required
+            />
+          ) : null}
           <Field
             label="Currency Symbol"
             name="nativeCurrency.symbol"

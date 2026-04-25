@@ -12,6 +12,7 @@ import { isCustomNetworkId } from './helpers';
 import type { ChainConfig, EthereumChainConfig } from './types';
 import { upgrades } from './versions';
 import { BACKEND_NETWORK_ORIGIN } from './constants';
+import { getBundledChainConfigsMissingFrom } from './bundledChainConfigs';
 
 function remove<T>(arr: T[], predicate: (item: T) => boolean) {
   const pos = arr.findIndex(predicate);
@@ -51,7 +52,26 @@ class ChainConfigStore extends PersistentStore<ChainConfig> {
     });
     this.ready().then(() => {
       this.checkChainsForUpdates();
+      this.mergeBundledChainConfigsIfNeeded();
     });
+  }
+
+  /**
+   * Ship default custom networks (e.g. BWICK Cosmos) without requiring the user
+   * to add them through the network form.
+   */
+  private mergeBundledChainConfigsIfNeeded() {
+    const toAdd = getBundledChainConfigsMissingFrom(
+      this.getState().ethereumChainConfigs
+    );
+    if (!toAdd.length) {
+      return;
+    }
+    this.setState((state) =>
+      produce(state, (draft) => {
+        draft.ethereumChainConfigs.push(...toAdd);
+      })
+    );
   }
 
   addVisitedChain(chain: Chain) {
@@ -154,6 +174,10 @@ class ChainConfigStore extends PersistentStore<ChainConfig> {
       const updatedEthereumChainConfigs: EthereumChainConfig[] = [];
       for (const config of ethereumChainConfigs) {
         if (!this.defiSdkClient || !isCustomNetworkId(config.id)) {
+          updatedEthereumChainConfigs.push(config);
+          continue;
+        }
+        if (config.value.standard === 'cosmos') {
           updatedEthereumChainConfigs.push(config);
           continue;
         }

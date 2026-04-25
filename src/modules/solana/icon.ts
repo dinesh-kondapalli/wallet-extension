@@ -1,5 +1,5 @@
 import type { WalletIcon } from '@zeriontech/solana-wallet-standard';
 
-import zerionLogoDataUrl from 'data-url:src/ui/assets/zerion-logo-blue.svg';
+import walletLogoDataUrl from 'data-url:src/images/sample-avatar.png';
 
-export const icon: WalletIcon = zerionLogoDataUrl as WalletIcon;
+export const icon: WalletIcon = walletLogoDataUrl as WalletIcon;

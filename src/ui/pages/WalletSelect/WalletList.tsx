@@ -1,5 +1,4 @@
 import React, { useId, useMemo, useRef } from 'react';
-import type { ExternallyOwnedAccount } from 'src/shared/types/ExternallyOwnedAccount';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import { HStack } from 'src/ui/ui-kit/HStack';
@@ -17,34 +16,46 @@ import { truncateAddress } from 'src/ui/shared/truncateAddress';
 import { WalletNameType } from 'src/ui/shared/useProfileName';
 import { CopyButton } from 'src/ui/components/CopyButton';
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import { normalizeAddress } from 'src/shared/normalizeAddress';
 import { VStack } from 'src/ui/ui-kit/VStack';
+import { isSolanaAddress } from 'src/modules/solana/shared';
 import { getAddressType } from 'src/shared/wallet/classifiers';
+import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import { BlurrableBalance } from 'src/ui/components/BlurrableBalance';
 import {
   getWalletId,
   type WalletListGroup,
 } from 'src/shared/wallet/wallet-list';
 import * as styles from './styles.module.css';
-import type { AnyWallet, WalletGroupInfo } from './shared';
-import { getFullWalletList } from './shared';
+import type { AnyWallet, DisplayWallet, WalletGroupInfo } from './shared';
+import {
+  getFullWalletList,
+  isWalletMatchForSelection,
+  normalizeWalletForDisplay,
+} from './shared';
+import { useResolvedCosmosListWallet } from './useResolvedCosmosListWallet';
 
 function WalletListItem({
   wallet,
   groupId,
+  selectedChain,
+  selectedNetwork,
   showAddressValues,
   useCssAnchors,
   isSelected,
   renderFooter,
   ...buttonProps
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  wallet: ExternallyOwnedAccount;
+  wallet: DisplayWallet;
   groupId: string;
+  selectedChain: string | null;
+  selectedNetwork: NetworkConfig | null;
   showAddressValues: boolean;
   useCssAnchors: boolean;
   isSelected: boolean;
   renderFooter: (() => React.ReactNode) | null;
 }) {
+  const { displayWallet, balanceAndConnectionAddress } =
+    useResolvedCosmosListWallet(wallet, selectedNetwork);
   const id = useId();
   const { currency } = useCurrency();
   // colons are invalid for anchor-name CSS property
@@ -54,7 +65,7 @@ function WalletListItem({
   const copyButton = (
     <CopyButton
       title="Copy Address"
-      textToCopy={wallet.address}
+      textToCopy={displayWallet.address}
       onClick={(event) => {
         if (!useCssAnchors) {
           event.stopPropagation();
@@ -82,8 +93,31 @@ function WalletListItem({
       }}
     />
   );
-  const ecosystemPrefix =
-    getAddressType(wallet.address) === 'evm' ? 'Eth' : 'Sol';
+  const ecosystemPrefix = (() => {
+    if (
+      isSolanaAddress(displayWallet.address) ||
+      isSolanaAddress(displayWallet.sourceAddress)
+    ) {
+      return 'Sol';
+    }
+    if (selectedNetwork?.standard === 'cosmos') {
+      return 'Cosmos';
+    }
+    if (selectedNetwork?.standard === 'solana') {
+      return 'Sol';
+    }
+    if (
+      getAddressType(displayWallet.address) === 'evm' ||
+      (displayWallet.sourceAddress &&
+        getAddressType(displayWallet.sourceAddress) === 'evm')
+    ) {
+      return 'Eth';
+    }
+    if (getAddressType(displayWallet.address) === 'solana') {
+      return 'Sol';
+    }
+    return 'Cosmos';
+  })();
 
   return (
     <>
@@ -107,16 +141,16 @@ function WalletListItem({
               vGap={0}
               image={
                 <IsConnectedToActiveTab
-                  address={wallet.address}
+                  address={balanceAndConnectionAddress}
                   render={({ data: isConnected }) => (
                     <WalletAvatar
-                      address={wallet.address}
+                      address={balanceAndConnectionAddress}
                       size={40}
                       active={Boolean(isConnected)}
                       borderRadius={12}
                       icon={
                         <WalletSourceIcon
-                          address={wallet.address}
+                          address={wallet.sourceAddress}
                           groupId={groupId}
                           style={{ width: 16, height: 16 }}
                         />
@@ -128,7 +162,7 @@ function WalletListItem({
               text={
                 <UIText kind="small/regular">
                   <WalletDisplayName
-                    wallet={wallet}
+                    wallet={displayWallet}
                     render={(data) => (
                       <>
                         <span
@@ -168,7 +202,10 @@ function WalletListItem({
                                 }
                               }}
                             >
-                              {` · ${truncateAddress(wallet.address, 5)}`}
+                              {` · ${truncateAddress(
+                                displayWallet.address,
+                                5
+                              )}`}
                             </span>
                           </>
                         ) : null}{' '}
@@ -193,7 +230,7 @@ function WalletListItem({
               }
               detailText={
                 <PortfolioValue
-                  address={wallet.address}
+                  address={balanceAndConnectionAddress}
                   render={(query) => (
                     <UIText kind="headline/h3" style={{ display: 'flex' }}>
                       {query.data ? (
@@ -234,6 +271,9 @@ const alwaysTrue = () => true;
 export function WalletList({
   walletsOrder,
   walletGroups,
+  selectedChain = null,
+  selectedNetwork,
+  allWallets = [],
   selectedAddress,
   showAddressValues,
   renderItemFooter,
@@ -242,6 +282,9 @@ export function WalletList({
 }: {
   walletsOrder?: WalletListGroup[];
   walletGroups: WalletGroupInfo[];
+  selectedChain?: string | null;
+  selectedNetwork?: NetworkConfig | null;
+  allWallets?: AnyWallet[];
   selectedAddress: string;
   showAddressValues: boolean;
   renderItemFooter?: ({
@@ -251,7 +294,7 @@ export function WalletList({
     group: WalletGroupInfo;
     wallet: AnyWallet;
   }) => React.ReactNode;
-  onSelect(wallet: AnyWallet): void;
+  onSelect(wallet: AnyWallet & { sourceAddress?: string }): void;
   predicate?: (item: AnyWallet) => boolean;
 }) {
   const groups = useMemo(
@@ -320,18 +363,29 @@ export function WalletList({
                 address: wallet.address,
                 groupId: group.id,
               });
+              const displayWallet = normalizeWalletForDisplay({
+                wallet,
+                selectedChain: selectedChain || null,
+                selectedNetwork: selectedNetwork || null,
+                allWallets,
+              });
               return (
                 <WalletListItem
                   key={key}
-                  onClick={() => onSelect(wallet)}
-                  wallet={wallet}
+                  onClick={() => onSelect(displayWallet)}
+                  wallet={displayWallet}
                   groupId={group.id}
+                  selectedChain={selectedChain || null}
+                  selectedNetwork={selectedNetwork || null}
                   useCssAnchors={supportsCssAnchor}
                   showAddressValues={showAddressValues}
-                  isSelected={
-                    normalizeAddress(wallet.address) ===
-                    normalizeAddress(selectedAddress)
-                  }
+                  isSelected={isWalletMatchForSelection({
+                    wallet,
+                    selectedAddress,
+                    selectedChain: selectedChain || null,
+                    selectedNetwork: selectedNetwork || null,
+                    allWallets,
+                  })}
                   renderFooter={
                     renderItemFooter
                       ? () => renderItemFooter({ group, wallet })

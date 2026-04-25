@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { RenderArea } from 'react-area';
-import Logo from 'jsx:src/ui/assets/zerion-full-logo.svg';
+import Logo from 'url:src/images/sample-avatar.png';
 import { HStack } from 'src/ui/ui-kit/HStack';
 import { useBodyStyle } from 'src/ui/components/Background/Background';
 import * as styles from './styles.module.css';
@@ -29,7 +29,7 @@ function Header() {
           maxWidth: MAX_CONTENT_WIDTH,
         }}
       >
-        <Logo />
+        <img src={Logo} alt="Wallet" style={{ width: 36, height: 36 }} />
         <RenderArea name="header-end" />
       </HStack>
     </div>

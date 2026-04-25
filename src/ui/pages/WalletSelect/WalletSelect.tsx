@@ -36,7 +36,14 @@ import { useWalletsMetaByChunks } from 'src/ui/shared/requests/useWalletsMetaByC
 import { emitter } from 'src/ui/shared/events';
 import { ViewLoading } from 'src/ui/components/ViewLoading';
 import { isMatchForEcosystem } from 'src/shared/wallet/shared';
-import type { BlockchainType } from 'src/shared/wallet/classifiers';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
+import { getBundledBwickNetworkConfig } from 'src/modules/ethereum/chains/bundledChainConfigs';
+import {
+  useNetworkConfig,
+  useNetworks,
+} from 'src/modules/networks/useNetworks';
+import { isEthereumAddress } from 'src/shared/isEthereumAddress';
+import { isSolanaAddress } from 'src/modules/solana/shared';
 import { BlurrableBalance } from 'src/ui/components/BlurrableBalance';
 import { usePreferences } from 'src/ui/features/preferences';
 import { whiteBackgroundKind } from 'src/ui/components/Background/Background';
@@ -134,7 +141,7 @@ export function WalletSelect() {
 
   const { preferences, setPreferences } = usePreferences();
   const [searchParams, setSearchParams] = useSearchParams();
-  const ecosystem = searchParams.get('ecosystem') as BlockchainType;
+  const ecosystem = searchParams.get('ecosystem') as NetworkBlockchainType;
   const editMode = searchParams.get('edit') === 'true';
   const setEditMode = useCallback(
     (value: boolean) => {
@@ -149,6 +156,21 @@ export function WalletSelect() {
   );
 
   const [searchQuery, setSearchQuery] = useState('');
+  const selectedChain = searchParams.get('chain');
+  const { data: selectedNetwork } = useNetworkConfig(selectedChain);
+  const { networks } = useNetworks();
+  const fallbackCosmosNetwork = useMemo(
+    () =>
+      networks?.getDefaultNetworks('cosmos')[0] ||
+      getBundledBwickNetworkConfig(),
+    [networks]
+  );
+  const effectiveSelectedNetwork = selectedNetwork || fallbackCosmosNetwork;
+  const selectedEcosystem = effectiveSelectedNetwork
+    ? effectiveSelectedNetwork.standard === 'eip155'
+      ? 'evm'
+      : effectiveSelectedNetwork.standard
+    : null;
 
   const { data: walletGroups, isLoading: isLoadingWalletGroups } = useQuery({
     queryKey: ['wallet/uiGetWalletGroups'],
@@ -214,10 +236,27 @@ export function WalletSelect() {
   const isLoading = isLoadingWalletGroups;
 
   const walletListPredicate = useCallback(
-    (wallet: AnyWallet) =>
-      (!ecosystem || isMatchForEcosystem(wallet.address, ecosystem)) &&
-      matchesSearch(wallet),
-    [ecosystem, matchesSearch]
+    (wallet: AnyWallet) => {
+      const canDeriveCosmosAddress =
+        effectiveSelectedNetwork?.standard === 'cosmos' &&
+        Boolean(effectiveSelectedNetwork.specification.cosmos?.bech32_prefix) &&
+        'privateKey' in wallet &&
+        isEthereumAddress(wallet.address);
+
+      const matchesEcosystem =
+        selectedEcosystem === 'cosmos'
+          ? canDeriveCosmosAddress || isSolanaAddress(wallet.address)
+          : !selectedEcosystem && !ecosystem
+          ? true
+          : selectedEcosystem
+          ? isMatchForEcosystem(wallet.address, selectedEcosystem)
+          : ecosystem
+          ? isMatchForEcosystem(wallet.address, ecosystem)
+          : true;
+
+      return matchesEcosystem && matchesSearch(wallet);
+    },
+    [ecosystem, effectiveSelectedNetwork, matchesSearch, selectedEcosystem]
   );
 
   if (isLoading) {
@@ -340,6 +379,9 @@ export function WalletSelect() {
               preferences?.walletsOrder || DEFAULT_WALLET_LIST_GROUPS
             }
             walletGroups={walletGroups}
+            selectedChain={selectedChain}
+            selectedNetwork={effectiveSelectedNetwork}
+            allWallets={allWallets}
             onChange={(newOrder) => {
               setPreferences({
                 walletsOrder: newOrder,
@@ -350,8 +392,12 @@ export function WalletSelect() {
           <WalletList
             walletsOrder={preferences?.walletsOrder}
             walletGroups={walletGroups}
+            selectedChain={selectedChain}
+            selectedNetwork={effectiveSelectedNetwork}
+            allWallets={allWallets}
             onSelect={(wallet) => {
-              setCurrentAddressMutation.mutate(wallet.address);
+              const nextAddress = wallet.sourceAddress || wallet.address;
+              setCurrentAddressMutation.mutate(nextAddress);
             }}
             selectedAddress={singleAddress}
             showAddressValues={true}

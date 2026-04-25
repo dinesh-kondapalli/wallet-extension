@@ -20,6 +20,7 @@ import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientS
 import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
 import { useWalletPnl } from 'src/modules/zerion-api/hooks/useWalletPnl';
 import { SidepanelOptionsButton } from 'src/shared/sidepanel/SidepanelOptionsButton';
+import { invariant } from 'src/shared/invariant';
 import type { ExternallyOwnedAccount } from 'src/shared/types/ExternallyOwnedAccount';
 import { isReadonlyContainer } from 'src/shared/types/validators';
 import { useBodyStyle } from 'src/ui/components/Background/Background';
@@ -32,7 +33,6 @@ import { PageBottom } from 'src/ui/components/PageBottom';
 import { PageColumn } from 'src/ui/components/PageColumn';
 import { PageFullBleedColumn } from 'src/ui/components/PageFullBleedColumn';
 import { ViewLoading } from 'src/ui/components/ViewLoading';
-import { WalletDisplayName } from 'src/ui/components/WalletDisplayName';
 import { WalletSourceIcon } from 'src/ui/components/WalletSourceIcon';
 import { usePreferences } from 'src/ui/features/preferences';
 import { XpDropBanner } from 'src/ui/features/xp-drop/components/XpDropBanner';
@@ -44,7 +44,7 @@ import { requestChainForOrigin } from 'src/ui/shared/requests/requestChainForOri
 import { useIsConnectedToActiveTab } from 'src/ui/shared/requests/useIsConnectedToActiveTab';
 import { useWalletParams } from 'src/ui/shared/requests/useWalletParams';
 import { useEvent } from 'src/ui/shared/useEvent';
-import { useProfileName } from 'src/ui/shared/useProfileName';
+import { useProfileName, WalletNameType } from 'src/ui/shared/useProfileName';
 import { useAddressParams } from 'src/ui/shared/user-address/useAddressParams';
 import { usePendingTransactions } from 'src/ui/transactions/usePendingTransactions';
 import { Button } from 'src/ui/ui-kit/Button';
@@ -62,7 +62,10 @@ import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import { getAddressType } from 'src/shared/wallet/classifiers';
 import { isMatchForEcosystem } from 'src/shared/wallet/shared';
+import { isEthereumAddress } from 'src/shared/isEthereumAddress';
+import { normalizeAddress } from 'src/shared/normalizeAddress';
 import { Networks } from 'src/modules/networks/Networks';
+import { getWalletDisplayName } from 'src/ui/shared/getWalletDisplayName';
 import { ViewSuspense } from '../../components/ViewSuspense';
 import { WalletAvatar } from '../../components/WalletAvatar';
 import { HistoryList } from '../History/History';
@@ -148,7 +151,40 @@ function TestnetworkGuard({
   return children;
 }
 
-function CurrentAccountControls() {
+function AccountHeadline({
+  wallet,
+  displayAddress,
+}: {
+  wallet: ExternallyOwnedAccount;
+  displayAddress?: string | null;
+}) {
+  const profileData = useProfileName(wallet, { maxCharacters: 16 });
+  const showChainDerivedAddress =
+    Boolean(displayAddress) &&
+    normalizeAddress(displayAddress || '') !== normalizeAddress(wallet.address);
+  if (profileData.type === WalletNameType.customName) {
+    return <>{profileData.value}</>;
+  }
+  if (showChainDerivedAddress) {
+    return (
+      <>
+        {getWalletDisplayName(
+          { address: displayAddress as string, name: null },
+          { maxCharacters: 16 }
+        )}
+      </>
+    );
+  }
+  return <>{profileData.value}</>;
+}
+
+function CurrentAccountControls({
+  displayAddress,
+  walletSelectPath,
+}: {
+  displayAddress?: string | null;
+  walletSelectPath: string;
+}) {
   const { singleAddress, ready } = useAddressParams();
   const { data: wallet } = useQuery({
     queryKey: ['wallet/uiGetCurrentWallet'],
@@ -157,14 +193,14 @@ function CurrentAccountControls() {
   if (!ready || !wallet) {
     return null;
   }
-  const addressToCopy = wallet.address || singleAddress;
+  const addressToCopy = displayAddress || wallet.address || singleAddress;
   return (
     <HStack gap={0} alignItems="center">
       <Button
         kind="text-primary"
         size={40}
         as={UnstyledLink}
-        to="/wallet-select"
+        to={walletSelectPath}
         title="Select Account"
         className="parent-hover"
         style={{
@@ -183,21 +219,18 @@ function CurrentAccountControls() {
               alignItems: 'center',
             }}
           >
-            <WalletDisplayName
-              wallet={wallet}
-              maxCharacters={16}
-              render={(data) => (
-                <span
-                  style={{
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {data.value}
-                </span>
-              )}
-            />
+            <span
+              style={{
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              <AccountHeadline
+                wallet={wallet}
+                displayAddress={displayAddress}
+              />
+            </span>
             <ArrowDownIcon
               className="content-hover"
               style={{ width: 24, height: 24 }}
@@ -363,15 +396,50 @@ function OverviewComponent() {
   });
   const addressType = address ? getAddressType(address) : null;
   const { data: network } = useNetworkConfig(selectedChain ?? null);
+  const {
+    data: selectedChainAddress,
+    isLoading: isLoadingSelectedChainAddress,
+  } = useQuery({
+    queryKey: ['wallet/getAddressForChain', address, selectedChain],
+    queryFn: async () => {
+      invariant(selectedChain, 'selectedChain is required');
+      invariant(address, 'address is required');
+      return walletPort.request('getAddressForChain', {
+        address,
+        chain: selectedChain,
+      });
+    },
+    enabled: Boolean(address && selectedChain),
+  });
+  const displayAddress = isLoadingSelectedChainAddress
+    ? singleAddressNormalized
+    : selectedChainAddress || singleAddressNormalized;
+  const walletSelectPath = selectedChain
+    ? `/wallet-select?${new URLSearchParams({
+        chain: selectedChain,
+      }).toString()}`
+    : '/wallet-select';
 
   useEffect(() => {
+    const networkEcosystem = network ? Networks.getEcosystem(network) : null;
+    const allowCosmosFromEvm =
+      networkEcosystem === 'cosmos' &&
+      Boolean(address && isEthereumAddress(address));
     if (
       network &&
-      !isMatchForEcosystem(address, Networks.getEcosystem(network))
+      !allowCosmosFromEvm &&
+      networkEcosystem &&
+      !isMatchForEcosystem(address, networkEcosystem)
     ) {
       setSelectedChain(null);
     }
   }, [address, network, setSelectedChain]);
+
+  useEffect(() => {
+    if (network?.standard === 'eip155') {
+      setSelectedChain(null);
+    }
+  }, [network, setSelectedChain]);
 
   const httpSource = useHttpClientSource();
   const { data, isLoading: isLoadingPortfolio } = useWalletPortfolio(
@@ -551,7 +619,10 @@ function OverviewComponent() {
               height: 24,
             }}
           >
-            <CurrentAccountControls />
+            <CurrentAccountControls
+              displayAddress={displayAddress}
+              walletSelectPath={walletSelectPath}
+            />
             <HStack gap={0} alignItems="center">
               {FEATURE_LOYALTY_FLOW === 'on' &&
               loyaltyEnabled &&
@@ -599,7 +670,14 @@ function OverviewComponent() {
       </div>
       <Spacer height={16} />
       <div style={{ paddingInline: 'var(--column-padding-inline)' }}>
-        {isReadonlyGroup ? <ReadonlyMode /> : <ActionButtonsRow />}
+        {isReadonlyGroup ? (
+          <ReadonlyMode />
+        ) : (
+          <ActionButtonsRow
+            receiveAddress={displayAddress}
+            selectedChain={selectedChain}
+          />
+        )}
       </div>
       <DevelopmentOnly>
         <RenderTimeMeasure />
@@ -703,6 +781,7 @@ function OverviewComponent() {
                       <Positions
                         dappChain={dappChain || null}
                         selectedChain={selectedChain}
+                        selectedChainAddress={selectedChainAddress}
                         onChainChange={setSelectedChain}
                       />
                     </VStack>

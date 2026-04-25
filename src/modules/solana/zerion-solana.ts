@@ -19,7 +19,7 @@ import { isSolanaAddress } from './shared';
 import { solFromBase64, solToBase64 } from './transactions/create';
 
 export class ZerionSolana extends EventEmitter implements Ghost {
-  name = 'Zerion';
+  name = 'Wallet';
   icon = icon;
   connection: Connection;
   publicKey: PublicKey | null;

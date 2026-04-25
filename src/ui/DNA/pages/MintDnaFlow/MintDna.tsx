@@ -113,7 +113,7 @@ function MintDnaContent({
         <UIText kind="headline/hero">
           {waitingForConfirmation
             ? 'Waiting for confirmation'
-            : 'Zerion Dynamic NFT Avatar'}
+            : 'Wallet Dynamic NFT Avatar'}
         </UIText>
         <UIText kind="body/accent" color="var(--neutral-600)">
           {waitingForConfirmation
@@ -124,7 +124,7 @@ function MintDnaContent({
       {waitingForConfirmation ? null : (
         <VStack gap={16} style={{ justifyItems: 'center' }}>
           <Button disabled={loading} onClick={onMint} size={48}>
-            <UIText kind="body/accent">Mint Zerion DNA</UIText>
+            <UIText kind="body/accent">Mint Wallet DNA</UIText>
           </Button>
           {feeValueFiat ? (
             <HStack gap={8} alignItems="center">
@@ -230,7 +230,7 @@ export function MintDna() {
     useMutation({
       mutationFn: async () => {
         return walletPort.request('openSendTransaction', {
-          params: [mintTransaction, { clientScope: 'Zerion DNA' }],
+          params: [mintTransaction, { clientScope: 'Wallet DNA' }],
           context: { origin: INTERNAL_ORIGIN },
           id: payloadId(),
         });
@@ -389,7 +389,7 @@ export function MintDna() {
             className={styles.siteLink}
             target="_blank"
             href="https://zerion.io/dna"
-            title="Zerion DNA"
+            title="Wallet DNA"
           >
             <GlobeIcon style={{ width: 24, height: 24 }} />
           </UnstyledAnchor>

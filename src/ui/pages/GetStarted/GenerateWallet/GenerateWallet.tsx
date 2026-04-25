@@ -14,6 +14,7 @@ import { setCurrentAddress } from 'src/ui/shared/requests/setCurrentAddress';
 import { IdempotentRequest } from 'src/ui/shared/IdempotentRequest';
 import { invariant } from 'src/shared/invariant';
 import { assertKnownEcosystems } from 'src/shared/wallet/shared';
+import type { BlockchainType } from 'src/shared/wallet/classifiers';
 import { useBackgroundKind } from 'src/ui/components/Background';
 import { animated } from '@react-spring/web';
 import { useTransformTrigger } from 'src/ui/components/useTransformTrigger';
@@ -28,6 +29,13 @@ function GenerateWalletView() {
   const ecosystems = params.getAll('ecosystems');
   invariant(ecosystems.length > 0, 'Must provide ecosystems get-param');
   assertKnownEcosystems(ecosystems);
+  const walletEcosystems = ecosystems.filter(
+    (item): item is BlockchainType => item === 'evm' || item === 'solana'
+  );
+  invariant(
+    walletEcosystems.length === ecosystems.length,
+    'Cosmos wallet generation is not supported'
+  );
 
   const [idempotentRequest] = useState(() => new IdempotentRequest());
 
@@ -39,7 +47,9 @@ function GenerateWalletView() {
   } = useMutation({
     mutationFn: async () => {
       await new Promise((r) => setTimeout(r, 1000));
-      return walletPort.request('uiGenerateMnemonic', { ecosystems });
+      return walletPort.request('uiGenerateMnemonic', {
+        ecosystems: walletEcosystems,
+      });
     },
     useErrorBoundary: true,
   });

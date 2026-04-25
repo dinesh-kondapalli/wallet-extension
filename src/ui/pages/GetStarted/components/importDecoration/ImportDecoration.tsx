@@ -25,7 +25,11 @@ export function ImportBackground({ animate }: { animate: boolean }) {
 
 function WalletItem({ wallet }: { wallet: MaskedBareWallet | BareWallet }) {
   const ecosystemPrefix =
-    getAddressType(wallet.address) === 'evm' ? 'Eth' : 'Sol';
+    getAddressType(wallet.address) === 'evm'
+      ? 'Eth'
+      : getAddressType(wallet.address) === 'solana'
+      ? 'Sol'
+      : 'Cosmos';
 
   return (
     <HStack

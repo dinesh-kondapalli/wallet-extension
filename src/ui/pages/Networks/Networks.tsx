@@ -118,8 +118,7 @@ function NetworkCreatePage() {
       ? new Set(
           networks
             .getNetworks()
-            .filter((n) => NetworksModule.isEip155(n))
-            .map((n) => NetworksModule.getChainId(n))
+            .map((n) => NetworksModule.getChainReferenceId(n))
             .filter(isTruthy)
         )
       : null;
@@ -168,6 +167,7 @@ function NetworkCreatePage() {
 }
 
 const FORBIDDEN_FIELDS = new Set([
+  'standard',
   'chainId',
   'nativeCurrency.decimals',
   'hidden',
@@ -234,14 +234,12 @@ function NetworkPage() {
     const set = new Set(
       networks
         ?.getNetworks()
-        .filter((n) => NetworksModule.isEip155(n))
-        .map((n) => NetworksModule.getChainId(n))
+        .map((n) => NetworksModule.getChainReferenceId(n))
         .filter(isTruthy)
     );
-    const chainId =
-      network && NetworksModule.isEip155(network)
-        ? NetworksModule.getChainId(network)
-        : null;
+    const chainId = network
+      ? NetworksModule.getChainReferenceId(network)
+      : null;
     if (chainId) {
       set.delete(chainId);
     }
@@ -292,7 +290,7 @@ function NetworkPage() {
           title={
             network.name ||
             network.id ||
-            NetworksModule.getChainId(network) ||
+            NetworksModule.getChainReferenceId(network) ||
             ''
           }
           elementEnd={
@@ -416,7 +414,7 @@ function NetworksView({
       return [];
     }
     return createGroups({
-      standard: 'evm',
+      standard: 'all',
       networks,
       chainDistribution,
       testnetMode,

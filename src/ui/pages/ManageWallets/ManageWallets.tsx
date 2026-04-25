@@ -266,7 +266,7 @@ function WalletGroups() {
                   to: '/get-started/import',
                   component: (
                     <UIText kind="body/accent" color="var(--primary)">
-                      Import Wallet to Zerion
+                      Import Wallet to Wallet
                     </UIText>
                   ),
                 },

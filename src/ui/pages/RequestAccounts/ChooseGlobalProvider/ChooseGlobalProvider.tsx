@@ -4,7 +4,7 @@ import { PageColumn } from 'src/ui/components/PageColumn';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import { Button } from 'src/ui/ui-kit/Button';
-import ZerionLogo from 'jsx:src/ui/assets/zerion-logo-squircle-white.svg';
+import WalletLogo from 'url:src/images/sample-avatar.png';
 import { useBackgroundKind } from 'src/ui/components/Background/Background';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
 import {
@@ -60,8 +60,12 @@ export function ChooseGlobalProvider({
             <VStack gap={8}>
               <Button kind="primary" onClick={() => onConfirm()}>
                 <HStack gap={8} justifyContent="center">
-                  <ZerionLogo style={{ width: 20, height: 20 }} />
-                  <span>Continue with Zerion</span>
+                  <img
+                    src={WalletLogo}
+                    alt="Wallet"
+                    style={{ width: 20, height: 20 }}
+                  />
+                  <span>Continue with Wallet</span>
                 </HStack>
               </Button>
               <Button
@@ -95,7 +99,7 @@ export function ChooseGlobalProvider({
             className="hover:underline"
             onClick={openInNewWindow}
           >
-            How to connect if there is no ‘Zerion Wallet’ option?
+            How to connect if there is no ‘Wallet’ option?
           </UIText>
           <PageBottom />
         </div>

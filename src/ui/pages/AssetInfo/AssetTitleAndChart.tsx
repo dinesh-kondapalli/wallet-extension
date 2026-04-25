@@ -176,7 +176,7 @@ export function AssetTitleAndChart({
                 >
                   Let us know
                 </TextAnchor>{' '}
-                if you’d like to see it on Zerion
+                if you’d like to see it on Wallet
               </UIText>
             </VStack>
           ) : (

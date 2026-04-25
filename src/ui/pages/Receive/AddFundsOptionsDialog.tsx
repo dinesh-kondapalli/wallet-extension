@@ -20,10 +20,12 @@ const ZERION_ORIGIN = 'https://app.zerion.io';
 
 export function AddFundsOptionsDialog({
   wallet,
+  receiveAddress,
   dialogRef,
   analytics,
 }: {
   wallet: ExternallyOwnedAccount;
+  receiveAddress?: string;
   dialogRef: React.RefObject<HTMLDialogElementInterface>;
   analytics: { pathname: string; address: string };
 }) {
@@ -84,7 +86,7 @@ export function AddFundsOptionsDialog({
             </FrameListItemAnchor>
             <FrameListItemLink
               style={{ border: '2px solid var(--neutral-100)' }}
-              to={`/receive?address=${wallet.address}`}
+              to={`/receive?address=${receiveAddress || wallet.address}`}
               onClick={() => {
                 emitter.emit('buttonClicked', {
                   buttonName: 'Receive Crypto',

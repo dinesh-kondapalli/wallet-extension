@@ -190,7 +190,7 @@ function AddOrUpdateChain({
               });
             }}
             restrictedChainIds={restrictedChainIds}
-            disabledFields={null}
+            disabledFields={new Set(['standard'])}
             footerRenderArea="add-ethereum-chain-footer"
           />
         )}

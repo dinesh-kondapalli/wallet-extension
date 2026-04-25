@@ -116,11 +116,11 @@ export async function setupAccountPasskey(password: string) {
   try {
     cred = await navigator.credentials.create({
       publicKey: {
-        rp: { name: 'Zerion' },
+        rp: { name: 'Wallet' },
         user: {
           id: getRandomUint8Array(32),
-          name: 'zerion',
-          displayName: 'Zerion Wallet',
+          name: 'wallet',
+          displayName: 'Wallet',
         },
         pubKeyCredParams: [{ alg: -7, type: 'public-key' }],
         challenge: getRandomUint8Array(32),

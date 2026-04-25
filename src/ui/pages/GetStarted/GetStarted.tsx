@@ -12,7 +12,7 @@ import EcosystemSolanaIcon from 'jsx:src/ui/assets/ecosystem-solana.svg';
 import DownloadIcon from 'jsx:src/ui/assets/download.svg';
 import LedgerIcon from 'jsx:src/ui/assets/ledger-icon.svg';
 import VisibleIcon from 'jsx:src/ui/assets/visible.svg';
-import ZerionSquircle from 'jsx:src/ui/assets/zerion-squircle.svg';
+import WalletIcon from 'url:src/images/sample-avatar.png';
 import InfoIcon from 'jsx:src/ui/assets/info.svg';
 import AddCircleIcon from 'jsx:src/ui/assets/add-circle-outlined.svg';
 import { FEATURE_SOLANA } from 'src/env/config';
@@ -131,7 +131,7 @@ function ScreenCover() {
   return (
     <FillView style={{ alignContent: 'start' }}>
       <Spacer height={70} />
-      <ZerionSquircle style={{ width: 64, height: 64 }} />
+      <img src={WalletIcon} alt="Wallet" style={{ width: 64, height: 64 }} />
       <Spacer height={24} />
       <UIText kind="headline/h1">Add Wallet</UIText>
       <Spacer height={4} />
@@ -272,7 +272,7 @@ function ExistingWalletOptions() {
               text={<UIText kind="body/accent">Connect Ledger</UIText>}
               detailText={
                 <UIText kind="small/regular" color="var(--neutral-500)">
-                  Use your hardware wallet with Zerion.
+                  Use your hardware wallet with Wallet.
                 </UIText>
               }
             ></Media>
@@ -331,7 +331,7 @@ function WalletGroupSelect() {
         {title}{' '}
         <UnstyledButton onClick={() => dialogRef.current?.showModal()}>
           <span
-            title="Each group contains wallets that are associated with same recovery phrase, stored locally on your device. Zerion does not have access to this data.
+            title="Each group contains wallets that are associated with same recovery phrase, stored locally on your device. Wallet does not have access to this data.
 
   We do not cross-associate wallet addresses or have a way to know that these wallets are grouped."
           ></span>
@@ -360,7 +360,7 @@ function WalletGroupSelect() {
             phrase.
             <br />
             <br />
-            Your recovery phrase is stored locally on your device. Zerion does
+            Your recovery phrase is stored locally on your device. Wallet does
             not have access to this data.
             <br />
             <br />
@@ -450,7 +450,7 @@ export function EcosystemOptionsList({
       style={{ backgroundColor: 'var(--z-index-0)' }}
       items={[
         {
-          key: 'ethereum',
+          key: 'cosmos',
           pad: false,
           onClick: solanaEnabled ? () => onValueToggle('evm') : undefined,
           component: (
@@ -458,25 +458,10 @@ export function EcosystemOptionsList({
               <HStack gap={12} alignItems="center">
                 <EcosystemEthereumIcon style={{ width: 44, height: 44 }} />
                 <VStack gap={0}>
-                  <UIText kind="body/accent">Ethereum Ecosystem</UIText>
-
-                  <HStack gap={4} alignItems="center">
-                    <img
-                      style={{
-                        width: 76,
-                        height: 20,
-                        position: 'relative',
-                        top: 1,
-                        left: -2,
-                      }}
-                      alt="Evm Chains"
-                      src="https://cdn.zerion.io/images/dna-assets/evm-chains.png"
-                      srcSet="https://cdn.zerion.io/images/dna-assets/evm-chains.png, https://cdn.zerion.io/images/dna-assets/evm-chains_2x.png 2x"
-                    />
-                    <UIText kind="small/regular" color="var(--neutral-600)">
-                      +60 more
-                    </UIText>
-                  </HStack>
+                  <UIText kind="body/accent">Cosmos Ecosystem</UIText>
+                  <UIText kind="small/regular" color="var(--neutral-600)">
+                    BWICK and other Cosmos chains
+                  </UIText>
                 </VStack>
               </HStack>
               <span>

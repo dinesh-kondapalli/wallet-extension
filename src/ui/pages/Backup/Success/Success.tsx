@@ -111,7 +111,7 @@ export function Success() {
               Self-Custodial Human!
             </div>
             <UIText kind="headline/h3" color="var(--always-white)">
-              Zerion makes exploring web3 feel better than ever.
+              Wallet makes exploring web3 feel better than ever.
               {isNarrowView ? ' ' : <br />}
               You can close this tab now.
             </UIText>

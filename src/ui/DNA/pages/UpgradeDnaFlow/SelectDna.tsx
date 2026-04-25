@@ -74,7 +74,7 @@ export function SelectDna() {
           signatureMessage,
           address,
           '',
-          { clientScope: 'Zerion DNA Background' },
+          { clientScope: 'Wallet DNA Background' },
         ],
         context: { origin: INTERNAL_ORIGIN },
         id: payloadId(),

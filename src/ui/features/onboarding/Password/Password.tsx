@@ -230,7 +230,7 @@ export function Password({
               {step === PasswordStep.confirm ? 'Confirm password' : title}
             </UIText>
             <UIText kind="body/regular">
-              This password will unlock Zerion wallet in your browser.
+              This password will unlock Wallet in your browser.
             </UIText>
           </VStack>
           {step === PasswordStep.create ? (

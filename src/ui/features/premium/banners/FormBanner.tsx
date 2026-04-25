@@ -6,7 +6,7 @@ import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import CloseIcon from 'jsx:src/ui/assets/close.svg';
-import ZerionIcon from 'jsx:src/ui/assets/zerion-logo-transparent.svg';
+import WalletIcon from 'url:src/images/sample-avatar.png';
 import { emitter } from 'src/ui/shared/events';
 import { useStatsigExperiment } from 'src/modules/statsig/statsig.client';
 import { usePreferences } from '../../preferences';
@@ -75,12 +75,13 @@ export function PremiumFormBanner({
             src="https://cdn.zerion.io/images/dna-assets/premium_banner_decoration.png"
             srcSet="https://cdn.zerion.io/images/dna-assets/premium_banner_decoration.png, https://cdn.zerion.io/images/dna-assets/premium_banner_decoration_2x.png 2x"
           />
-          <ZerionIcon
+          <img
+            src={WalletIcon}
+            alt="Wallet"
             style={{
               width: 36,
               height: 36,
               position: 'relative',
-              color: 'var(--always-white)',
             }}
           />
           <VStack gap={0} style={{ position: 'relative' }}>
@@ -88,7 +89,7 @@ export function PremiumFormBanner({
               Save 50% on fees
             </UIText>
             <UIText kind="caption/regular" color="var(--always-white)">
-              Get Zerion Premium
+              Get Wallet Premium
             </UIText>
           </VStack>
         </HStack>

@@ -16,7 +16,7 @@ import { PageTop } from 'src/ui/components/PageTop';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import { Button } from 'src/ui/ui-kit/Button';
 import { UnstyledAnchor } from 'src/ui/ui-kit/UnstyledAnchor';
-import ZerionIcon from 'jsx:src/ui/assets/zerion-premium-logo.svg';
+import WalletIcon from 'url:src/images/sample-avatar.png';
 import { PageBottom } from 'src/ui/components/PageBottom';
 import { useFirebaseConfig } from 'src/modules/remote-config/plugins/useFirebaseConfig';
 import { WalletAvatar } from 'src/ui/components/WalletAvatar';
@@ -229,7 +229,11 @@ export function PremiumPage() {
             }}
           >
             <HStack gap={8} alignItems="center" justifyContent="center">
-              <ZerionIcon style={{ width: 20, height: 20 }} />
+              <img
+                src={WalletIcon}
+                alt="Wallet"
+                style={{ width: 20, height: 20 }}
+              />
               {kind !== 'none' ? (
                 <UIText kind="body/accent">Renew Premium</UIText>
               ) : (

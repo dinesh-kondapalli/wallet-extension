@@ -3,7 +3,7 @@ import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import { NetworkId } from 'src/modules/networks/NetworkId';
 import type { Networks } from 'src/modules/networks/Networks';
 import { bringToFront } from 'src/shared/array-mutations';
-import type { BlockchainType } from 'src/shared/wallet/classifiers';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import type { ChainDistribution } from 'src/ui/shared/requests/PortfolioValue/ChainValue';
 
 type ListGroup<T> = {
@@ -40,7 +40,7 @@ export function createGroups({
   filterPredicate = () => true,
   sortMainNetworksType = 'by_distribution',
 }: {
-  standard: BlockchainType | 'all';
+  standard: NetworkBlockchainType | 'all';
   networks: Networks;
   chainDistribution: ChainDistribution | null;
   testnetMode: boolean;
@@ -52,7 +52,11 @@ export function createGroups({
     .filter((item) => Boolean(item.is_testnet) === testnetMode)
     .filter(filterPredicate);
   const pinnedNetworkId =
-    standard === 'evm' ? NetworkId.Zero : NetworkId.Solana;
+    standard === 'evm'
+      ? NetworkId.Zero
+      : standard === 'solana'
+      ? NetworkId.Solana
+      : null;
   const otherNetworkPredicate = (network: NetworkConfig) => {
     return (
       network.id !== pinnedNetworkId &&

@@ -83,7 +83,7 @@ function PauseInjectionDialog({
       }}
     >
       <UIText kind="headline/h2" style={{ textAlign: 'center' }}>
-        Disable Zerion for
+        Disable Wallet for
         <br />
         <span
           style={{ color: 'var(--neutral-500)', overflowWrap: 'break-word' }}

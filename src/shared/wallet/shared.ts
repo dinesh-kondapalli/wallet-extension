@@ -1,9 +1,14 @@
 import { isSolanaAddress } from 'src/modules/solana/shared';
+import { isCosmosAddress } from 'src/modules/cosmos/shared';
 import { invariant } from '../invariant';
 import { isEthereumAddress } from '../isEthereumAddress';
-import { BLOCKCHAIN_TYPES, type BlockchainType } from './classifiers';
+import { type NetworkBlockchainType } from './classifiers';
 
-const supportedTypes = new Set<BlockchainType>(BLOCKCHAIN_TYPES);
+const supportedTypes = new Set<NetworkBlockchainType>([
+  'evm',
+  'solana',
+  'cosmos',
+]);
 
 function isSubsetOf<T>(a: Set<T>, b: unknown[]): b is T[] {
   return b.every((item) => a.has(item as T));
@@ -11,7 +16,7 @@ function isSubsetOf<T>(a: Set<T>, b: unknown[]): b is T[] {
 
 export function assertKnownEcosystems(
   values: string[]
-): asserts values is BlockchainType[] {
+): asserts values is NetworkBlockchainType[] {
   invariant(
     isSubsetOf(supportedTypes, values),
     `Invalid ecosystem values: ${values}`
@@ -20,12 +25,14 @@ export function assertKnownEcosystems(
 
 export function isMatchForEcosystem(
   address: string,
-  ecosystem: BlockchainType
+  ecosystem: NetworkBlockchainType
 ) {
   if (ecosystem === 'evm') {
     return isEthereumAddress(address);
   } else if (ecosystem === 'solana') {
     return isSolanaAddress(address);
+  } else if (ecosystem === 'cosmos') {
+    return isCosmosAddress(address);
   } else {
     throw new Error(`Unsupported ecosystem param: ${ecosystem}`);
   }

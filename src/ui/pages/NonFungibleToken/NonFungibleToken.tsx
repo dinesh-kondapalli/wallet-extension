@@ -152,7 +152,7 @@ export function NonFungibleToken() {
             {nftTags.has('#dna') ? (
               <VStack gap={8}>
                 <HStack gap={6}>
-                  <UIText kind="headline/h3">Zerion DNA:</UIText>
+                  <UIText kind="headline/h3">Wallet DNA:</UIText>
                   <UIText
                     kind="headline/h3"
                     color={
@@ -243,7 +243,7 @@ export function NonFungibleToken() {
               style={{ width: '100%' }}
             >
               <HStack gap={8} alignItems="center">
-                <span>Zerion Web</span>
+                <span>Wallet Web</span>
                 <ArrowLeftTop />
               </HStack>
             </Button>

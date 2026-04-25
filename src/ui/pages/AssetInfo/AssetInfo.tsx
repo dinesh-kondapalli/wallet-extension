@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { NavigationType, useNavigationType, useParams } from 'react-router-dom';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import { invariant } from 'src/shared/invariant';
@@ -27,15 +27,14 @@ import { useBackgroundKind } from 'src/ui/components/Background';
 import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
 import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
+import { useWalletAssetPnl } from 'src/modules/zerion-api/hooks/useWalletAssetPnl';
 import { NetworkId } from 'src/modules/networks/NetworkId';
 import { CircleSpinner } from 'src/ui/ui-kit/CircleSpinner';
 import { whiteBackgroundKind } from 'src/ui/components/Background/Background';
-import { useWalletAssetPnl } from 'src/modules/zerion-api/hooks/useWalletAssetPnl';
 import { useCopyToClipboard } from 'src/ui/shared/useCopyToClipboard';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import type { PopoverToastHandle } from 'src/ui/pages/Settings/PopoverToast';
 import { PopoverToast } from 'src/ui/pages/Settings/PopoverToast';
-import { usePremiumStatus } from 'src/ui/features/premium/getPremiumStatus';
 import { AssetHistory } from './AssetHistory';
 import { AssetAddressStats } from './AssetAddressDetails';
 import { AssetGlobalStats } from './AssetGlobalStats';
@@ -138,11 +137,6 @@ export function AssetInfo() {
     { source: useHttpClientSource() },
     { enabled: ready }
   );
-
-  const { isPremium, walletsMetaQuery } = usePremiumStatus({
-    address: params.address,
-  });
-
   const assetAddressPnlQuery = useWalletAssetPnl(
     {
       addresses: [params.address],
@@ -150,7 +144,7 @@ export function AssetInfo() {
       currency,
     },
     { source: useHttpClientSource() },
-    { enabled: ready && isPremium }
+    { enabled: false }
   );
 
   const { data: wallet } = useQuery({
@@ -162,13 +156,6 @@ export function AssetInfo() {
 
   const chainWithTheBiggestBalance =
     walletData?.data?.chainsDistribution?.at(0)?.chain.id || NetworkId.Zero;
-
-  const premiumStatus = useMemo(() => {
-    return {
-      isPremium,
-      isLoading: walletsMetaQuery.isLoading,
-    };
-  }, [isPremium, walletsMetaQuery.isLoading]);
 
   if (isLoading || !wallet || !walletData) {
     return (
@@ -244,7 +231,7 @@ export function AssetInfo() {
           assetFullInfo={assetFullInfo}
           walletAssetDetails={walletData.data}
           assetAddressPnlQuery={assetAddressPnlQuery}
-          premiumStatus={premiumStatus}
+          premiumStatus={{ isPremium: false, isLoading: false }}
         />
         <AssetResources assetFullInfo={assetFullInfo} />
         <AssetDescription assetFullInfo={assetFullInfo} />

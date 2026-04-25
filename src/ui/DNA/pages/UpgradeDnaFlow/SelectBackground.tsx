@@ -199,7 +199,7 @@ function SelectBackgroundContent() {
                     You are eligible to update your DNA with a new background.
                   </UIText>
                   <UIText kind="body/accent">
-                    Each background design represents one of Zerion's values.
+                    Each background design represents one of Wallet's values.
                     Choose the one that resonates with you most!
                   </UIText>
                 </VStack>

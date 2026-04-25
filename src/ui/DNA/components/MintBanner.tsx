@@ -23,7 +23,7 @@ export function MintBanner({
       <VStack gap={16} style={{ justifyItems: 'start' }}>
         <VStack gap={4}>
           <UIText kind="headline/h3" color="var(--always-white)">
-            Mint your Zerion DNA
+            Mint your Wallet DNA
           </UIText>
           <UIText kind="small/accent" color="var(--always-white)">
             With exclusive attribute

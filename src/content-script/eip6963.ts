@@ -1,5 +1,5 @@
 import type { EthereumProvider } from 'src/modules/ethereum/provider';
-import zerionLogoDataUrl from 'data-url:src/ui/assets/zerion-logo-blue.svg';
+import walletLogoDataUrl from 'data-url:src/images/sample-avatar.png';
 
 interface EIP6963ProviderInfo {
   uuid: string;
@@ -10,8 +10,8 @@ interface EIP6963ProviderInfo {
 
 const info = {
   uuid: crypto.randomUUID(),
-  name: 'Zerion',
-  icon: zerionLogoDataUrl,
+  name: 'Wallet',
+  icon: walletLogoDataUrl,
   rdns: 'io.zerion.wallet',
 } satisfies EIP6963ProviderInfo;
 

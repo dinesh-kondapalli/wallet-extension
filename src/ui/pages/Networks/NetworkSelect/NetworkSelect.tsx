@@ -27,7 +27,7 @@ import {
 import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
 import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
 import { isEthereumAddress } from 'src/shared/isEthereumAddress';
-import type { BlockchainType } from 'src/shared/wallet/classifiers';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 
 async function updateNetworks() {
   return Promise.all([
@@ -48,7 +48,7 @@ export function NetworkSelect({
   showEcosystemHint,
 }: {
   value: string;
-  standard?: BlockchainType | 'all';
+  standard?: NetworkBlockchainType | 'all';
   onChange: (value: string) => void;
   /**
    * For side effect when network is selected. Do not use for updating the network in the app, use `onChange` for that.

@@ -27,7 +27,9 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useCurrency } from 'src/modules/currency/useCurrency';
+import { isSolanaAddress } from 'src/modules/solana/shared';
 import { getAddressType } from 'src/shared/wallet/classifiers';
+import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import { HStack } from 'src/ui/ui-kit/HStack';
 import { Media } from 'src/ui/ui-kit/Media';
@@ -48,8 +50,9 @@ import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import DotsIcon from 'jsx:src/ui/assets/dots.svg';
 import DragIcon from 'jsx:src/ui/assets/drag.svg';
 import * as styles from './styles.module.css';
-import type { AnyWallet, WalletGroupInfo } from './shared';
-import { getFullWalletList } from './shared';
+import type { AnyWallet, DisplayWallet, WalletGroupInfo } from './shared';
+import { getFullWalletList, normalizeWalletForDisplay } from './shared';
+import { useResolvedCosmosListWallet } from './useResolvedCosmosListWallet';
 
 export function arrayMove<T>(array: T[], from: number, to: number): T[] {
   const newArray = array.slice();
@@ -94,13 +97,42 @@ function DroppableContainer({
 function WalletListEditItem({
   wallet,
   groupId,
+  selectedChain: _selectedChain,
+  selectedNetwork,
 }: {
-  wallet: AnyWallet;
+  wallet: DisplayWallet;
   groupId: string;
+  selectedChain: string | null;
+  selectedNetwork: NetworkConfig | null;
 }) {
   const { currency } = useCurrency();
-  const ecosystemPrefix =
-    getAddressType(wallet.address) === 'evm' ? 'Eth' : 'Sol';
+  const { displayWallet, balanceAndConnectionAddress } =
+    useResolvedCosmosListWallet(wallet, selectedNetwork);
+  const ecosystemPrefix = (() => {
+    if (
+      isSolanaAddress(displayWallet.address) ||
+      isSolanaAddress(displayWallet.sourceAddress)
+    ) {
+      return 'Sol';
+    }
+    if (selectedNetwork?.standard === 'cosmos') {
+      return 'Cosmos';
+    }
+    if (selectedNetwork?.standard === 'solana') {
+      return 'Sol';
+    }
+    if (
+      getAddressType(displayWallet.address) === 'evm' ||
+      (displayWallet.sourceAddress &&
+        getAddressType(displayWallet.sourceAddress) === 'evm')
+    ) {
+      return 'Eth';
+    }
+    if (getAddressType(displayWallet.address) === 'solana') {
+      return 'Sol';
+    }
+    return 'Cosmos';
+  })();
 
   return (
     <div
@@ -123,13 +155,13 @@ function WalletListEditItem({
             vGap={0}
             image={
               <WalletAvatar
-                address={wallet.address}
+                address={balanceAndConnectionAddress}
                 size={40}
                 active={false}
                 borderRadius={12}
                 icon={
                   <WalletSourceIcon
-                    address={wallet.address}
+                    address={wallet.sourceAddress}
                     groupId={groupId}
                     style={{ width: 16, height: 16 }}
                   />
@@ -139,7 +171,7 @@ function WalletListEditItem({
             text={
               <UIText kind="small/regular">
                 <WalletDisplayName
-                  wallet={wallet}
+                  wallet={displayWallet}
                   render={(data) => (
                     <span
                       style={{
@@ -159,7 +191,7 @@ function WalletListEditItem({
             }
             detailText={
               <PortfolioValue
-                address={wallet.address}
+                address={balanceAndConnectionAddress}
                 render={(query) => (
                   <UIText kind="headline/h3" style={{ display: 'flex' }}>
                     {query.data ? (
@@ -182,7 +214,7 @@ function WalletListEditItem({
           />
           <HStack gap={12} alignItems="center">
             <UnstyledLink
-              to={`/wallets/accounts/${wallet.address}?groupId=${groupId}`}
+              to={`/wallets/accounts/${wallet.sourceAddress}?groupId=${groupId}`}
               style={{ display: 'flex' }}
               title="Edit wallet"
             >
@@ -200,10 +232,14 @@ function DraggableWalletItem({
   walletId,
   wallet,
   groupId,
+  selectedChain,
+  selectedNetwork,
 }: {
   walletId: string;
-  wallet: AnyWallet;
+  wallet: DisplayWallet;
   groupId: string;
+  selectedChain: string | null;
+  selectedNetwork: NetworkConfig | null;
 }) {
   const {
     attributes,
@@ -225,7 +261,12 @@ function DraggableWalletItem({
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <WalletListEditItem wallet={wallet} groupId={groupId} />
+      <WalletListEditItem
+        wallet={wallet}
+        groupId={groupId}
+        selectedChain={selectedChain}
+        selectedNetwork={selectedNetwork}
+      />
     </div>
   );
 }
@@ -233,10 +274,16 @@ function DraggableWalletItem({
 function WalletListEditInner({
   groups: defaultGroups,
   walletMap,
+  selectedChain,
+  selectedNetwork,
+  allWallets,
   onChange,
 }: {
   groups: WalletListGroup[];
   walletMap: Map<string, { group: WalletGroupInfo; wallet: AnyWallet }>;
+  selectedChain: string | null;
+  selectedNetwork: NetworkConfig | null;
+  allWallets: AnyWallet[];
   onChange: (newOrder: WalletListGroup[]) => void;
 }) {
   const [groups] = useState<WalletListGroup[]>(defaultGroups);
@@ -503,12 +550,20 @@ function WalletListEditInner({
                       {items[group.id].map((walletId) => {
                         const item = walletMap.get(walletId);
                         if (!item) return null;
+                        const displayWallet = normalizeWalletForDisplay({
+                          wallet: item.wallet,
+                          selectedChain,
+                          selectedNetwork,
+                          allWallets,
+                        });
                         return (
                           <DraggableWalletItem
                             key={walletId}
                             walletId={walletId}
-                            wallet={item.wallet}
+                            wallet={displayWallet}
                             groupId={item.group.id}
+                            selectedChain={selectedChain}
+                            selectedNetwork={selectedNetwork}
                           />
                         );
                       })}
@@ -544,8 +599,15 @@ function WalletListEditInner({
       <DragOverlay>
         {activeWallet ? (
           <WalletListEditItem
-            wallet={activeWallet.wallet}
+            wallet={normalizeWalletForDisplay({
+              wallet: activeWallet.wallet,
+              selectedChain,
+              selectedNetwork,
+              allWallets,
+            })}
             groupId={activeWallet.group.id}
+            selectedChain={selectedChain}
+            selectedNetwork={selectedNetwork}
           />
         ) : null}
       </DragOverlay>
@@ -556,10 +618,16 @@ function WalletListEditInner({
 export function WalletListEdit({
   walletsOrder,
   walletGroups,
+  selectedChain,
+  selectedNetwork,
+  allWallets,
   onChange,
 }: {
   walletsOrder?: WalletListGroup[];
   walletGroups: WalletGroupInfo[];
+  selectedChain?: string | null;
+  selectedNetwork?: NetworkConfig | null;
+  allWallets: AnyWallet[];
   onChange: (newOrder: WalletListGroup[]) => void;
 }) {
   const groups = useMemo(
@@ -594,6 +662,9 @@ export function WalletListEdit({
     <WalletListEditInner
       groups={groups}
       walletMap={walletMap}
+      selectedChain={selectedChain || null}
+      selectedNetwork={selectedNetwork || null}
+      allWallets={allWallets}
       onChange={onChange}
     />
   );

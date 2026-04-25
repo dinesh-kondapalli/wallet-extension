@@ -4,7 +4,7 @@ import { capitalize } from 'capitalize-ts';
 import type { AddEthereumChainParameter } from 'src/modules/ethereum/types/AddEthereumChainParameter';
 import type { EthereumChainConfig } from 'src/modules/ethereum/chains/types';
 import { normalizeChainId } from 'src/shared/normalizeChainId';
-import type { BlockchainType } from 'src/shared/wallet/classifiers';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import { FEATURE_SOLANA } from 'src/env/config';
 import type { ChainId } from '../ethereum/transactions/ChainId';
 import type { Chain } from './Chain';
@@ -80,6 +80,7 @@ export class Networks {
 
   private solanaNetworks: NetworkConfig[];
   private evmNetworks: NetworkConfig[];
+  private cosmosNetworks: NetworkConfig[];
 
   static getChainId<T extends Partial<NetworkConfig>>(network: T) {
     if (Networks.isEip155(network)) {
@@ -94,11 +95,35 @@ export class Networks {
     return network.specification?.eip155 != null;
   }
 
-  static getEcosystem(network: NetworkConfig): BlockchainType {
+  static isCosmos<T extends Partial<NetworkConfig>>(
+    network: T
+  ): network is T & {
+    specification: {
+      cosmos: { chain_id: string; bech32_prefix: string | null };
+    };
+  } {
+    return network.specification?.cosmos != null;
+  }
+
+  static getChainReferenceId<T extends Partial<NetworkConfig>>(network: T) {
+    if (Networks.isEip155(network)) {
+      return normalizeChainId(network.specification.eip155.id);
+    } else if (Networks.isCosmos(network)) {
+      return network.specification.cosmos.chain_id;
+    } else if (network.id === 'solana') {
+      return 'solana';
+    } else {
+      throw new Error(`Cannot infer chain reference id: ${network.id}`);
+    }
+  }
+
+  static getEcosystem(network: NetworkConfig): NetworkBlockchainType {
     if (Networks.isEip155(network)) {
       return 'evm';
     } else if (network.id === 'solana') {
       return 'solana';
+    } else if (Networks.isCosmos(network)) {
+      return 'cosmos';
     } else {
       throw new Error(
         `Cannot infer ecosystem of ${network.id} (${network.name})`
@@ -106,9 +131,14 @@ export class Networks {
     }
   }
 
-  static predicate(standard: BlockchainType | null, network: NetworkConfig) {
+  static predicate(
+    standard: NetworkBlockchainType | null,
+    network: NetworkConfig
+  ) {
     if (standard === 'solana') {
       return network.standard === 'solana';
+    } else if (standard === 'cosmos') {
+      return network.standard === 'cosmos';
     } else if (standard === 'evm') {
       return network.standard === 'eip155';
     } else {
@@ -120,7 +150,11 @@ export class Networks {
    * Update this predicate when adding new supported ecosystems
    */
   static isSupportedEcosystem(network: NetworkConfig) {
-    return Networks.isEip155(network) || network.id === 'solana';
+    return (
+      Networks.isEip155(network) ||
+      network.id === 'solana' ||
+      Networks.isCosmos(network)
+    );
   }
 
   constructor({
@@ -136,9 +170,10 @@ export class Networks {
     this.networks = injectChainConfigs(networks, ethereumChainConfigs);
     this.networks = this.networks.filter(Networks.isSupportedEcosystem);
     if (FEATURE_SOLANA !== 'on') {
-      this.networks = this.networks.filter((n) => n.standard === 'eip155');
+      this.networks = this.networks.filter((n) => n.standard !== 'solana');
     }
     this.evmNetworks = this.networks.filter((n) => n.standard === 'eip155');
+    this.cosmosNetworks = this.networks.filter((n) => n.standard === 'cosmos');
     this.solanaNetworks = this.networks.filter(
       (n) => n.id.toLowerCase().includes('solana') // TODO: filter by n['standard'] when backend updates
     );
@@ -203,16 +238,22 @@ export class Networks {
     return this.networks.filter((item) => !item.is_testnet);
   }
 
-  getDefaultNetworks(standard: BlockchainType | 'all') {
+  getDefaultNetworks(standard: NetworkBlockchainType | 'all') {
     const items =
       standard === 'solana'
         ? this.solanaNetworks
+        : standard === 'cosmos'
+        ? this.cosmosNetworks
         : standard === 'evm'
         ? this.evmNetworks
         : this.networks;
-    const ignorePositionsSupport = standard === 'solana'; // TODO: remove check when backend supports Solana positions
     return items.filter((item) => {
       const chain = createChain(item.id);
+      const ignorePositionsSupport =
+        standard === 'solana' ||
+        standard === 'cosmos' ||
+        item.standard === 'solana' ||
+        item.standard === 'cosmos';
       return (
         ignorePositionsSupport ||
         this.supports('positions', chain) ||
@@ -389,9 +430,14 @@ export class Networks {
      * Checks whether a network config for this chainId already exists
      * and its RPC_URL value is the same
      */
-    const chainId = normalizeChainId(config.chainId);
-    if (this.hasNetworkById(chainId)) {
-      const network = this.getNetworkById(chainId);
+    const chainId =
+      config.standard === 'cosmos'
+        ? config.chainId
+        : normalizeChainId(config.chainId);
+    const network = this.getNetworks().find(
+      (item) => Networks.getChainReferenceId(item) === chainId
+    );
+    if (network) {
       const currentRpcUrl = this.getRpcUrlInternal(createChain(network.id));
       return (
         new URL(currentRpcUrl).toString() ===

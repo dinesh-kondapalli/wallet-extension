@@ -83,7 +83,7 @@ export function XpDropOnboarding() {
         element={
           <OnboardingStep
             title="Rewards"
-            text="Unlock exclusive rewards by completing quests using Zerion Wallet"
+            text="Unlock exclusive rewards by completing quests using Wallet"
             imageSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-rewards.png"
             image2xSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-rewards_2x.png"
             buttonText="Continue"

@@ -19,10 +19,11 @@ import { isCustomNetworkId } from 'src/modules/ethereum/chains/helpers';
 import { NetworkIcon } from 'src/ui/components/NetworkIcon';
 import {
   getAddressType,
-  type BlockchainType,
+  type NetworkBlockchainType,
 } from 'src/shared/wallet/classifiers';
+import WalletIcon from 'url:src/images/sample-avatar.png';
 
-function NetworkList({ standard }: { standard: BlockchainType }) {
+function NetworkList({ standard }: { standard: NetworkBlockchainType }) {
   const { networks } = useNetworks();
   const allNetworks = useMemo(() => {
     return networks
@@ -145,7 +146,7 @@ function SupportedNetworks({ address }: { address: string }) {
                 title={<UIText kind="headline/h3">Supported Networks</UIText>}
               />
               <UIText kind="body/regular">
-                These are the blockchains Zerion supports for sending,
+                These are the blockchains Wallet supports for sending,
                 receiving, and managing assets.
               </UIText>
               <HStack
@@ -223,7 +224,7 @@ export function AddressDetails({
           qrStyle="dots"
           eyeRadius={2}
           size={200}
-          logoImage="https://s3.amazonaws.com/cdn.zerion.io/assets/logo-icon-128.png"
+          logoImage={WalletIcon}
           logoWidth={36}
           logoHeight={36}
           logoPadding={8}

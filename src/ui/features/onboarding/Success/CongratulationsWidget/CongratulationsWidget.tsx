@@ -5,7 +5,6 @@ import CsvPromoIcon from 'jsx:src/ui/assets/csv-promo.svg';
 import type { ReferrerData } from 'src/modules/zerion-api/requests/check-referral';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';
-import { PremiumTrialBanner } from 'src/ui/features/referral-program/shared/PremiumTrialBanner';
 import { ReferrerLink } from 'src/ui/features/referral-program/shared/ReferrerLink';
 import { FeatureCard } from 'src/ui/features/referral-program/shared/FeatureCard';
 import { HStack } from 'src/ui/ui-kit/HStack';
@@ -37,7 +36,6 @@ export function CongratulationsWidget({
             </UIText>
           ) : null}
         </VStack>
-        <PremiumTrialBanner backgroundColor="var(--always-white)" />
       </HStack>
       <HStack gap={8} style={{ gridAutoColumns: '1fr 1fr 1fr' }}>
         <VStack gap={8} style={{ alignItems: 'initial' }}>

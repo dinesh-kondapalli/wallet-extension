@@ -55,7 +55,7 @@ function PhantomWalletInstructionPanel({
             private key.
           </UIText>
           <UIText kind="body/regular">
-            4. Copy it and paste in Zerion extension 🎉
+            4. Copy it and paste in Wallet extension 🎉
           </UIText>
           <UIText kind="small/regular" color="var(--neutral-600)">
             Keys and recovery phrases are saved safely locally and not shared
@@ -113,7 +113,7 @@ export function SecretKeyFAQ() {
             <UIText kind="body/regular">
               3. Enter MM password and copy private key.
             </UIText>
-            <UIText kind="body/regular">4. Paste in Zerion extension 🎉</UIText>
+            <UIText kind="body/regular">4. Paste in Wallet extension 🎉</UIText>
             <UIText kind="small/regular" color="var(--neutral-600)">
               Keys and recovery phrases are saved safely locally and not shared
               with us.
@@ -152,7 +152,7 @@ export function SecretKeyFAQ() {
               have to enter your wallet{apostrophe}s password.
             </UIText>
             <UIText kind="body/regular">
-              4. Copy your private key and paste/ enter it in Zerion{apostrophe}
+              4. Copy your private key and paste/ enter it in Wallet{apostrophe}
               s browser extension.
             </UIText>
             <UIText kind="body/regular">
@@ -173,7 +173,7 @@ export function SecretKeyFAQ() {
               Your keys, your crypto. Always.
             </UIText>
             <UIText kind="small/regular" color="var(--neutral-600)">
-              Zerion cannot access or save them. Your keys stay on this device
+              Wallet cannot access or save them. Your keys stay on this device
             </UIText>
           </VStack>
         )}
@@ -277,7 +277,7 @@ export function PhraseFAQ() {
             <UIText kind="body/regular">
               3. Enter MM password and copy recovery phrase.
             </UIText>
-            <UIText kind="body/regular">4. Paste in Zerion extension 🎉</UIText>
+            <UIText kind="body/regular">4. Paste in Wallet extension 🎉</UIText>
             <UIText kind="small/regular" color="var(--neutral-600)">
               Keys and recovery phrases are saved safely locally and not shared
               with us.
@@ -315,7 +315,7 @@ export function PhraseFAQ() {
             </UIText>
             <UIText kind="body/regular">
               3. Enter in the Recovery Phrase that you copied down into the
-              Zerion extension. Click on Import wallet once complete.
+              Wallet extension. Click on Import wallet once complete.
             </UIText>
             <UIText kind="body/regular">4. That{apostrophe}s it 🎉</UIText>
           </VStack>
@@ -405,8 +405,8 @@ export function PasswordFAQ() {
       <VStack gap={8}>
         <UIText kind="small/regular">Why do I need a password?</UIText>
         <UIText kind="small/regular" color="var(--neutral-600)">
-          This password will unlock your Zerion wallet extension when you want
-          to connect to a dApp or sign a transaction.
+          This password will unlock your Wallet extension when you want to
+          connect to a dApp or sign a transaction.
         </UIText>
       </VStack>
     </VStack>
@@ -427,7 +427,7 @@ export function SelectWalletsFAQ() {
         <UIText kind="small/regular">Active wallets</UIText>
         <UIText kind="small/regular" color="var(--neutral-600)">
           Wallets with a transaction history or balance on any chain supported
-          by Zerion.
+          by Wallet.
         </UIText>
       </VStack>
     </VStack>

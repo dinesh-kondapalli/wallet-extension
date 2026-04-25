@@ -11,8 +11,7 @@ import { InviteFriendsBanner } from 'src/ui/features/referral-program/InviteFrie
 import { Spacer } from 'src/ui/ui-kit/Spacer';
 import { ENABLE_DNA_BANNERS } from 'src/ui/DNA/components/DnaBanners';
 import { FEATURE_LOYALTY_FLOW, FEATURE_SOLANA } from 'src/env/config';
-import { OverviewPremiumBanner } from 'src/ui/features/premium/banners/OverviewBanner';
-import { usePremiumStatus } from 'src/ui/features/premium/getPremiumStatus';
+
 import { SolanaBanner } from './SolanaBanner';
 
 function DnaBanners({ address }: { address: string }) {
@@ -69,25 +68,13 @@ export function Banners({ address }: { address: string }) {
   const solanaBannerVisible =
     FEATURE_SOLANA === 'on' && !preferences?.solanaBannerDismissed;
 
-  const { isPremium, walletsMetaQuery } = usePremiumStatus({ address });
-
-  const premiumBannerVisible =
-    !isPremium && !preferences?.premiumBannerDismissed;
-
-  if (isRemoteConfigLoading || walletsMetaQuery.isLoading) {
+  if (isRemoteConfigLoading) {
     return null;
   }
 
   return (
     <div style={{ paddingInline: 'var(--column-padding-inline)' }}>
-      {premiumBannerVisible ? (
-        <>
-          <OverviewPremiumBanner
-            onDismiss={() => setPreferences({ premiumBannerDismissed: true })}
-          />
-          <Spacer height={24} />
-        </>
-      ) : solanaBannerVisible ? (
+      {solanaBannerVisible ? (
         <>
           <SolanaBanner
             onDismiss={() => setPreferences({ solanaBannerDismissed: true })}

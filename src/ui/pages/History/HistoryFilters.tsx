@@ -12,7 +12,7 @@ import { SurfaceList } from 'src/ui/ui-kit/SurfaceList';
 import { Button } from 'src/ui/ui-kit/Button';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
-import type { BlockchainType } from 'src/shared/wallet/classifiers';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import SettingsIcon from 'jsx:src/ui/assets/settings-sliders.svg';
 import ChevronRightIcon from 'jsx:src/ui/assets/chevron-right.svg';
 import CheckmarkIcon from 'jsx:src/ui/assets/checkmark-checked.svg';
@@ -398,7 +398,7 @@ export function HistoryFiltersButton({
   hasActiveFilters: boolean;
   selectedChain: string | null;
   onChainChange: (value: string | null) => void;
-  addressType: BlockchainType | null;
+  addressType: NetworkBlockchainType | null;
   date: string | undefined;
   onDateChange: (date: Date | null) => void;
   actionTypeKeys: string[];

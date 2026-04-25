@@ -1,6 +1,8 @@
 export interface AddEthereumChainParameter {
-  chainId: string; // A 0x-prefixed hexadecimal string
+  standard?: 'eip155' | 'cosmos';
+  chainId: string; // EIP-155 hex/integer value or Cosmos chain id
   chainName: string;
+  bech32Prefix?: string;
   nativeCurrency: {
     // code: string | null;
     name: string;

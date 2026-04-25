@@ -31,7 +31,7 @@ import { useNativeBalance } from 'src/ui/shared/requests/useNativeBalance';
 import { formatTokenValue } from 'src/shared/units/formatTokenValue';
 import { useAddressParams } from 'src/ui/shared/user-address/useAddressParams';
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import type { BlockchainType } from 'src/shared/wallet/classifiers';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import EcosystemEthereumIcon from 'jsx:src/ui/assets/ecosystem-ethereum.svg';
 import EcosystemSolanaIcon from 'jsx:src/ui/assets/ecosystem-solana.svg';
 import { isMatchForEcosystem } from 'src/shared/wallet/shared';
@@ -81,7 +81,7 @@ function NetworkItem({
   icon: React.ReactElement;
   chainDistribution: ChainDistribution | null;
   address?: string;
-  ecosystem?: BlockchainType;
+  ecosystem?: NetworkBlockchainType;
 }) {
   const preferChainDistribution =
     value === NetworkSelectValue.All ||
@@ -377,7 +377,7 @@ function AddressNetworkList({
 }: {
   value: string;
   networks: Networks;
-  standard: BlockchainType | 'all';
+  standard: NetworkBlockchainType | 'all';
   chainDistribution: ChainDistribution | null;
   filterPredicate: (network: NetworkConfig) => boolean;
   testnetMode: boolean;
@@ -541,7 +541,7 @@ export function NetworkSelectDialog({
   showEcosystemHint,
 }: {
   value: string;
-  standard: BlockchainType | 'all';
+  standard: NetworkBlockchainType | 'all';
   chainDistribution: ChainDistribution | null;
   showAllNetworksOption?: boolean;
   filterPredicate?: (network: NetworkConfig) => boolean;

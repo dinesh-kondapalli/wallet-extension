@@ -69,7 +69,7 @@ export function VerifyUser({ onSuccess }: { onSuccess: () => void }) {
         </UIText>
         <UIText kind="small/regular" color="var(--neutral-600)">
           Never share your recovery phrase or passcode with anyone, including
-          Zerion team members.
+          Wallet team members.
         </UIText>
       </VStack>
     </VStack>

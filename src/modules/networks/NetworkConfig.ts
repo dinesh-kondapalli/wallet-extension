@@ -10,9 +10,13 @@ interface NetworkAsset {
 }
 
 type NetworkSpecification = {
-  standard: 'eip155' | 'solana';
+  standard: 'eip155' | 'solana' | 'cosmos';
   specification: {
     solana?: null | object;
+    cosmos?: null | {
+      chain_id: string;
+      bech32_prefix: string | null;
+    };
     eip155?: null | {
       eip1559: boolean;
       id: number;

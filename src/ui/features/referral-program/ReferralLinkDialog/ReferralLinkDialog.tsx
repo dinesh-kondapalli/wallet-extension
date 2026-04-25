@@ -49,7 +49,7 @@ export function ReferralLinkDialog({
       <VStack gap={12}>
         <UnorderedListItem
           marker={<Circle>1</Circle>}
-          text="After invitee completes setup wallet, they get a Premium Trial."
+          text="After invitee completes setup wallet, they get early access to new features."
         />
         <UnorderedListItem
           marker={<Circle>2</Circle>}

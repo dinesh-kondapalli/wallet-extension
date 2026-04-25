@@ -30,9 +30,9 @@ function CriteriaListItem({
 const criteriaItems = [
   <CriteriaListItem image="🚀" text="Multichain Profile" />,
   <CriteriaListItem image="💬" text="Social & NFT Activity" />,
-  <CriteriaListItem image="🦸" text="Zerion OG" />,
+  <CriteriaListItem image="🦸" text="Wallet OG" />,
   <CriteriaListItem image="🧭" text="Days Onchain" />,
-  <CriteriaListItem image="💎" text="Zerion DNA Holder" />,
+  <CriteriaListItem image="💎" text="Wallet DNA Holder" />,
   <CriteriaListItem image="💸" text="Gas Spent" />,
 ];
 

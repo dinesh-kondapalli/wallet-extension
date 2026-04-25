@@ -77,7 +77,7 @@ export function ShareData() {
             }}
           >
             Share anonymous usage data (such as app interactions, feature usage,
-            and performance metrics) to help us make Zerion better for everyone.
+            and performance metrics) to help us make Wallet better for everyone.
             <br />
             <br />
             Turning off data collection will not impact your user experience.

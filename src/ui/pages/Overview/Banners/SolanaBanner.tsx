@@ -50,7 +50,7 @@ export function SolanaBanner({ onDismiss }: { onDismiss: () => void }) {
         color="var(--always-black)"
         style={{ position: 'relative' }}
       >
-        Trade on Solana with Zerion
+        Trade on Solana with Wallet
       </UIText>
     </VStack>
   );

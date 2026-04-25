@@ -72,8 +72,10 @@ import type {
 } from 'src/shared/types/SignatureContextParams';
 import { normalizeChainId } from 'src/shared/normalizeChainId';
 import { Networks } from 'src/modules/networks/Networks';
+import { deriveCosmosAddress } from 'src/modules/cosmos/shared';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import { backgroundGetBestKnownTransactionCount } from 'src/modules/ethereum/transactions/getBestKnownTransactionCount/backgroundGetBestKnownTransactionCount';
-import { toCustomNetworkId } from 'src/modules/ethereum/chains/helpers';
+import { toCustomNetworkIdFromConfig } from 'src/modules/ethereum/chains/helpers';
 import { normalizeTransactionChainId } from 'src/modules/ethereum/transactions/normalizeTransactionChainId';
 import type { ChainId } from 'src/modules/ethereum/transactions/ChainId';
 import {
@@ -741,6 +743,52 @@ export class Wallet {
     return this.readCurrentAddress();
   }
 
+  async getAddressForChain({
+    context,
+    params: { address, chain },
+  }: WalletMethodParams<{ address: string; chain: string }>) {
+    this.verifyInternalOrigin(context);
+    this.ensureRecord(this.record);
+
+    const preferences = Model.getPreferences(this.record);
+    const network = await fetchNetworkById({
+      networkId: createChain(chain),
+      preferences,
+      apiEnv: 'current',
+    });
+    invariant(network, `Cannot find network: ${chain}`);
+    const ecosystem = Networks.getEcosystem(network);
+    if (ecosystem === 'solana') {
+      const group = Model.getWalletGroupByAddress(this.record, address);
+      const solanaWallet = group?.walletContainer.wallets.find((wallet) =>
+        isSolanaAddress(wallet.address)
+      );
+      return solanaWallet?.address || null;
+    }
+    if (ecosystem !== 'cosmos') {
+      return address;
+    }
+    if (!isEthereumAddress(address)) {
+      return null;
+    }
+    const signerWallet = Model.getSignerWalletByAddress(this.record, address);
+    if (!signerWallet) {
+      return null;
+    }
+    const privateKey = signerWallet.privateKey;
+    if (!privateKey || privateKey === '<privateKey>') {
+      return null;
+    }
+    const prefix = network.specification.cosmos?.bech32_prefix;
+    if (!prefix) {
+      return null;
+    }
+    return deriveCosmosAddress({
+      privateKey,
+      prefix,
+    });
+  }
+
   async uiGetWalletGroups({ context }: WalletMethodParams) {
     this.verifyInternalOrigin(context);
     const groups = this.record?.walletManager.groups;
@@ -1066,7 +1114,7 @@ export class Wallet {
     standard,
   }: {
     origin: string;
-    standard: BlockchainType;
+    standard: NetworkBlockchainType;
   }) {
     if (!this.record) {
       return null;
@@ -1105,7 +1153,7 @@ export class Wallet {
   async requestChainForOrigin({
     params: { origin, standard },
     context,
-  }: WalletMethodParams<{ origin: string; standard: BlockchainType }>) {
+  }: WalletMethodParams<{ origin: string; standard: NetworkBlockchainType }>) {
     this.verifyInternalOrigin(context);
     this.ensureRecord(this.record);
     const network = await this.getNetworkForOrigin({ origin, standard });
@@ -1713,7 +1761,7 @@ export class Wallet {
     prevChain: string | null;
   }>) {
     this.verifyInternalOrigin(context);
-    const chain = chainStr || toCustomNetworkId(values[0].chainId);
+    const chain = chainStr || toCustomNetworkIdFromConfig(values[0]);
     // NOTE: This is where we might want to call something like
     // {await networksStore.loadNetworkConfigByChainId(values[0].chainId)}
     // IF we wanted to refactor networkStore to not hold searched values

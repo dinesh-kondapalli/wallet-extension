@@ -180,7 +180,7 @@ function XpDropBreakdownDialog({ retro }: { retro: RetrodropInfo }) {
       />
       <Spacer height={24} />
       <VStack gap={24}>
-        <XpBreakdown heading="Zerion OG" items={retro.zerion.breakdown} />
+        <XpBreakdown heading="Wallet OG" items={retro.zerion.breakdown} />
         <XpBreakdown
           heading="Onchain Activity in the Past Year"
           items={retro.global.breakdown}
@@ -207,13 +207,13 @@ function StatsItem({
   );
 }
 
-function Stats({ zerionOg, activity }: { zerionOg: number; activity: number }) {
+function Stats({ walletOg, activity }: { walletOg: number; activity: number }) {
   return (
     <HStack gap={8} style={{ gridAutoColumns: '1fr 1fr' }}>
       <StatsItem
         title={
           <UIText className={styles.zerionOgGradient} kind="small/accent">
-            Zerion OG
+            Wallet OG
           </UIText>
         }
         value={
@@ -222,7 +222,7 @@ function Stats({ zerionOg, activity }: { zerionOg: number; activity: number }) {
             className={styles.zerionOgGradient}
             style={{ wordBreak: 'break-all' }}
           >
-            {formatXp(zerionOg)} XP
+            {formatXp(walletOg)} XP
           </UIText>
         }
       />
@@ -333,7 +333,7 @@ export function XpDropClaim() {
       invariant(selectedWallet, 'selectedWallet is required');
       invariant(signMsgBtnRef.current, 'SignMessageButton not found');
 
-      const message = 'I want to claim my Zerion Retro XP';
+      const message = 'I want to claim my Wallet Retro XP';
       const signature = await signMsgBtnRef.current.personalSign({
         params: [message],
         initiator: INTERNAL_ORIGIN,
@@ -474,7 +474,7 @@ export function XpDropClaim() {
           ) : (
             <>
               <Stats
-                zerionOg={retro.zerion.total}
+                walletOg={retro.zerion.total}
                 activity={retro.global.total}
               />
               <HCenter>

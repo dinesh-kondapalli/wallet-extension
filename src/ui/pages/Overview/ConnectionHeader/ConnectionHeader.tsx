@@ -318,7 +318,7 @@ export function ConnectionHeader() {
                     }}
                   >
                     {activeTabOrigin === INTERNAL_ORIGIN
-                      ? 'Zerion Extension'
+                      ? 'Wallet Extension'
                       : activeTabHostname}
                   </UIText>
                 ) : null}

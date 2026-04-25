@@ -280,7 +280,7 @@ function Heading({
         combination="backspace"
         onKeyDown={() => navigate(getBackOrHome() as number)}
       />
-      <NavigationTitle title={null} documentTitle="Invite Friends to Zerion" />
+      <NavigationTitle title={null} documentTitle="Invite Friends to Wallet" />
       <img
         alt=""
         src="https://cdn.zerion.io/images/dna-assets/invite-flow-decoration-left.png"
@@ -365,8 +365,8 @@ export function Invite() {
   return (
     <VStack gap={16}>
       <Heading
-        title="Invite Friends to Zerion"
-        subtitle="Earn 10% of your invitee’s XP and gift free Premium"
+        title="Invite Friends to Wallet"
+        subtitle="Earn 10% of your invitee's XP"
       />
       <PageColumn>
         <PageTop />

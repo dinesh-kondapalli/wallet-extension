@@ -67,7 +67,9 @@ import { usePositionsRefetchInterval } from 'src/ui/transactions/usePositionsRef
 import { openHrefInTabIfSidepanel } from 'src/ui/shared/openInTabIfInSidepanel';
 import { useFirebaseConfig } from 'src/modules/remote-config/plugins/useFirebaseConfig';
 import { isSolanaAddress } from 'src/modules/solana/shared';
+import { isCosmosAddress } from 'src/modules/cosmos/shared';
 import { getAddressType } from 'src/shared/wallet/classifiers';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import { walletPort } from 'src/ui/shared/channels';
 import { useLocation } from 'react-router-dom';
 import { BlurrableBalance } from 'src/ui/components/BlurrableBalance';
@@ -704,6 +706,7 @@ function PositionList({
 
 function MultiChainPositions({
   address,
+  standard,
   selectedChain,
   dappChain,
   onChainChange,
@@ -714,6 +717,7 @@ function MultiChainPositions({
   ...positionListProps
 }: {
   address: string;
+  standard: NetworkBlockchainType;
   renderEmptyView: () => React.ReactNode;
   renderLoadingView: () => React.ReactNode;
   dappChain: string | null;
@@ -773,7 +777,7 @@ function MultiChainPositions({
       <VStack gap={Object.keys(groupedPositions).length > 1 ? 16 : 8}>
         <div style={{ paddingInline: 16 }}>
           <NetworkBalance
-            standard={getAddressType(address)}
+            standard={standard}
             dappChain={dappChain}
             selectedChain={selectedChain}
             onChange={onChainChange}
@@ -799,6 +803,7 @@ function MultiChainPositions({
 
 function RawChainPositions({
   address,
+  standard,
   renderEmptyView,
   renderLoadingView,
   renderErrorView,
@@ -808,6 +813,7 @@ function RawChainPositions({
   ...positionListProps
 }: {
   address: string;
+  standard: NetworkBlockchainType;
   renderEmptyView: () => React.ReactNode;
   renderLoadingView: () => React.ReactNode;
   renderErrorView: (chainName: string) => React.ReactNode;
@@ -853,7 +859,7 @@ function RawChainPositions({
     <VStack gap={8}>
       <div style={{ paddingInline: 16 }}>
         <NetworkBalance
-          standard={getAddressType(address)}
+          standard={standard}
           dappChain={dappChain}
           selectedChain={selectedChain}
           onChange={onChainChange}
@@ -883,21 +889,38 @@ export function Positions({
   dappChain,
   selectedChain,
   onChainChange,
+  selectedChainAddress,
 }: {
   dappChain: string | null;
   selectedChain: string | null;
   onChainChange: (value: string | null) => void;
+  selectedChainAddress?: string | null;
 }) {
   const { currency } = useCurrency();
   const { ready, params, singleAddressNormalized } = useAddressParams();
-  const addrIsSolana = isSolanaAddress(singleAddressNormalized);
+  const chainValue = selectedChain || NetworkSelectValue.All;
+  const addressForSelectedChain =
+    chainValue === NetworkSelectValue.All
+      ? singleAddressNormalized
+      : selectedChainAddress || singleAddressNormalized;
+  const selectedStandard: NetworkBlockchainType = isSolanaAddress(
+    addressForSelectedChain
+  )
+    ? 'solana'
+    : isCosmosAddress(addressForSelectedChain)
+    ? 'cosmos'
+    : getAddressType(addressForSelectedChain);
+  const addrIsSolana = isSolanaAddress(addressForSelectedChain);
+  const portfolioAddress =
+    chainValue === NetworkSelectValue.All
+      ? params.address
+      : addressForSelectedChain;
   const { data, hyperliquidBalance, ...portfolioQuery } = useWalletPortfolio(
-    { addresses: [params.address], currency },
+    { addresses: [portfolioAddress], currency },
     { source: useHttpClientSource() },
     { enabled: ready && !addrIsSolana }
   );
   const walletPortfolio = data?.data;
-  const chainValue = selectedChain || NetworkSelectValue.All;
   const chain =
     chainValue === NetworkSelectValue.All ? null : createChain(chainValue);
   const positionChains = useMemo(() => {
@@ -989,7 +1012,8 @@ export function Positions({
   if (isSupportedByBackend) {
     return (
       <MultiChainPositions
-        address={singleAddressNormalized}
+        address={addressForSelectedChain}
+        standard={selectedStandard}
         dappChain={dappChain}
         selectedChain={selectedChain}
         moveGasPositionToFront={moveGasPositionToFront}
@@ -1013,7 +1037,8 @@ export function Positions({
     return (
       <ErrorBoundary renderError={() => renderErrorViewForNetwork(chainValue)}>
         <RawChainPositions
-          address={singleAddressNormalized}
+          address={addressForSelectedChain}
+          standard={selectedStandard}
           dappChain={dappChain}
           selectedChain={selectedChain}
           moveGasPositionToFront={moveGasPositionToFront}

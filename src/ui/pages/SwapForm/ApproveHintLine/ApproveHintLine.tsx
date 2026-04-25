@@ -28,7 +28,7 @@ export function ApproveHintLine({ approved, actionName }: Props) {
           1. Approve
         </UIText>
         <UnstyledAnchor
-          title="Allow Zerion to spend the asset"
+          title="Allow Wallet to spend the asset"
           href={EXPLAIN_APPROVE_URL}
           rel="noopener noreferrer"
           target="_blank"

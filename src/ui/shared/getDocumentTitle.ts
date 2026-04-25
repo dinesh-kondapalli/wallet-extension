@@ -1,6 +1,6 @@
 export function getDocumentTitle(pageTitle?: string | null) {
   if (!pageTitle) {
-    return 'Zerion';
+    return 'Wallet';
   }
-  return `Zerion · ${pageTitle}`;
+  return `Wallet · ${pageTitle}`;
 }

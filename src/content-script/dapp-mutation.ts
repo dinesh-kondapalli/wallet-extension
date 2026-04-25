@@ -1,4 +1,4 @@
-import zerionLogoSrc from 'data-url:src/ui/assets/zerion-logo-blue.svg';
+import walletLogoSrc from 'data-url:src/images/sample-avatar.png';
 
 function visitTextNodes(node: Element, cb: (node: Node) => boolean) {
   const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
@@ -33,7 +33,7 @@ function isReplacementMatch(textNode: Node, regex: RegExp) {
 function replaceButtonLabel(textNode: Node, regex: RegExp) {
   const { textContent } = textNode;
   if (textContent) {
-    textNode.textContent = textContent.replace(regex, 'Zerion');
+    textNode.textContent = textContent.replace(regex, 'Wallet');
   }
 }
 
@@ -79,9 +79,9 @@ function replaceButtonImage(node: HTMLElement, context: Context) {
   }
   element.dataset.zerionReplaced = 'true';
   if (element.nodeName === 'IMG') {
-    (element as HTMLImageElement).src = zerionLogoSrc;
+    (element as HTMLImageElement).src = walletLogoSrc;
   } else {
-    element.style.background = `url("${zerionLogoSrc}") no-repeat center/contain`;
+    element.style.background = `url("${walletLogoSrc}") no-repeat center/contain`;
     for (const child of element.children) {
       if (child instanceof HTMLElement || child instanceof SVGElement) {
         child.style.display = 'none';
@@ -149,7 +149,7 @@ function rewriteConnectButtons(
        * - if we find metamask button, save it to list of metamask candidates,
        * - if we find injected button, save it to list of injected candidates,
        * - if we find "zerion" text button, ignore candidates
-       * This is to avoid mutating both Metamask and Injected buttons to Zerion
+       * This is to avoid mutating both Metamask and Injected buttons to Wallet
        * and to avoid mutating Injected buttons when Zerion button exitst
        */
       visitTextNodes(element, (textNode) => {

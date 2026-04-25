@@ -74,7 +74,13 @@ export function useOpenAndConnectToZerion({
   return { handleAnchorClick };
 }
 
-export function ActionButtonsRow() {
+export function ActionButtonsRow({
+  receiveAddress,
+  selectedChain,
+}: {
+  receiveAddress?: string;
+  selectedChain?: string | null;
+}) {
   const { pathname } = useLocation();
   const { data: wallet } = useQuery({
     queryKey: ['wallet/uiGetCurrentWallet'],
@@ -94,7 +100,7 @@ export function ActionButtonsRow() {
       title="Send"
       as={UnstyledLink}
       icon={<SendIcon />}
-      to="/send-form"
+      to={selectedChain ? `/send-form?chain=${selectedChain}` : '/send-form'}
     />
   );
 
@@ -106,7 +112,11 @@ export function ActionButtonsRow() {
           title="Bridge"
           as={UnstyledLink}
           icon={<BridgeIcon />}
-          to="/bridge-form"
+          to={
+            selectedChain
+              ? `/bridge-form?chain=${selectedChain}`
+              : '/bridge-form'
+          }
           onClick={(event) => {
             handleClick(event);
           }}
@@ -137,6 +147,7 @@ export function ActionButtonsRow() {
       <AddFundsOptionsDialog
         dialogRef={fundOptionsDialogRef}
         wallet={wallet}
+        receiveAddress={receiveAddress}
         analytics={{ pathname, address: wallet.address }}
       />
       <ul
