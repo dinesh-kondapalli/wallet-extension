@@ -12,7 +12,7 @@ const info = {
   uuid: crypto.randomUUID(),
   name: 'Wallet',
   icon: walletLogoDataUrl,
-  rdns: 'io.zerion.wallet',
+  rdns: 'io.bwick.wallet',
 } satisfies EIP6963ProviderInfo;
 
 type Options = {

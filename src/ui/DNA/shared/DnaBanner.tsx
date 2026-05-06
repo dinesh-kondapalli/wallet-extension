@@ -15,8 +15,8 @@ export function DnaBanner({
   return (
     <div {...props} className={cn(className, styles.banner)}>
       <img
-        src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/dna-banner.png"
-        alt="zerion dna"
+        src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/dna-banner.png"
+        alt="bwick dna"
         className={styles.image}
       />
       {onDismiss ? (

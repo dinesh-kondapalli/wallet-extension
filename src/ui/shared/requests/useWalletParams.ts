@@ -9,7 +9,7 @@ export function getWalletParams(
   }
   const params = new URLSearchParams({
     addWallet: wallet.address,
-    addWalletProvider: 'io.zerion.wallet',
+    addWalletProvider: 'io.bwick.wallet',
   });
   if (wallet.name) {
     params.append('addWalletName', wallet.name);

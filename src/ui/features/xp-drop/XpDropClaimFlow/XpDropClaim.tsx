@@ -31,12 +31,12 @@ import { CircleSpinner } from 'src/ui/ui-kit/CircleSpinner';
 import type {
   RetrodropInfo,
   XpBreakdownItem,
-} from 'src/modules/zerion-api/requests/wallet-get-meta';
+} from 'src/modules/bwick-api/requests/wallet-get-meta';
 import type { SignMsgBtnHandle } from 'src/ui/components/SignMessageButton';
 import { SignMessageButton } from 'src/ui/components/SignMessageButton';
 import { invariant } from 'src/shared/invariant';
 import { INTERNAL_ORIGIN } from 'src/background/constants';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import { FillView } from 'src/ui/components/FillView';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
@@ -47,7 +47,7 @@ import { emitter } from 'src/ui/shared/events';
 import { getError } from 'src/shared/errors/getError';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import type { WalletListGroup } from 'src/shared/wallet/wallet-list';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { usePreferences } from '../../preferences';
 import { useGlobalPreferences } from '../../preferences/usePreferences';
 import * as styles from './styles.module.css';
@@ -180,7 +180,7 @@ function XpDropBreakdownDialog({ retro }: { retro: RetrodropInfo }) {
       />
       <Spacer height={24} />
       <VStack gap={24}>
-        <XpBreakdown heading="Wallet OG" items={retro.zerion.breakdown} />
+        <XpBreakdown heading="Wallet OG" items={retro.bwick.breakdown} />
         <XpBreakdown
           heading="Onchain Activity in the Past Year"
           items={retro.global.breakdown}
@@ -212,14 +212,14 @@ function Stats({ walletOg, activity }: { walletOg: number; activity: number }) {
     <HStack gap={8} style={{ gridAutoColumns: '1fr 1fr' }}>
       <StatsItem
         title={
-          <UIText className={styles.zerionOgGradient} kind="small/accent">
+          <UIText className={styles.bwickOgGradient} kind="small/accent">
             Wallet OG
           </UIText>
         }
         value={
           <UIText
             kind="headline/h2"
-            className={styles.zerionOgGradient}
+            className={styles.bwickOgGradient}
             style={{ wordBreak: 'break-all' }}
           >
             {formatXp(walletOg)} XP
@@ -340,7 +340,7 @@ export function XpDropClaim() {
         clientScope: 'Claim XP',
       });
       try {
-        await ZerionAPI.claimRetro({
+        await BwickAPI.claimRetro({
           address: selectedWallet.address,
           signature,
         });
@@ -435,7 +435,7 @@ export function XpDropClaim() {
     );
   }
 
-  const totalXp = retro.zerion.total + retro.global.total;
+  const totalXp = retro.bwick.total + retro.global.total;
 
   return (
     <>
@@ -474,7 +474,7 @@ export function XpDropClaim() {
           ) : (
             <>
               <Stats
-                walletOg={retro.zerion.total}
+                walletOg={retro.bwick.total}
                 activity={retro.global.total}
               />
               <HCenter>

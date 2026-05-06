@@ -40,7 +40,7 @@ export class WalletGroupSelectPage {
         - navigation:
           - button "Go back"
         - text: Select Wallet Group
-        - button "Each group contains wallets that are associated with same recovery phrase, stored locally on your device. Zerion does not have access to this data. We do not cross-associate wallet addresses or have a way to know that these wallets are grouped."
+        - button "Each group contains wallets that are associated with same recovery phrase, stored locally on your device. Bwick does not have access to this data. We do not cross-associate wallet addresses or have a way to know that these wallets are grouped."
         - 'link /Wallet Group #1 Ethereum wallets 0x[\\w\\W]{4}…[\\w\\W]{4} Solana wallets [\\w\\W]{4}…[\\w\\W]{4}/':
           - img
           - img
@@ -79,7 +79,7 @@ export class ExistingWalletOptionsPage {
         - link "Import Wallet Add an existing wallet using a recovery phrase or private key.":
           - img
           - img
-        - link "Connect Ledger Use your hardware wallet with Zerion.":
+        - link "Connect Ledger Use your hardware wallet with Bwick.":
           - img
           - img
         - link "Watch Address Follow any wallets to track their onchain activities.":
@@ -112,7 +112,7 @@ export class ImportWalletView {
         - text: Use spaces between words if using a recovery phrase
         - textbox "Use spaces between words if using a recovery phrase"
         - img
-        - text: Zerion passed security audits
+        - text: Bwick passed security audits
         - button "Import"
     `);
   }

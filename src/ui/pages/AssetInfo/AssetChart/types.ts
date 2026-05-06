@@ -1,4 +1,4 @@
-import type { AssetChartActions } from 'src/modules/zerion-api/requests/asset-get-chart';
+import type { AssetChartActions } from 'src/modules/bwick-api/requests/asset-get-chart';
 import type {
   ChartPoint,
   ParsedChartPoint,

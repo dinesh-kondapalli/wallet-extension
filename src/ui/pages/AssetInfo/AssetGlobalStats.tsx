@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import type { AssetFullInfo } from 'src/modules/zerion-api/requests/asset-get-fungible-full-info';
+import type { AssetFullInfo } from 'src/modules/bwick-api/requests/asset-get-fungible-full-info';
 import { formatCurrencyValue } from 'src/shared/units/formatCurrencyValue';
 import { formatPercent } from 'src/shared/units/formatPercent';
 import { HStack } from 'src/ui/ui-kit/HStack';

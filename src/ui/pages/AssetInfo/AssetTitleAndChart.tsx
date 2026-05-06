@@ -7,18 +7,18 @@ import React, {
 } from 'react';
 import dayjs from 'dayjs';
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import type { Asset } from 'src/modules/zerion-api/requests/asset-get-fungible-full-info';
+import type { Asset } from 'src/modules/bwick-api/requests/asset-get-fungible-full-info';
 import { formatPercent } from 'src/shared/units/formatPercent';
 import { HStack } from 'src/ui/ui-kit/HStack';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import { TextAnchor } from 'src/ui/ui-kit/TextAnchor';
 import { formatPriceValue } from 'src/shared/units/formatPriceValue';
-import { useAssetChart } from 'src/modules/zerion-api/hooks/useAssetChart';
+import { useAssetChart } from 'src/modules/bwick-api/hooks/useAssetChart';
 import type {
   AssetChartActions,
   ChartPeriod,
-} from 'src/modules/zerion-api/requests/asset-get-chart';
+} from 'src/modules/bwick-api/requests/asset-get-chart';
 import { Button } from 'src/ui/ui-kit/Button';
 import { CircleSpinner } from 'src/ui/ui-kit/CircleSpinner';
 import BigNumber from 'bignumber.js';
@@ -42,7 +42,7 @@ const CHART_TYPE_LABELS: Record<ChartPeriod, string> = {
   max: 'Max',
 };
 
-const REQUEST_TOKEN_LINK = 'https://zerion.io/request-token';
+const REQUEST_TOKEN_LINK = 'https://bwick.io/request-token';
 
 function populateChartActionsDirection(
   actions: AssetChartActions | null

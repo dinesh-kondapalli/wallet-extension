@@ -3,10 +3,7 @@ import type { Asset } from 'defi-sdk';
 import { isTruthy } from 'is-truthy-ts';
 import { useQuery } from '@tanstack/react-query';
 import BigNumber from 'bignumber.js';
-import type {
-  EIP1559,
-  NetworkFeeConfiguration,
-} from '@zeriontech/transactions';
+import type { EIP1559, NetworkFeeConfiguration } from '@bwicktech/transactions';
 import { getGas } from 'src/modules/ethereum/transactions/getGas';
 import { useNativeAsset } from 'src/ui/shared/requests/useNativeAsset';
 import { useNativeBalance } from 'src/ui/shared/requests/useNativeBalance';

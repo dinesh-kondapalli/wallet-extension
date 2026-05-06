@@ -72,8 +72,8 @@ export function PremiumFormBanner({
           <img
             style={{ position: 'absolute', right: -80, top: -44, height: 160 }}
             alt="Premium banner decoration"
-            src="https://cdn.zerion.io/images/dna-assets/premium_banner_decoration.png"
-            srcSet="https://cdn.zerion.io/images/dna-assets/premium_banner_decoration.png, https://cdn.zerion.io/images/dna-assets/premium_banner_decoration_2x.png 2x"
+            src="https://cdn.bwick.io/images/dna-assets/premium_banner_decoration.png"
+            srcSet="https://cdn.bwick.io/images/dna-assets/premium_banner_decoration.png, https://cdn.bwick.io/images/dna-assets/premium_banner_decoration_2x.png 2x"
           />
           <img
             src={WalletIcon}

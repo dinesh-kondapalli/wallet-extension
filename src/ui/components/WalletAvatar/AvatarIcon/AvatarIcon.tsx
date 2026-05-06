@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BlockieImg } from 'src/ui/components/BlockieImg';
 import { MediaContent } from 'src/ui/ui-kit/MediaContent';
-import type { WalletMeta } from 'src/modules/zerion-api/requests/wallet-get-meta';
+import type { WalletMeta } from 'src/modules/bwick-api/requests/wallet-get-meta';
 import { GradientBorder } from 'src/ui/features/premium/GradientBorder';
 import { convertMediaContent } from 'src/ui/ui-kit/MediaContent/MediaContent';
 import * as s from './styles.module.css';

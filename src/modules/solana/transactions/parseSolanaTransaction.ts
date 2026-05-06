@@ -5,8 +5,8 @@ import type {
   MessageV0,
 } from '@solana/web3.js';
 import { SystemProgram, TransactionInstruction } from '@solana/web3.js';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
-import type { AddressAction } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
+import type { AddressAction } from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { SolanaSigning } from '../signing';
 
 function isSystemTransfer(ix: TransactionInstruction): boolean {

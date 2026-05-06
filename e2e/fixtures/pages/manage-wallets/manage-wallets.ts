@@ -13,7 +13,7 @@ export class ManageWalletsPage extends ExtensionPage {
     name: /Create New Wallet/i,
   });
   readonly importWalletLink = this.page.getByRole('link', {
-    name: /Import Wallet to Zerion/i,
+    name: /Import Wallet to Bwick/i,
   });
   readonly connectLedgerLink = this.page.getByRole('link', {
     name: /Connect Ledger/i,
@@ -36,7 +36,7 @@ export class ManageWalletsPage extends ExtensionPage {
         - link /0x[\\w\\W]{5}…[\\w\\W]{5}/:
           - img
         - link "Create New Wallet"
-        - link "Import Wallet to Zerion"
+        - link "Import Wallet to Bwick"
         - link "Connect Ledger"
         - link "Add Watch Address"
         - button "Erase All Data"

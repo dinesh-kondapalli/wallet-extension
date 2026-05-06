@@ -16,7 +16,7 @@ export const samples = [
   {
     value: {
       message:
-        'Error: server response 404 (request={ }, response={ }, error=null, info={ "requestUrl": "https://rpc.zerion.io/v1/fantom-fake-url", "responseBody": "{"jsonrpc":"2.0","id":1,"error":{"code":-32032,"message":"Chain is not supported."}}\n", "responseStatus": "404 " }, code=SERVER_ERROR, version=6.14.0)',
+        'Error: server response 404 (request={ }, response={ }, error=null, info={ "requestUrl": "https://rpc.bwick.io/v1/fantom-fake-url", "responseBody": "{"jsonrpc":"2.0","id":1,"error":{"code":-32032,"message":"Chain is not supported."}}\n", "responseStatus": "404 " }, code=SERVER_ERROR, version=6.14.0)',
     },
     expected: 'Chain is not supported.',
   },
@@ -25,7 +25,7 @@ export const samples = [
       name: 'Error',
       code: 'SERVER_ERROR',
       message:
-        'server response 404  (request={  }, response={  }, error=null, info={ "requestUrl": "https://rpc.zerion.io/v1/ethereum-fake-url", "responseBody": "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":1,\\"error\\":{\\"code\\":-32032,\\"message\\":\\"Chain is not supported.\\"}}\\n", "responseStatus": "404 " }, code=SERVER_ERROR, version=6.14.0)',
+        'server response 404  (request={  }, response={  }, error=null, info={ "requestUrl": "https://rpc.bwick.io/v1/ethereum-fake-url", "responseBody": "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":1,\\"error\\":{\\"code\\":-32032,\\"message\\":\\"Chain is not supported.\\"}}\\n", "responseStatus": "404 " }, code=SERVER_ERROR, version=6.14.0)',
     },
     expected: 'Chain is not supported.',
   },

@@ -1,6 +1,6 @@
 import { lookupAddressName } from 'src/modules/name-service';
-import { getHttpClientSource } from 'src/modules/zerion-api/getHttpClientSource';
-import { queryWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
+import { getHttpClientSource } from 'src/modules/bwick-api/getHttpClientSource';
+import { queryWalletPortfolio } from 'src/modules/bwick-api/hooks/useWalletPortfolio';
 
 export interface WalletInfo {
   portfolio: number;

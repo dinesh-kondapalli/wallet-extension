@@ -143,12 +143,13 @@ export function createExtensionTest(testConfig?: Config) {
       // - in dev: use RUN_HEADED_IN_DEV value unless overridden by testConfig
       const headless =
         !process.env.CI && (testConfig?.headless ?? !RUN_HEADED_IN_DEV);
-      const context = await chromium.launchPersistentContext('', {
+      const launchOptions = {
         headless,
-        devtools: Boolean(testConfig?.devtools),
-        channel: 'chromium',
+        channel: 'chromium' as const,
         args: createBrowserArgs(headless),
-      });
+        ...(testConfig?.devtools ? { devtools: true } : {}),
+      };
+      const context = await chromium.launchPersistentContext('', launchOptions);
       await use(context);
       await context.close();
     },

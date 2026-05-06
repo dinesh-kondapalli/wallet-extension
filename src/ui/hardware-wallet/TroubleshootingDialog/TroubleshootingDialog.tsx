@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import type { LedgerError } from '@zeriontech/hardware-wallet-connection';
+import type { LedgerError } from '@bwicktech/hardware-wallet-connection';
 import { DialogTitle } from 'src/ui/ui-kit/ModalDialogs/DialogTitle';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';

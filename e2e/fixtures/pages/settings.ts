@@ -17,8 +17,8 @@ export class SettingsPage extends ExtensionPage {
     name: /Invite Friends/i,
   });
   readonly rewardsLink = this.page.getByRole('link', { name: /Rewards/i });
-  readonly zerionPremiumLink = this.page.getByRole('link', {
-    name: /Zerion Premium/i,
+  readonly bwickPremiumLink = this.page.getByRole('link', {
+    name: /Bwick Premium/i,
   });
 
   readonly securityLink = this.page.getByRole('link', { name: /Security/i });
@@ -65,7 +65,7 @@ export class SettingsPage extends ExtensionPage {
         - link "Developer Tools":
           - img
           - img
-        - link "Zerion Premium":
+        - link "Bwick Premium":
           - img
           - img
         - link "Invite Friends":

@@ -1,4 +1,4 @@
-import { getChainWithMostAssetValue } from '@zeriontech/transactions';
+import { getChainWithMostAssetValue } from '@bwicktech/transactions';
 import type { AddressPosition } from 'defi-sdk';
 import { NetworkId } from 'src/modules/networks/NetworkId';
 import { isSolanaAddress } from 'src/modules/solana/shared';

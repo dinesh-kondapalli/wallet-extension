@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react';
 import { useStore } from '@store-unit/react';
 import { localTransactionsStore } from 'src/ui/transactions/transactions-store';
 import { getTransactionObjectStatus } from 'src/modules/ethereum/transactions/getTransactionObjectStatus';
-import type { ActionStatus } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { ActionStatus } from 'src/modules/bwick-api/requests/wallet-get-actions';
 
 export function useActionStatusByHash(hash: string | null) {
   const localActions = useStore(localTransactionsStore);

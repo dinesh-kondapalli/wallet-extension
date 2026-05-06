@@ -12,7 +12,7 @@ import { NBSP } from 'src/ui/shared/typography';
 import { FLOAT_INPUT_PATTERN } from 'src/ui/shared/forms/inputs';
 import type { AddressPosition, Asset } from 'defi-sdk';
 import { MarketAssetSelect } from 'src/ui/pages/SwapForm/fieldsets/ReceiveTokenField/MarketAssetSelect';
-import type { EmptyAddressPosition } from '@zeriontech/transactions';
+import type { EmptyAddressPosition } from '@bwicktech/transactions';
 import { ReceiveFiatInputValue } from 'src/ui/components/FiatInputValue/FiatInputValue';
 import type { PriceImpact } from 'src/ui/pages/SwapForm/shared/price-impact';
 import { BlurrableBalance } from 'src/ui/components/BlurrableBalance';

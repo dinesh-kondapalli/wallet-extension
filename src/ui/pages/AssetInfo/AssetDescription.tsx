@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { AssetFullInfo } from 'src/modules/zerion-api/requests/asset-get-fungible-full-info';
+import type { AssetFullInfo } from 'src/modules/bwick-api/requests/asset-get-fungible-full-info';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
@@ -7,7 +7,7 @@ import * as helperStyles from 'src/ui/style/helpers.module.css';
 
 /**
  * Took this component from Web App
- * https://github.com/zeriontech/pulse-frontend/blob/master/src/z/dumb/TextPreview/index.tsx
+ * https://github.com/bwicktech/pulse-frontend/blob/master/src/z/dumb/TextPreview/index.tsx
  */
 const TextPreview = ({ text }: { text: string }) => {
   const ref = useRef<HTMLDivElement | null>(null);

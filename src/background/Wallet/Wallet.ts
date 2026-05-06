@@ -72,7 +72,10 @@ import type {
 } from 'src/shared/types/SignatureContextParams';
 import { normalizeChainId } from 'src/shared/normalizeChainId';
 import { Networks } from 'src/modules/networks/Networks';
-import { deriveCosmosAddress } from 'src/modules/cosmos/shared';
+import {
+  deriveCosmosAddress,
+  isCosmosAddress,
+} from 'src/modules/cosmos/shared';
 import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import { backgroundGetBestKnownTransactionCount } from 'src/modules/ethereum/transactions/getBestKnownTransactionCount/backgroundGetBestKnownTransactionCount';
 import { toCustomNetworkIdFromConfig } from 'src/modules/ethereum/chains/helpers';
@@ -88,7 +91,7 @@ import type { LocallyEncoded } from 'src/shared/wallet/encode-locally';
 import { decodeMasked } from 'src/shared/wallet/encode-locally';
 import type { RemoteConfig } from 'src/modules/remote-config';
 import { getRemoteConfigValue } from 'src/modules/remote-config';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.background';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.background';
 import { referralProgramService } from 'src/ui/features/referral-program/ReferralProgramService.background';
 import type {
   BannerClickedParams,
@@ -768,6 +771,9 @@ export class Wallet {
     if (ecosystem !== 'cosmos') {
       return address;
     }
+    if (isCosmosAddress(address)) {
+      return address;
+    }
     if (!isEthereumAddress(address)) {
       return null;
     }
@@ -1321,7 +1327,7 @@ export class Wallet {
     const prepared = prepareTransaction(incomingTransaction);
     const txWithFee = await prepareGasAndNetworkFee(prepared, networks, {
       source: mode === 'testnet' ? 'testnet' : 'mainnet',
-      apiClient: ZerionAPI,
+      apiClient: BwickAPI,
     });
     const transaction = await prepareNonce(txWithFee, network);
 

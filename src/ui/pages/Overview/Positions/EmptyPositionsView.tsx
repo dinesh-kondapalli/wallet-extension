@@ -57,8 +57,8 @@ export function EmptyPositionsViewNew() {
         <VStack gap={12} style={{ justifyItems: 'center' }}>
           <img
             alt=""
-            src="https://cdn.zerion.io/images/dna-assets/empty-wallet-img.png"
-            srcSet="https://cdn.zerion.io/images/dna-assets/empty-wallet-img.png, https://cdn.zerion.io/images/dna-assets/empty-wallet-img_2x.png 2x"
+            src="https://cdn.bwick.io/images/dna-assets/empty-wallet-img.png"
+            srcSet="https://cdn.bwick.io/images/dna-assets/empty-wallet-img.png, https://cdn.bwick.io/images/dna-assets/empty-wallet-img_2x.png 2x"
             style={{ height: 64 }}
           />
           <VStack gap={0}>

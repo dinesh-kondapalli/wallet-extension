@@ -3,19 +3,19 @@ import { getAddressActivity } from 'src/ui/shared/requests/useAddressActivity';
 import { INTERNAL_SYMBOL_CONTEXT } from 'src/background/Wallet/Wallet';
 import { isReadonlyContainer } from 'src/shared/types/validators';
 import { backgroundQueryClient } from 'src/modules/query-client/query-client.background';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.background';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.background';
 import { normalizeAddress } from 'src/shared/normalizeAddress';
 import { isSolanaAddress } from 'src/modules/solana/shared';
 import { isEthereumAddress } from 'src/shared/isEthereumAddress';
 import type {
   PremiumPlan,
   WalletMeta,
-} from 'src/modules/zerion-api/requests/wallet-get-meta';
-import { PREMIUM_PRIORITY } from 'src/modules/zerion-api/requests/wallet-get-meta';
+} from 'src/modules/bwick-api/requests/wallet-get-meta';
+import { PREMIUM_PRIORITY } from 'src/modules/bwick-api/requests/wallet-get-meta';
 import type {
   Params,
   WalletPortfolio,
-} from 'src/modules/zerion-api/requests/wallet-get-portfolio';
+} from 'src/modules/bwick-api/requests/wallet-get-portfolio';
 import {
   getProviderForMixpanel,
   getProviderNameFromGroup,
@@ -50,7 +50,7 @@ function getFundedStatsByEcosystem(
 async function queryWalletPortfolio(params: Params) {
   return backgroundQueryClient.fetchQuery({
     queryKey: ['walletGetPortfolio', params],
-    queryFn: () => ZerionAPI.walletGetPortfolio(params),
+    queryFn: () => BwickAPI.walletGetPortfolio(params),
     staleTime: 20000,
   });
 }
@@ -67,30 +67,30 @@ async function getPortfolioStats(addresses: string[]) {
   });
 }
 
-async function getZerionStats({
+async function getPlatformStats({
   ownedWalletsMeta,
 }: {
   ownedWalletsMeta: WalletMeta[];
 }) {
   const stats = {
-    zerion_premium_holder: false,
+    platform_premium_holder: false,
     og_dna_premium_holder: false,
-    zerion_premium_plan: null as PremiumPlan | null,
-    zerion_premium_expiration_date: null as string | null,
+    platform_premium_plan: null as PremiumPlan | null,
+    platform_premium_expiration_date: null as string | null,
     dna_holder: false,
     was_invited: false,
   };
 
   for (const walletMeta of ownedWalletsMeta) {
     if (walletMeta.membership.premium?.plan != null) {
-      stats.zerion_premium_holder = true;
+      stats.platform_premium_holder = true;
       if (
-        !stats.zerion_premium_plan ||
-        PREMIUM_PRIORITY[stats.zerion_premium_plan] >
+        !stats.platform_premium_plan ||
+        PREMIUM_PRIORITY[stats.platform_premium_plan] >
           PREMIUM_PRIORITY[walletMeta.membership.premium.plan]
       ) {
-        stats.zerion_premium_plan = walletMeta.membership.premium.plan;
-        stats.zerion_premium_expiration_date =
+        stats.platform_premium_plan = walletMeta.membership.premium.plan;
+        stats.platform_premium_expiration_date =
           walletMeta.membership.premium.expirationTime;
       }
     }
@@ -115,8 +115,8 @@ async function getZerionStats({
 
 async function fetchWalletsMeta({ addresses }: { addresses: string[] }) {
   return backgroundQueryClient.fetchQuery({
-    queryKey: ['ZerionAPI.getWalletsMeta', addresses],
-    queryFn: () => ZerionAPI.getWalletsMetaByChunks(addresses),
+    queryKey: ['BwickAPI.getWalletsMeta', addresses],
+    queryFn: () => BwickAPI.getWalletsMetaByChunks(addresses),
     staleTime: 1000 * 60 * 60 * 12, // HALF A DAY
   });
 }
@@ -187,8 +187,8 @@ export async function getUserProperties(account: Account) {
   const portfolioStats = ownedAddresses?.length
     ? await getPortfolioStats(ownedAddresses)
     : null;
-  const zerionStats = ownedWalletsMeta
-    ? await getZerionStats({ ownedWalletsMeta })
+  const platformStats = ownedWalletsMeta
+    ? await getPlatformStats({ ownedWalletsMeta })
     : null;
   const fundedStatsByEcosystem = getFundedStatsByEcosystem(
     portfolioStats?.addressActivity ?? null
@@ -210,7 +210,7 @@ export async function getUserProperties(account: Account) {
     num_my_wallets_with_provider: ownedAddressesCount,
     num_wallets_with_provider: ownedAddressesCount,
     num_funded_wallets_with_provider: fundedStatsByEcosystem.totalCount,
-    num_zerion_wallets: ownedAddressesCount,
+    num_platform_wallets: ownedAddressesCount,
     num_connected_wallets: 0,
     num_wallet_groups: groups?.length ?? 0,
     num_solana_wallets: ownedSolanaAddressesCount ?? 0,
@@ -223,15 +223,15 @@ export async function getUserProperties(account: Account) {
     ...getChainBreakdown(portfolioStats?.portfolio?.data ?? null),
     currency: 'usd',
     language: 'en',
-    zerion_premium_holder: zerionStats?.zerion_premium_holder ?? false,
-    og_dna_premium_holder: zerionStats?.og_dna_premium_holder ?? false,
-    zerion_premium_plan: zerionStats?.zerion_premium_plan ?? null,
-    zerion_premium_expiration_date:
-      zerionStats?.zerion_premium_expiration_date ?? null,
-    dna_holder: zerionStats?.dna_holder ?? false,
-    was_invited: zerionStats?.was_invited ?? false,
+    platform_premium_holder: platformStats?.platform_premium_holder ?? false,
+    og_dna_premium_holder: platformStats?.og_dna_premium_holder ?? false,
+    platform_premium_plan: platformStats?.platform_premium_plan ?? null,
+    platform_premium_expiration_date:
+      platformStats?.platform_premium_expiration_date ?? null,
+    dna_holder: platformStats?.dna_holder ?? false,
+    was_invited: platformStats?.was_invited ?? false,
     wallet_providers: Array.from(new Set(ownedWalletProviders)),
-    num_zerion_wallets_eligible_for_xp_drop: eligibleOwnedAddresses.length,
+    num_platform_wallets_eligible_for_xp_drop: eligibleOwnedAddresses.length,
     num_readonly_wallets_eligible_for_xp_drop: eligibleReadonlyAddresses.length,
   };
 }

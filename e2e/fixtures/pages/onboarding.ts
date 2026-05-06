@@ -64,7 +64,7 @@ export class WelcomePage extends OnboardingPage {
     await expect(this.page.locator('html')).toMatchAriaSnapshot(`
       - document:
         - img
-        - text: /Welcome to Zerion A wallet for self-custodial humans\\. All your crypto & NFTs\\. \\d+\\+ chains\\./
+        - text: /Welcome to Bwick A wallet for self-custodial humans\\. All your crypto & NFTs\\. \\d+\\+ chains\\./
         - link /Create New Wallet\\.*/:
           - img "Create New Wallet"
           - img

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ActionFee } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { ActionFee } from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { formatCurrencyValue } from 'src/shared/units/formatCurrencyValue';
 import { formatTokenValue } from 'src/shared/units/formatTokenValue';
 import { AssetLink } from 'src/ui/components/AssetLink';

@@ -1,4 +1,4 @@
-import type { EIP1559 } from '@zeriontech/transactions';
+import type { EIP1559 } from '@bwicktech/transactions';
 
 export interface GasPriceObject {
   classic: number | string | null;

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NetworkFeeConfiguration } from '@zeriontech/transactions';
+import type { NetworkFeeConfiguration } from '@bwicktech/transactions';
 import type { IncomingTransaction } from 'src/modules/ethereum/types/IncomingTransaction';
 import { createChain } from 'src/modules/networks/Chain';
 import { useNetworks } from 'src/modules/networks/useNetworks';

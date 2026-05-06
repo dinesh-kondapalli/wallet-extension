@@ -67,7 +67,7 @@ import { PhishingWarningPage } from '../components/PhishingDefence/PhishingWarni
 import { HardwareWalletConnection } from '../pages/HardwareWalletConnection';
 import { ThemeDecoration } from '../components/DesignTheme/ThemeDecoration';
 import { SendForm } from '../pages/SendForm';
-import { SwapForm } from '../pages/SwapForm';
+import { CustomBwickSwap } from '../pages/CustomBwickSwap/CustomBwickSwap';
 import { MintDnaFlow } from '../DNA/pages/MintDnaFlow';
 import { UpgradeDnaFlow } from '../DNA/pages/UpgradeDnaFlow';
 import { ChooseGlobalProviderGuard } from '../pages/RequestAccounts/ChooseGlobalProvider/ChooseGlobalProvider';
@@ -407,7 +407,7 @@ function Views({ initialRoute }: { initialRoute?: string }) {
           path="/swap-form/*"
           element={
             <RequireAuth>
-              <SwapForm />
+              <CustomBwickSwap />
             </RequireAuth>
           }
         />

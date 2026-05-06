@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import noop from 'lodash/noop';
 import {
   Link,
   Route,
@@ -8,14 +7,12 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import EcosystemEthereumIcon from 'jsx:src/ui/assets/ecosystem-ethereum.svg';
-import EcosystemSolanaIcon from 'jsx:src/ui/assets/ecosystem-solana.svg';
 import DownloadIcon from 'jsx:src/ui/assets/download.svg';
 import LedgerIcon from 'jsx:src/ui/assets/ledger-icon.svg';
 import VisibleIcon from 'jsx:src/ui/assets/visible.svg';
 import WalletIcon from 'url:src/images/sample-avatar.png';
 import InfoIcon from 'jsx:src/ui/assets/info.svg';
 import AddCircleIcon from 'jsx:src/ui/assets/add-circle-outlined.svg';
-import { FEATURE_SOLANA } from 'src/env/config';
 import type { WalletGroup } from 'src/shared/types/WalletGroup';
 import { isMnemonicContainer } from 'src/shared/types/validators';
 import { AddressBadge } from 'src/ui/components/AddressBadge';
@@ -54,7 +51,6 @@ import {
   BLOCKCHAIN_TYPES,
   type BlockchainType,
 } from 'src/shared/wallet/classifiers';
-import { BlockchainTitleHelper } from 'src/ui/components/BlockchainTitleHelper';
 import { groupByEcosystem } from '../ManageWallets/shared/groupByEcosystem';
 import { ImportWallet } from './ImportWallet';
 import { GenerateWallet } from './GenerateWallet';
@@ -386,7 +382,7 @@ function WalletGroupSelect() {
               )}
             >
               <AngleRightRow>
-                <VStack gap={FEATURE_SOLANA === 'on' ? 20 : 8}>
+                <VStack gap={8}>
                   <UIText
                     kind="small/accent"
                     style={{ overflowWrap: 'break-word' }}
@@ -399,9 +395,6 @@ function WalletGroupSelect() {
                     const wallets = byEcosystem[blockchainType];
                     return (
                       <VStack key={blockchainType} gap={8}>
-                        {FEATURE_SOLANA === 'on' ? (
-                          <BlockchainTitleHelper kind={blockchainType} />
-                        ) : null}
                         <div
                           style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}
                         >
@@ -438,12 +431,11 @@ function WalletGroupSelect() {
 
 export function EcosystemOptionsList({
   values,
-  onValueToggle,
+  onValueToggle: _onValueToggle,
 }: {
   values: Set<BlockchainType>;
   onValueToggle: (value: BlockchainType) => void;
 }) {
-  const solanaEnabled = FEATURE_SOLANA === 'on';
   return (
     <SurfaceList
       gap={4}
@@ -452,7 +444,7 @@ export function EcosystemOptionsList({
         {
           key: 'cosmos',
           pad: false,
-          onClick: solanaEnabled ? () => onValueToggle('evm') : undefined,
+          onClick: undefined,
           component: (
             <HStack gap={12} justifyContent="space-between" alignItems="center">
               <HStack gap={12} alignItems="center">
@@ -473,57 +465,6 @@ export function EcosystemOptionsList({
             </HStack>
           ),
         },
-        {
-          key: 'divider',
-          pad: false,
-          style: solanaEnabled ? undefined : { display: 'none' },
-          component: (
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr auto 1fr',
-                gap: 12,
-                alignItems: 'center',
-              }}
-            >
-              <div
-                style={{
-                  height: 1,
-                  borderBottom: '1px dashed var(--neutral-300)',
-                  width: '100%',
-                }}
-              ></div>
-              <UIText kind="body/regular">And</UIText>
-              <div
-                style={{
-                  height: 1,
-                  borderBottom: '1px dashed var(--neutral-300)',
-                  width: '100%',
-                }}
-              ></div>
-            </div>
-          ),
-        },
-        {
-          key: 'solana',
-          pad: false,
-          style: solanaEnabled ? undefined : { display: 'none' },
-          onClick: () => onValueToggle('solana'),
-          component: (
-            <HStack gap={12} justifyContent="space-between" alignItems="center">
-              <HStack gap={12} alignItems="center">
-                <EcosystemSolanaIcon style={{ width: 44, height: 44 }} />
-                <UIText kind="body/accent">Solana Ecosystem</UIText>
-              </HStack>
-              <span>
-                <AnimatedCheckmark
-                  checked={values.has('solana')}
-                  checkedColor="var(--primary)"
-                />
-              </span>
-            </HStack>
-          ),
-        },
       ]}
     />
   );
@@ -532,13 +473,7 @@ export function EcosystemOptionsList({
 function NewWalletGroup() {
   const title = 'Create New Wallet';
   useBackgroundKind(whiteBackgroundKind);
-  const [values, toggleValueOriginal] = useToggledValues(
-    () =>
-      new Set<BlockchainType>(
-        FEATURE_SOLANA === 'on' ? ['evm', 'solana'] : ['evm']
-      )
-  );
-  const toggleValue = FEATURE_SOLANA === 'on' ? toggleValueOriginal : noop;
+  const [values] = useToggledValues(() => new Set<BlockchainType>(['evm']));
   const navigate = useNavigate();
   return (
     <PageColumn>
@@ -556,7 +491,7 @@ function NewWalletGroup() {
 
       <Spacer height={24} />
       <PageFullBleedColumn paddingInline={false}>
-        <EcosystemOptionsList values={values} onValueToggle={toggleValue} />
+        <EcosystemOptionsList values={values} onValueToggle={() => undefined} />
       </PageFullBleedColumn>
       <Button
         style={{ marginTop: 'auto' }}

@@ -1,13 +1,13 @@
 import {
   type Ghost,
   initialize as initializeWalletStandard,
-} from '@zeriontech/solana-wallet-standard';
+} from '@bwicktech/solana-wallet-standard';
 import { FEATURE_SOLANA } from 'src/env/config';
 import { EthereumProvider } from 'src/modules/ethereum/provider';
 import { Connection } from 'src/modules/ethereum/connection';
 import type { GlobalPreferences } from 'src/shared/types/GlobalPreferences';
 import { isMetamaskModeOn } from 'src/shared/preferences-helpers';
-import { ZerionSolana } from 'src/modules/solana/zerion-solana';
+import { BwickSolana } from 'src/modules/solana/bwick-solana';
 import { pageObserver } from './dapp-mutation';
 import * as dappDetection from './dapp-detection';
 import * as competingProviders from './competing-providers';
@@ -18,7 +18,7 @@ import { popWalletChannelId } from './walletChannelId.in-page-script';
 declare global {
   interface Window {
     ethereum?: EthereumProvider;
-    zerionWallet?: EthereumProvider;
+    bwickWallet?: EthereumProvider;
     solana?: Ghost;
   }
 }
@@ -29,10 +29,10 @@ const broadcastChannel = new BroadcastChannel(walletChannelId);
 const connection = new Connection(broadcastChannel);
 const provider = new EthereumProvider(connection);
 if (FEATURE_SOLANA === 'on') {
-  const zerionSolana = new ZerionSolana(connection);
-  initializeWalletStandard(zerionSolana);
-  Object.assign(provider, { solana: zerionSolana });
-  window.solana = zerionSolana;
+  const bwickSolana = new BwickSolana(connection);
+  initializeWalletStandard(bwickSolana);
+  Object.assign(provider, { solana: bwickSolana });
+  window.solana = bwickSolana;
 }
 
 let isPaused = false;
@@ -114,11 +114,11 @@ const proxiedProvider = new Proxy(patchedProvider, {
 
 window.ethereum = proxiedProvider;
 
-dappDetection.onChange(({ dappIsZerionAware }) => {
-  if (dappIsZerionAware) {
-    // Some libs (such as rainbow) access "isZerion" flag
+dappDetection.onChange(({ dappIsBwickAware }) => {
+  if (dappIsBwickAware) {
+    // Some libs (such as rainbow) access "isBwick" flag
     // to filter out wallets, and it doesn't mean the dapp is showing
-    // the connect button for Zerion specifically. This is why we
+    // the connect button for Bwick specifically. This is why we
     // do not turn off the page observer. But we might change this later.
     // pageObserver.stop();
   }
@@ -166,8 +166,8 @@ provider
   .request({ method: 'wallet_getGlobalPreferences' })
   .then((preferences: GlobalPreferences) => {
     if (preferences.recognizableConnectButtons) {
-      dappDetection.onChange(({ dappDetected, dappIsZerionAware }) => {
-        if (dappDetected && !dappIsZerionAware) {
+      dappDetection.onChange(({ dappDetected, dappIsBwickAware }) => {
+        if (dappDetected && !dappIsBwickAware) {
           pageObserver.start();
         }
       });
@@ -178,7 +178,7 @@ provider
  * Current strategy:
  * window.ethereum provider should:
  *   Appear as metamask by default
- *   if user explicitly disables this, then appear as zerion
+ *   if user explicitly disables this, then appear as bwick
  */
 provider.markAsMetamask();
 provider
@@ -194,4 +194,4 @@ provider
     }
   });
 
-window.zerionWallet = provider;
+window.bwickWallet = provider;

@@ -1,24 +1,22 @@
 import { useStore } from '@store-unit/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import ArrowDownIcon from 'jsx:src/ui/assets/caret-down-filled.svg';
-import RewardsIcon from 'jsx:src/ui/assets/rewards.svg';
 import ReadonlyIcon from 'jsx:src/ui/assets/visible.svg';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { RenderArea } from 'react-area';
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
-import { FEATURE_LOYALTY_FLOW } from 'src/env/config';
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import { updateAddressDnaInfo } from 'src/modules/dna-service/dna.client';
 import { createChain } from 'src/modules/networks/Chain';
 import {
   useMainnetNetwork,
   useNetworkConfig,
   useNetworks,
 } from 'src/modules/networks/useNetworks';
-import { useRemoteConfigValue } from 'src/modules/remote-config/useRemoteConfigValue';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
-import { useWalletPnl } from 'src/modules/zerion-api/hooks/useWalletPnl';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
+import { useWalletPortfolio } from 'src/modules/bwick-api/hooks/useWalletPortfolio';
+import { useWalletPnl } from 'src/modules/bwick-api/hooks/useWalletPnl';
+import { getBundledBwickNetworkConfig } from 'src/modules/ethereum/chains/bundledChainConfigs';
+import { useAddressPositionsFromNode } from 'src/ui/shared/requests/useAddressPositionsFromNode';
 import { SidepanelOptionsButton } from 'src/shared/sidepanel/SidepanelOptionsButton';
 import { invariant } from 'src/shared/invariant';
 import type { ExternallyOwnedAccount } from 'src/shared/types/ExternallyOwnedAccount';
@@ -35,14 +33,11 @@ import { PageFullBleedColumn } from 'src/ui/components/PageFullBleedColumn';
 import { ViewLoading } from 'src/ui/components/ViewLoading';
 import { WalletSourceIcon } from 'src/ui/components/WalletSourceIcon';
 import { usePreferences } from 'src/ui/features/preferences';
-import { XpDropBanner } from 'src/ui/features/xp-drop/components/XpDropBanner';
 import { walletPort } from 'src/ui/shared/channels';
-import { emitter } from 'src/ui/shared/events';
 import { getActiveTabOrigin } from 'src/ui/shared/requests/getActiveTabOrigin';
 import { getWalletGroupByAddress } from 'src/ui/shared/requests/getWalletGroupByAddress';
 import { requestChainForOrigin } from 'src/ui/shared/requests/requestChainForOrigin';
 import { useIsConnectedToActiveTab } from 'src/ui/shared/requests/useIsConnectedToActiveTab';
-import { useWalletParams } from 'src/ui/shared/requests/useWalletParams';
 import { useEvent } from 'src/ui/shared/useEvent';
 import { useProfileName, WalletNameType } from 'src/ui/shared/useProfileName';
 import { useAddressParams } from 'src/ui/shared/user-address/useAddressParams';
@@ -56,7 +51,6 @@ import {
 import { Spacer } from 'src/ui/ui-kit/Spacer';
 import { TextLink } from 'src/ui/ui-kit/TextLink';
 import { UIText } from 'src/ui/ui-kit/UIText';
-import { UnstyledAnchor } from 'src/ui/ui-kit/UnstyledAnchor';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import { VStack } from 'src/ui/ui-kit/VStack';
@@ -249,55 +243,6 @@ function CurrentAccountControls({
   );
 }
 
-const ZERION_ORIGIN = 'https://app.zerion.io';
-
-function RewardsLinkIcon({
-  currentWallet,
-}: {
-  currentWallet: ExternallyOwnedAccount;
-}) {
-  const { pathname } = useLocation();
-  const { mutate: acceptZerionOrigin } = useMutation({
-    mutationFn: async () => {
-      return walletPort.request('acceptOrigin', {
-        origin: ZERION_ORIGIN,
-        address: currentWallet.address,
-      });
-    },
-  });
-
-  const addWalletParams = useWalletParams(currentWallet);
-
-  return (
-    <Button
-      kind="ghost"
-      as={UnstyledAnchor}
-      href={`${ZERION_ORIGIN}/rewards?${addWalletParams}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      size={36}
-      title="Rewards"
-      style={{ paddingInline: 8 }}
-      onClick={() => {
-        emitter.emit('buttonClicked', {
-          buttonScope: 'Loaylty',
-          buttonName: 'Rewards',
-          pathname,
-        });
-        acceptZerionOrigin();
-      }}
-    >
-      <RewardsIcon
-        style={{
-          width: 20,
-          height: 20,
-          color: 'linear-gradient(90deg, #a024ef 0%, #fdbb6c 100%)',
-        }}
-      />
-    </Button>
-  );
-}
-
 function DevelopmentOnly({ children }: React.PropsWithChildren) {
   if (process.env.NODE_ENV === 'development') {
     return children as JSX.Element;
@@ -368,7 +313,6 @@ function OverviewComponent() {
   const {
     singleAddress: address,
     params,
-    ready,
     singleAddressNormalized,
   } = useAddressParams();
   useProfileName({ address, name: null });
@@ -379,7 +323,8 @@ function OverviewComponent() {
   const isReadonlyGroup =
     walletGroup && isReadonlyContainer(walletGroup.walletContainer);
   const [searchParams, setSearchParams] = useSearchParams();
-  const selectedChain = searchParams.get('chain') || null;
+  const selectedChain =
+    searchParams.get('chain') || getBundledBwickNetworkConfig().id;
   const setSelectedChain = useEvent((value: string | null) => {
     // setSearchParams is not a stable reference: https://github.com/remix-run/react-router/issues/9304
     setSearchParams(
@@ -394,19 +339,25 @@ function OverviewComponent() {
       { replace: true }
     );
   });
-  const addressType = address ? getAddressType(address) : null;
-  const { data: network } = useNetworkConfig(selectedChain ?? null);
+  const { data: network } = useNetworkConfig(
+    selectedChain || getBundledBwickNetworkConfig().id
+  );
   const {
     data: selectedChainAddress,
     isLoading: isLoadingSelectedChainAddress,
   } = useQuery({
-    queryKey: ['wallet/getAddressForChain', address, selectedChain],
+    queryKey: [
+      'wallet/getAddressForChain',
+      address,
+      selectedChain,
+      selectedChain ?? getBundledBwickNetworkConfig().id,
+    ],
     queryFn: async () => {
       invariant(selectedChain, 'selectedChain is required');
       invariant(address, 'address is required');
       return walletPort.request('getAddressForChain', {
         address,
-        chain: selectedChain,
+        chain: selectedChain || getBundledBwickNetworkConfig().id,
       });
     },
     enabled: Boolean(address && selectedChain),
@@ -445,16 +396,31 @@ function OverviewComponent() {
   const { data, isLoading: isLoadingPortfolio } = useWalletPortfolio(
     { addresses: [params.address], currency },
     { source: httpSource },
-    { enabled: ready, refetchInterval: 40000 }
+    { enabled: false, refetchInterval: 40000 }
   );
   const walletPortfolio = data?.data;
 
   const { data: pnlData } = useWalletPnl(
     { addresses: [params.address], currency },
     { source: httpSource },
-    { enabled: ready, refetchInterval: 40000 }
+    { enabled: false, refetchInterval: 40000 }
   );
   const walletPnl = pnlData?.data;
+
+  const { data: bwickOverviewPositions } = useAddressPositionsFromNode({
+    address: selectedChainAddress || singleAddressNormalized,
+    chain: createChain(getBundledBwickNetworkConfig().id),
+    staleTime: 1000 * 20,
+    enabled: Boolean(singleAddressNormalized),
+    suspense: false,
+  });
+
+  const fallbackTotalValue =
+    bwickOverviewPositions?.reduce((sum, item) => {
+      const price = item.asset?.price?.value || 0;
+      const qty = Number(item.quantity || 0);
+      return sum + price * qty;
+    }, 0) ?? 0;
 
   const offsetValuesState = useStore(offsetValues);
 
@@ -484,17 +450,6 @@ function OverviewComponent() {
     useErrorBoundary: true,
     suspense: false,
   });
-
-  const { data: loyaltyEnabled } = useRemoteConfigValue(
-    'extension_loyalty_enabled'
-  );
-
-  // Update backend record with 'platform: extension'
-  useEffect(() => {
-    if (singleAddressNormalized) {
-      updateAddressDnaInfo(singleAddressNormalized);
-    }
-  }, [singleAddressNormalized]);
 
   const { data: isConnected } = useIsConnectedToActiveTab(
     singleAddressNormalized
@@ -583,13 +538,6 @@ function OverviewComponent() {
     }
   };
 
-  const { data: currentWallet } = useQuery({
-    queryKey: ['wallet/uiGetCurrentWallet'],
-    queryFn: () => {
-      return walletPort.request('uiGetCurrentWallet');
-    },
-  });
-
   return (
     <PageColumn
       style={{
@@ -624,12 +572,6 @@ function OverviewComponent() {
               walletSelectPath={walletSelectPath}
             />
             <HStack gap={0} alignItems="center">
-              {FEATURE_LOYALTY_FLOW === 'on' &&
-              loyaltyEnabled &&
-              currentWallet &&
-              addressType === 'evm' ? (
-                <RewardsLinkIcon currentWallet={currentWallet} />
-              ) : null}
               <SearchLinkIcon />
               <SettingsLinkIcon />
               <SidepanelOptionsButton />
@@ -665,6 +607,7 @@ function OverviewComponent() {
             walletPortfolio={walletPortfolio}
             walletPnl={walletPnl}
             currency={currency}
+            fallbackTotalValue={fallbackTotalValue}
           />
         </HStack>
       </div>
@@ -775,12 +718,11 @@ function OverviewComponent() {
                     renderGuard={() => testnetGuardView}
                   >
                     <VStack gap={20}>
-                      {!isReadonlyGroup && loyaltyEnabled ? (
-                        <XpDropBanner address={params.address} />
-                      ) : null}
                       <Positions
                         dappChain={dappChain || null}
-                        selectedChain={selectedChain}
+                        selectedChain={
+                          selectedChain || getBundledBwickNetworkConfig().id
+                        }
                         selectedChainAddress={selectedChainAddress}
                         onChainChange={setSelectedChain}
                       />

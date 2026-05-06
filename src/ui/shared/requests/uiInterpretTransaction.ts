@@ -11,7 +11,7 @@ import {
   usePreferences,
 } from 'src/ui/features/preferences/usePreferences';
 import { fetchAndAssignPaymaster } from 'src/modules/ethereum/account-abstraction/fetchAndAssignPaymaster';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import type { EligibilityQuery } from 'src/ui/components/address-action/EligibilityQuery';
 import type { MultichainTransaction } from 'src/shared/types/MultichainTransaction';
@@ -82,7 +82,7 @@ export async function interpretTxBasedOnEligibility({
     );
     const toSign = await fetchAndAssignPaymaster(transactions[0].evm, {
       source,
-      apiClient: ZerionAPI,
+      apiClient: BwickAPI,
     });
     const typedData = await walletPort.request('uiGetEip712Transaction', {
       transaction: toSign,

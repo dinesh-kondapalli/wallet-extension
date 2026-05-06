@@ -1,5 +1,5 @@
 import type { IncomingTransaction } from 'src/modules/ethereum/types/IncomingTransaction';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
 import type { PartiallyRequired } from '../type-utils/PartiallyRequired';
 import type { MultichainTransaction } from './MultichainTransaction';
 import type { StringBase64 } from './StringBase64';
@@ -139,12 +139,12 @@ export type ContractMetadata2 = {
   id: string;
   /**
    * @description Human-readable name of liquidity source
-   * @example Zerion
+   * @example Bwick
    */
   name: string;
   /**
    * @description URL with icon of liquidity source, might be empty
-   * @example https://protocol-icons.s3.amazonaws.com/zerion%20defi%20sdk.png
+   * @example https://protocol-icons.s3.amazonaws.com/bwick%20defi%20sdk.png
    */
   iconUrl: string;
   /** @description Explorer details */

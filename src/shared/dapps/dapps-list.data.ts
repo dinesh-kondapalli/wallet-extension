@@ -1,9 +1,9 @@
 export const data = [
   {
     iconUrl:
-      'https://app.zerion.io/favicon.04feae3d6d8251c8e2a509368b11af14.png',
-    title: 'Zerion',
-    url: 'https://app.zerion.io/',
+      'https://app.bwick.io/favicon.04feae3d6d8251c8e2a509368b11af14.png',
+    title: 'Bwick',
+    url: 'https://app.bwick.io/',
   },
   {
     iconUrl:

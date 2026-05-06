@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useSearchParamsObj } from 'src/ui/shared/forms/useSearchParamsObj';
-import type { ActionType } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { ActionType } from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { BottomSheetDialog } from 'src/ui/ui-kit/ModalDialogs/BottomSheetDialog';
 import type { HTMLDialogElementInterface } from 'src/ui/ui-kit/ModalDialogs/HTMLDialogElementInterface';
 import { showConfirmDialog } from 'src/ui/ui-kit/ModalDialogs/showConfirmDialog';

@@ -1,2 +1,2 @@
-import '@zeriontech/components/lib/style.css';
-export { Toggle } from '@zeriontech/components/lib/Toggle';
+import '@bwicktech/components/lib/style.css';
+export { Toggle } from '@bwicktech/components/lib/Toggle';

@@ -11,7 +11,7 @@ async function updateDevName() {
     JSON.stringify(
       {
         ...manifest,
-        name: 'Zerion Test Build',
+        name: 'Bwick Test Build',
         description: `For the branch: ${GIT_BRANCH_NAME}`,
       },
       null,

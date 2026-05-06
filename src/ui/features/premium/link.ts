@@ -1,1 +1,1 @@
-export const PREMIUM_LANDING_LINK = 'https://zerion.io/premium';
+export const PREMIUM_LANDING_LINK = 'https://bwick.io/premium';

@@ -60,7 +60,7 @@ export function SecurityInfo() {
         </HStack>
       </Stack>
       <UnstyledAnchor
-        href="https://zerion.io/security"
+        href="https://bwick.io/security"
         target="_blank"
         rel="noopener noreferrer"
         onMouseEnter={hoverTrigger}

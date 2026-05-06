@@ -1,4 +1,4 @@
-import type { EmptyAddressPosition } from '@zeriontech/transactions';
+import type { EmptyAddressPosition } from '@bwicktech/transactions';
 import type { AddressPosition, Asset } from 'defi-sdk';
 import React, { useId, useRef } from 'react';
 import { createChain } from 'src/modules/networks/Chain';

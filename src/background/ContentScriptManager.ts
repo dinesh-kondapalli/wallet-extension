@@ -167,7 +167,7 @@ export class ContentScriptManager {
 
     try {
       await chrome.scripting.unregisterContentScripts({
-        ids: ['zerion-extension-content-script'],
+        ids: ['bwick-extension-content-script'],
       });
     } catch (e) {
       console.warn('Could not unregister content script'); // eslint-disable-line no-console
@@ -182,7 +182,7 @@ export class ContentScriptManager {
     // See: https://developer.chrome.com/docs/extensions/mv3/content_scripts/#isolated_world
     await chrome.scripting.registerContentScripts([
       {
-        id: 'zerion-extension-content-script',
+        id: 'bwick-extension-content-script',
         allFrames: true,
         js: inPageScriptLocation.resources,
         excludeMatches,

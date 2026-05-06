@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { normalizeAddress } from 'src/shared/normalizeAddress';
-import type { WalletMeta } from 'src/modules/zerion-api/requests/wallet-get-meta';
+import type { WalletMeta } from 'src/modules/bwick-api/requests/wallet-get-meta';
 import type { AnyWallet } from './shared';
 
 export function useWalletSearchPredicate({

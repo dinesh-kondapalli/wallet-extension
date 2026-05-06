@@ -21,13 +21,13 @@ jobs:
 
       - name: Install dependencies and build
         env:
-          DEFI_SDK_API_URL: wss://api-v4.zerion.io/
-          DEFI_SDK_TESTNET_API_URL: wss://api-testnet.zerion.io/
-          ZERION_API_URL: https://zpi.zerion.io/
-          ZERION_TESTNET_API_URL: https://zpi-testnet.zerion.io/
-          PROXY_URL: https://proxy.zerion.io/
-          DEFI_SDK_TRANSACTIONS_API_URL: https://transactions.zerion.io
-          DEFI_SDK_API_TOKEN: Zerion.0JOY6zZTTw6yl5Cvz9sdmXc7d5AhzVMG
+          DEFI_SDK_API_URL: wss://api-v4.bwick.io/
+          DEFI_SDK_TESTNET_API_URL: wss://api-testnet.bwick.io/
+          BWICK_API_URL: https://zpi.bwick.io/
+          BWICK_TESTNET_API_URL: https://zpi-testnet.bwick.io/
+          PROXY_URL: https://proxy.bwick.io/
+          DEFI_SDK_TRANSACTIONS_API_URL: https://transactions.bwick.io
+          DEFI_SDK_API_TOKEN: Bwick.0JOY6zZTTw6yl5Cvz9sdmXc7d5AhzVMG
           TEST_WALLET_ADDRESS: ${{ secrets.TEST_WALLET_ADDRESS }}
           FEATURE_FOOTER_BUG_BUTTON: off
           MIXPANEL_TOKEN_PUBLIC: ${{ secrets.MIXPANEL_TOKEN_PUBLIC_PROD }}
@@ -44,18 +44,18 @@ jobs:
       - name: Compress build artifacts
         shell: bash
         run: |
-          mv dist zerion-wallet-extension-${{github.ref_name}}
-          zip -r zerion-wallet-extension-${{github.ref_name}}.zip zerion-wallet-extension-${{github.ref_name}}
-          tar czf zerion-wallet-extension-${{github.ref_name}}.tar.gz --directory=zerion-wallet-extension-${{github.ref_name}} .
-          mv dist-firefox zerion-wallet-firefox-addon-${{github.ref_name}}
-          zip -r zerion-wallet-firefox-addon-${{github.ref_name}}.zip zerion-wallet-firefox-addon-${{github.ref_name}}
-          tar czf zerion-wallet-firefox-addon-${{github.ref_name}}.tar.gz --directory=zerion-wallet-firefox-addon-${{github.ref_name}} .
+          mv dist bwick-wallet-extension-${{github.ref_name}}
+          zip -r bwick-wallet-extension-${{github.ref_name}}.zip bwick-wallet-extension-${{github.ref_name}}
+          tar czf bwick-wallet-extension-${{github.ref_name}}.tar.gz --directory=bwick-wallet-extension-${{github.ref_name}} .
+          mv dist-firefox bwick-wallet-firefox-addon-${{github.ref_name}}
+          zip -r bwick-wallet-firefox-addon-${{github.ref_name}}.zip bwick-wallet-firefox-addon-${{github.ref_name}}
+          tar czf bwick-wallet-firefox-addon-${{github.ref_name}}.tar.gz --directory=bwick-wallet-firefox-addon-${{github.ref_name}} .
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           generateReleaseNotes: true
-          artifacts: 'zerion-wallet-extension-${{github.ref_name}}.zip,zerion-wallet-extension-${{github.ref_name}}.tar.gz,zerion-wallet-firefox-addon-${{github.ref_name}}.zip,zerion-wallet-firefox-addon-${{github.ref_name}}.tar.gz'
+          artifacts: 'bwick-wallet-extension-${{github.ref_name}}.zip,bwick-wallet-extension-${{github.ref_name}}.tar.gz,bwick-wallet-firefox-addon-${{github.ref_name}}.zip,bwick-wallet-firefox-addon-${{github.ref_name}}.tar.gz'
 
       - name: Notify release
         id: notify-release

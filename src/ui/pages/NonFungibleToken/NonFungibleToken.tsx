@@ -26,7 +26,7 @@ import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import ArrowLeftTop from 'jsx:src/ui/assets/arrow-left-top.svg';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import { getError } from 'get-error';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
 import { useAddressNftPosition } from './useAddressNftPosition';
 
@@ -62,7 +62,7 @@ export function NonFungibleToken() {
       return null;
     }
     const webAppUrlObject = new URL(
-      `https://app.zerion.io/nfts/${nft.chain}/${nft.contract_address}:${nft.token_id}`
+      `https://app.bwick.io/nfts/${nft.chain}/${nft.contract_address}:${nft.token_id}`
     );
     if (singleAddress) {
       webAppUrlObject.searchParams.append('address', singleAddress);
@@ -169,7 +169,7 @@ export function NonFungibleToken() {
                   </UIText>
                   <UIText kind="small/accent">
                     <TextAnchor
-                      href="https://zerion.io/blog/zerion-dna/"
+                      href="https://bwick.io/blog/bwick-dna/"
                       rel="noopener noreferrer"
                       target="_blank"
                       style={{

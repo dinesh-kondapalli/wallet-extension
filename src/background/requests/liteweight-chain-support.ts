@@ -1,4 +1,4 @@
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.background';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.background';
 import { normalizeAddress } from 'src/shared/normalizeAddress';
 import { WalletOrigin } from 'src/shared/WalletOrigin';
 import { fetchNetworkByChainId } from 'src/modules/networks/networks-store.background';
@@ -13,7 +13,7 @@ function registerChainAndAddressIfPossible(
   address: string | null
 ) {
   if (address && !isCustomNetworkId(chain.toString())) {
-    ZerionAPI.registerChain({
+    BwickAPI.registerChain({
       chain: chain.toString(),
       addresses: [normalizeAddress(address)],
     });
@@ -57,7 +57,7 @@ export function initialize(account: Account) {
   // Backend needs this event to initialize address listening for chains without total support
   emitter.on('walletCreated', async ({ walletContainer, origin }) => {
     if (origin === WalletOrigin.imported) {
-      ZerionAPI.registerAddresses({
+      BwickAPI.registerAddresses({
         addresses: walletContainer.wallets.map((wallet) => wallet.address),
       });
     }

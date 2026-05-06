@@ -1,6 +1,6 @@
 import type React from 'react';
 import type { Chain } from 'src/modules/networks/Chain';
-import type { WalletPortfolio } from 'src/modules/zerion-api/requests/wallet-get-portfolio';
+import type { WalletPortfolio } from 'src/modules/bwick-api/requests/wallet-get-portfolio';
 import { NetworkSelectValue } from 'src/modules/networks/NetworkSelectValue';
 import { formatCurrencyValue } from 'src/shared/units/formatCurrencyValue';
 

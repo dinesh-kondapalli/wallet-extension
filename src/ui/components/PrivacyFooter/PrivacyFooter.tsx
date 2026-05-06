@@ -12,7 +12,7 @@ export function PrivacyFooter() {
       <UIText kind="small/accent" color="var(--neutral-600)">
         We never store your keys. Please find more details in our{' '}
         <TextAnchor
-          href="https://zerion.io/privacy.pdf"
+          href="https://bwick.io/privacy.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.hoverUnderline}

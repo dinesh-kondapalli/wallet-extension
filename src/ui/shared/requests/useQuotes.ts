@@ -3,12 +3,12 @@ import { isNumeric } from 'src/shared/isNumeric';
 import { getSlippageOptions } from 'src/ui/pages/SwapForm/SlippageSettings/getSlippageOptions';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Quote2 } from 'src/shared/types/Quote';
-import { ZERION_API_URL } from 'src/env/config';
+import { BWICK_API_URL } from 'src/env/config';
 import { createUrl } from 'src/shared/createUrl';
 import type { SwapFormState } from 'src/ui/pages/SwapForm/shared/SwapFormState';
 import type { ChainGasPrice } from 'src/modules/ethereum/transactions/gasPrices/types';
 import { assignGasPrice } from 'src/modules/ethereum/transactions/gasPrices/assignGasPrice';
-import { createHeaders } from 'src/modules/zerion-api/shared';
+import { createHeaders } from 'src/modules/bwick-api/shared';
 import { weiToGweiStr } from 'src/shared/units/formatGasPrice';
 import { invariant } from 'src/shared/invariant';
 import { useFirebaseConfig } from 'src/modules/remote-config/plugins/useFirebaseConfig';
@@ -29,7 +29,7 @@ function createSwapQuotesUrl(address: string, formState: SwapFormState) {
   );
   searchParams.set('from', address);
   return createUrl({
-    base: ZERION_API_URL,
+    base: BWICK_API_URL,
     pathname: '/transaction/stream-swap-quotes/v1',
     searchParams,
   }).toString();
@@ -320,7 +320,7 @@ function createSwapQuotesV2Url({
     searchParams.set('slippage', formState.slippage);
   }
   return createUrl({
-    base: ZERION_API_URL,
+    base: BWICK_API_URL,
     pathname: '/transaction/stream-swap-quotes/v2',
     searchParams,
   }).toString();

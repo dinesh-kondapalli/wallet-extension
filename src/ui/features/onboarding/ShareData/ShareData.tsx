@@ -86,7 +86,7 @@ export function ShareData() {
             <br />
             Read more in our{' '}
             <UnstyledAnchor
-              href="https://s3.amazonaws.com/cdn.zerion.io/assets/privacy.pdf"
+              href="https://s3.amazonaws.com/cdn.bwick.io/assets/privacy.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"

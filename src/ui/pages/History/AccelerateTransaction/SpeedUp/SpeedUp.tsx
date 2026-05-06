@@ -25,7 +25,7 @@ import { wait } from 'src/shared/wait';
 import { assertProp } from 'src/shared/assert-property';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import { getError } from 'get-error';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
 import { NetworkFee } from '../../../SendTransaction/NetworkFee';
 import { useTransactionFee } from '../../../SendTransaction/TransactionConfiguration/useTransactionFee';

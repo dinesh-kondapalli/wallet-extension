@@ -1,4 +1,4 @@
-import type { ReferrerData } from 'src/modules/zerion-api/requests/check-referral';
+import type { ReferrerData } from 'src/modules/bwick-api/requests/check-referral';
 import { BrowserStorage } from 'src/background/webapis/storage';
 
 const referrerKey = 'referral-program/referrer-2024-10-10';

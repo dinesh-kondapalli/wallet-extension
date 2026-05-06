@@ -7,7 +7,7 @@ type ForeignProvider = EthereumProvider & { isRabby?: boolean };
 
 const state = {
   dappDetected: false,
-  dappIsZerionAware: false,
+  dappIsBwickAware: false,
 };
 
 const listeners: Array<(value: typeof state) => void> = [];
@@ -20,10 +20,10 @@ export function onChange(listener: (value: typeof state) => void) {
   }
 }
 
-function trackZerionFlagAccess(ourProvider: EthereumProvider) {
-  Object.defineProperty(ourProvider, 'isZerion', {
+function trackBwickFlagAccess(ourProvider: EthereumProvider) {
+  Object.defineProperty(ourProvider, 'isBwick', {
     get() {
-      state.dappIsZerionAware = true;
+      state.dappIsBwickAware = true;
       notify();
       return ourProvider.isMetaMask ? undefined : true;
     },
@@ -31,7 +31,7 @@ function trackZerionFlagAccess(ourProvider: EthereumProvider) {
 }
 
 export async function initialize(ourProvider: EthereumProvider) {
-  trackZerionFlagAccess(ourProvider);
+  trackBwickFlagAccess(ourProvider);
   const isDapp = await ourProvider.request({ method: 'wallet_isKnownDapp' });
   if (isDapp) {
     state.dappDetected = true;

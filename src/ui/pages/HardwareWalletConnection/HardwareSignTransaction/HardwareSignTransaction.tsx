@@ -27,7 +27,7 @@ import { isRpcRequest } from 'src/shared/custom-rpc';
 import {
   deniedByUser,
   parseLedgerError,
-} from '@zeriontech/hardware-wallet-connection';
+} from '@bwicktech/hardware-wallet-connection';
 import { openUrl } from 'src/ui/shared/openUrl';
 import { urlContext } from 'src/shared/UrlContext';
 import { BottomSheetDialog } from 'src/ui/ui-kit/ModalDialogs/BottomSheetDialog';

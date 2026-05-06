@@ -15,7 +15,7 @@ import { getError } from 'get-error';
 import type { ParsedError } from 'src/shared/errors/parse-error/parseError';
 import { parseError } from 'src/shared/errors/parse-error/parseError';
 import { samples } from 'src/shared/errors/parse-error/samples';
-import type { LedgerError } from '@zeriontech/hardware-wallet-connection';
+import type { LedgerError } from '@bwicktech/hardware-wallet-connection';
 import { TroubleshootingDialog } from 'src/ui/hardware-wallet/TroubleshootingDialog';
 import { Frame } from 'src/ui/ui-kit/Frame';
 import { useCopyToClipboard } from '../useCopyToClipboard';
@@ -80,7 +80,7 @@ function ErrorDetails({
         </Button>
         <Button
           as={UnstyledAnchor}
-          href="https://help.zerion.io/en/"
+          href="#"
           target="_blank"
           rel="noopener noreferrer"
           kind="primary"

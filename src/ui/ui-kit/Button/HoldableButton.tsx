@@ -1,11 +1,4 @@
-import {
-  useCallback,
-  useRef,
-  useState,
-  type ComponentPropsWithRef,
-  type ComponentPropsWithoutRef,
-  type ElementType,
-} from 'react';
+import { useCallback, useRef, useState } from 'react';
 import React from 'react';
 import cn from 'classnames';
 import { UIText } from '../UIText';
@@ -49,10 +42,12 @@ const HINT_SHOW_DURATION = 1500;
 const HINT_SHOW_MIN_BREAK = 2000;
 const HOLD_DURATION_MARGIN = 100;
 
-const ButtonElement = <As extends ElementType = 'button'>(
+type HoldableButtonProps = Props &
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+const ButtonElement = (
   {
     style,
-    as,
     kind = 'primary',
     size = 44,
     children,
@@ -71,10 +66,8 @@ const ButtonElement = <As extends ElementType = 'button'>(
     error,
     holdHint = 'Please press and hold the button',
     ...props
-  }: Props & { as?: As } & ComponentPropsWithoutRef<As> & {
-      ref?: ComponentPropsWithRef<As>['ref'];
-    },
-  ref: React.Ref<ComponentPropsWithRef<As>['ref']>
+  }: HoldableButtonProps,
+  ref: React.Ref<HTMLButtonElement>
 ) => {
   const realButtonRef = useRef<HTMLButtonElement | null>(null);
   const [innerState, setInnerState] = useState<'idle' | 'hold' | 'submitting'>(
@@ -125,12 +118,10 @@ const ButtonElement = <As extends ElementType = 'button'>(
     setInnerState('idle');
   }, [displayHint]);
 
-  const isButton = as == null || as === 'button';
-
   return (
     <>
       <UIText
-        as={as || 'button'}
+        as="button"
         type="button"
         ref={ref}
         kind="small/accent"
@@ -140,7 +131,6 @@ const ButtonElement = <As extends ElementType = 'button'>(
           buttonStyles.button,
           styles.button,
           {
-            [buttonStyles.asButton]: !isButton,
             [styles.hold]: state === 'hold',
             [styles.submitting]: state === 'submitting',
             [styles.success]: state === 'success',

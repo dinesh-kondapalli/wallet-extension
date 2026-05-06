@@ -1,5 +1,5 @@
 import { normalizeAddress } from 'src/shared/normalizeAddress';
-import type { WalletMeta } from 'src/modules/zerion-api/requests/wallet-get-meta';
+import type { WalletMeta } from 'src/modules/bwick-api/requests/wallet-get-meta';
 import { useAllSignerOrHwAddresses } from 'src/ui/shared/requests/useAllExistingAddresses';
 import { useWalletsMetaByChunks } from 'src/ui/shared/requests/useWalletsMetaByChunks';
 import { useMemo } from 'react';

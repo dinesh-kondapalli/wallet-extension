@@ -11,12 +11,12 @@ import type {
   ActionDirection,
   Amount,
   Collection,
-} from 'src/modules/zerion-api/requests/wallet-get-actions';
+} from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { formatPriceValue } from 'src/shared/units/formatPriceValue';
 import { formatTokenValue } from 'src/shared/units/formatTokenValue';
 import { HStack } from 'src/ui/ui-kit/HStack';
 import { TokenIcon } from 'src/ui/ui-kit/TokenIcon';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
 import { isUnlimitedApproval } from 'src/modules/ethereum/transactions/appovals';
 import { AssetAnchor } from '../../AssetLink';
 import { NFTAnchor } from '../../NFTLink/NFTLink';

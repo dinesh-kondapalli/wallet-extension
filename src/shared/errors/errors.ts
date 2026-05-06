@@ -76,7 +76,7 @@ export class SwitchChainError extends Error {
 }
 
 export class SessionExpired extends Error {
-  // 211210N is zerion in l33t
+  // 211210N is bwick in l33t
   code = 2312103;
 
   constructor(message = 'Session expired') {

@@ -6,7 +6,7 @@ import { useNetworks } from 'src/modules/networks/useNetworks';
 import type {
   AssetFullInfo,
   AssetResource,
-} from 'src/modules/zerion-api/requests/asset-get-fungible-full-info';
+} from 'src/modules/bwick-api/requests/asset-get-fungible-full-info';
 import { useCopyToClipboard } from 'src/ui/shared/useCopyToClipboard';
 import { Button } from 'src/ui/ui-kit/Button';
 import { HStack } from 'src/ui/ui-kit/HStack';
@@ -295,7 +295,7 @@ export function AssetResources({
               name: 'wallet',
               displayableName: 'Wallet',
               iconUrl: '',
-              url: `https://app.zerion.io/tokens/${assetFullInfo.fungible.symbol}-${assetFullInfo.fungible.id}`,
+              url: `https://app.bwick.io/tokens/${assetFullInfo.fungible.symbol}-${assetFullInfo.fungible.id}`,
             }}
             icon={
               <img

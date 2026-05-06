@@ -11,7 +11,7 @@
     "48": "images/sample-avatar.png",
     "128": "images/sample-avatar.png"
   },
-  "author": "https://zerion.io/",
+  "author": "BWICK",
   "action": {
     "default_icon": {
       "16": "images/sample-avatar.png",
@@ -62,7 +62,7 @@
   "host_permissions": ["http://*/*", "https://*/*"],
   "browser_specific_settings": {
     "gecko": {
-      "id": "master@zerion.io",
+      "id": "wallet@bwick.local",
       "strict_min_version": "120.0"
     }
   }

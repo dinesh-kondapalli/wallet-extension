@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import type {
   TransportIdentifier,
   UserInteractionRequested,
-} from '@zeriontech/hardware-wallet-connection';
+} from '@bwicktech/hardware-wallet-connection';
 import {
   checkDevice,
   signTransaction,
@@ -16,7 +16,7 @@ import {
   getDeniedByUserError,
   unsubscribeCheckDeviceListeners,
   solanaSignMessage,
-} from '@zeriontech/hardware-wallet-connection';
+} from '@bwicktech/hardware-wallet-connection';
 import ConnectionOnIcon from 'jsx:src/ui/assets/connection-toggle-on.svg';
 import ConnectionOffIcon from 'jsx:src/ui/assets/connection-toggle-off.svg';
 import DisconnectIcon from 'jsx:src/ui/assets/disconnect.svg';

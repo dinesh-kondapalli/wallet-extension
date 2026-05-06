@@ -43,7 +43,7 @@ import { prepareForHref } from 'src/ui/shared/prepareForHref';
 import { TextAnchor } from 'src/ui/ui-kit/TextAnchor';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import { getError } from 'get-error';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
 import type { PopoverToastHandle } from '../Settings/PopoverToast';
 import { PopoverToast } from '../Settings/PopoverToast';

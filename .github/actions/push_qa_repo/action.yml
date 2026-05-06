@@ -20,10 +20,10 @@ runs:
         BRANCH_NAME: ${{ inputs.branch_name }}
         COMMIT_MESSAGE: ${{ inputs.commit_message }}
       run: |
-        TARGET_REPO="github.com/zeriontech/zerion-wallet-extension-qa.git"
+        TARGET_REPO="github.com/bwicktech/bwick-wallet-extension-qa.git"
         BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
 
-        git config --global user.email "zerts@zerion.io"
+        git config --global user.email "zerts@bwick.io"
         git config --global user.name "QA Bot"
 
         # Clone the target repository

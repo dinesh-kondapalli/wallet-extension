@@ -14,7 +14,7 @@ export function toNetworkConfig(
   const id = maybeId ?? toCustomNetworkIdFromConfig(value);
   if (standard === 'cosmos') {
     return {
-      supports_sending: false,
+      supports_sending: true,
       supports_trading: false,
       supports_bridging: false,
       supports_actions: false,

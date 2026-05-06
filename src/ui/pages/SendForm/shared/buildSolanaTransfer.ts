@@ -13,7 +13,7 @@ import {
   createAssociatedTokenAccountInstruction,
 } from '@solana/spl-token';
 import type { AddressPosition } from 'defi-sdk';
-import type { EmptyAddressPosition } from '@zeriontech/transactions';
+import type { EmptyAddressPosition } from '@bwicktech/transactions';
 import { Networks } from 'src/modules/networks/Networks';
 import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import { getAddress } from 'src/modules/networks/asset';

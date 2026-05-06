@@ -13,7 +13,7 @@ import { useCopyToClipboard } from 'src/ui/shared/useCopyToClipboard';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import * as helperStyles from 'src/ui/style/helpers.module.css';
 import { useTransformTrigger } from 'src/ui/components/useTransformTrigger';
-import type { ActionLabel } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { ActionLabel } from 'src/modules/bwick-api/requests/wallet-get-actions';
 
 const ICON_SIZE = 20;
 

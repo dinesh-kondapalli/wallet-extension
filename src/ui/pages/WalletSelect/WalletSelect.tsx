@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FillView } from 'src/ui/components/FillView';
 import { PageColumn } from 'src/ui/components/PageColumn';
 import { walletPort } from 'src/ui/shared/channels';
@@ -26,14 +26,6 @@ import { formatCurrencyToParts } from 'src/shared/units/formatCurrencyValue';
 import PortfolioIcon from 'jsx:src/ui/assets/portfolio.svg';
 import { Media } from 'src/ui/ui-kit/Media';
 import { ellipsis } from 'src/ui/shared/typography';
-import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import RewardsIcon from 'jsx:src/ui/assets/rewards.svg';
-import { normalizeAddress } from 'src/shared/normalizeAddress';
-import { getWalletParams } from 'src/ui/shared/requests/useWalletParams';
-import { UnstyledAnchor } from 'src/ui/ui-kit/UnstyledAnchor';
-import { useWalletsMetaByChunks } from 'src/ui/shared/requests/useWalletsMetaByChunks';
-import { emitter } from 'src/ui/shared/events';
 import { ViewLoading } from 'src/ui/components/ViewLoading';
 import { isMatchForEcosystem } from 'src/shared/wallet/shared';
 import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
@@ -44,6 +36,7 @@ import {
 } from 'src/modules/networks/useNetworks';
 import { isEthereumAddress } from 'src/shared/isEthereumAddress';
 import { isSolanaAddress } from 'src/modules/solana/shared';
+import { isCosmosAddress } from 'src/modules/cosmos/shared';
 import { BlurrableBalance } from 'src/ui/components/BlurrableBalance';
 import { usePreferences } from 'src/ui/features/preferences';
 import { whiteBackgroundKind } from 'src/ui/components/Background/Background';
@@ -82,7 +75,7 @@ function PortfolioRow({
     return new Set(groups?.[0]?.walletIds || []);
   }, [groups]);
 
-  const addresses = useMemo(() => {
+  useMemo(() => {
     return walletGroups
       .flatMap((group) =>
         group.walletContainer.wallets.map((wallet) => ({
@@ -95,12 +88,8 @@ function PortfolioRow({
       )
       .map(({ address }) => address);
   }, [walletGroups, portfolioWalletIdSet]);
-
-  const { data, isLoading } = useWalletPortfolio(
-    { addresses, currency },
-    { source: useHttpClientSource() }
-  );
-  const walletPortfolio = data?.data;
+  const isLoading = false;
+  const walletPortfolio = { totalValue: 0 };
 
   return (
     <div className={styles.portfolio}>
@@ -132,12 +121,9 @@ function PortfolioRow({
   );
 }
 
-const ZERION_ORIGIN = 'https://app.zerion.io';
-
 export function WalletSelect() {
   useBackgroundKind(whiteBackgroundKind);
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   const { preferences, setPreferences } = usePreferences();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -197,22 +183,12 @@ export function WalletSelect() {
     [walletGroups]
   );
   const totalWalletCount = allWallets.length;
-  const allAddresses = useMemo(
-    () => allWallets.map((w) => w.address),
-    [allWallets]
-  );
-
-  const { data: walletsMeta } = useWalletsMetaByChunks({
-    addresses: allAddresses,
-    useErrorBoundary: false,
-    suspense: false,
-  });
 
   const ownedAddressesCount = ownedAddresses.length;
 
   const matchesSearch = useWalletSearchPredicate({
     searchQuery,
-    walletsMeta,
+    walletsMeta: undefined,
   });
 
   const { singleAddress, refetch } = useAddressParams();
@@ -221,15 +197,6 @@ export function WalletSelect() {
     onSuccess() {
       refetch();
       navigate(-1);
-    },
-  });
-
-  const { mutate: acceptZerionOrigin } = useMutation({
-    mutationFn: async ({ address }: { address: string }) => {
-      return walletPort.request('acceptOrigin', {
-        origin: ZERION_ORIGIN,
-        address,
-      });
     },
   });
 
@@ -245,7 +212,9 @@ export function WalletSelect() {
 
       const matchesEcosystem =
         selectedEcosystem === 'cosmos'
-          ? canDeriveCosmosAddress || isSolanaAddress(wallet.address)
+          ? canDeriveCosmosAddress ||
+            isCosmosAddress(wallet.address) ||
+            isSolanaAddress(wallet.address)
           : !selectedEcosystem && !ecosystem
           ? true
           : selectedEcosystem
@@ -402,53 +371,7 @@ export function WalletSelect() {
             selectedAddress={singleAddress}
             showAddressValues={true}
             predicate={walletListPredicate}
-            renderItemFooter={({ wallet }) => {
-              const walletMeta = walletsMeta?.find(
-                (meta) =>
-                  normalizeAddress(meta.address) ===
-                  normalizeAddress(wallet.address)
-              );
-              const addWalletParams = getWalletParams(wallet);
-              const exploreRewardsUrl = walletMeta?.membership.newRewards
-                ? `${ZERION_ORIGIN}/rewards?section=rewards&${addWalletParams}`
-                : null;
-
-              return exploreRewardsUrl ? (
-                <Button
-                  kind="neutral"
-                  as={UnstyledAnchor}
-                  href={exploreRewardsUrl}
-                  onClick={() => {
-                    emitter.emit('buttonClicked', {
-                      buttonScope: 'Loaylty',
-                      buttonName: 'Rewards',
-                      pathname,
-                    });
-                    acceptZerionOrigin({ address: wallet.address });
-                  }}
-                  size={36}
-                  style={{
-                    borderRadius: '0 0 18px 18px',
-                  }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <HStack gap={8} alignItems="center" justifyContent="center">
-                    <RewardsIcon
-                      style={{
-                        width: 20,
-                        height: 20,
-                        color:
-                          'linear-gradient(90deg, #a024ef 0%, #fdbb6c 100%)',
-                      }}
-                    />
-                    <UIText kind="small/accent" color="var(--primary-500)">
-                      Explore Rewards
-                    </UIText>
-                  </HStack>
-                </Button>
-              ) : null;
-            }}
+            renderItemFooter={() => null}
           />
         )}
         {editMode ? null : (

@@ -12,8 +12,8 @@ interface AnalyticsTransactionData {
   asset_amount_received?: (string | null)[];
   asset_name_received?: string[];
   asset_address_received?: string[];
-  zerion_fee_percentage?: number;
-  zerion_fee_usd_amount?: number;
+  platform_fee_percentage?: number;
+  platform_fee_usd_amount?: number;
   output_chain?: string;
   network_fee?: number;
   gas_price?: number;
@@ -73,8 +73,8 @@ export function addressActionToAnalytics({
     ),
   };
   if (quote) {
-    const zerion_fee_percentage = quote.protocolFee.percentage;
-    const zerion_fee_usd_amount =
+    const platform_fee_percentage = quote.protocolFee.percentage;
+    const platform_fee_usd_amount =
       quote.protocolFee.amount.usdValue ?? undefined;
     const network_fee = quote.networkFee?.amount?.usdValue ?? undefined;
     const currentTransactionEvm =
@@ -86,8 +86,8 @@ export function addressActionToAnalytics({
 
     return {
       ...value,
-      zerion_fee_percentage,
-      zerion_fee_usd_amount,
+      platform_fee_percentage,
+      platform_fee_usd_amount,
       network_fee,
       gas_price,
       output_chain: outputChain ?? undefined,

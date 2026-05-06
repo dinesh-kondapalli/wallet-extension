@@ -7,7 +7,6 @@ import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import { useBackgroundKind } from 'src/ui/components/Background';
 import { TextAnchor } from 'src/ui/ui-kit/TextAnchor';
-import { openInNewWindow } from 'src/ui/shared/openInNewWindow';
 import WarningIcon from 'jsx:src/ui/assets/warning.svg';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
 import { useMutation } from '@tanstack/react-query';
@@ -64,12 +63,11 @@ export function RestoreData() {
           <UIText kind="body/regular" color="var(--neutral-500)">
             If the problem persists, please{' '}
             <TextAnchor
-              href="https://help.zerion.io"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => {
                 e.stopPropagation();
-                openInNewWindow(e);
               }}
               style={{ color: 'var(--primary)' }}
             >

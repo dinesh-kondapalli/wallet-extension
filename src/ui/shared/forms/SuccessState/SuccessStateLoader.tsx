@@ -19,7 +19,7 @@ import { apostrophe, emDash, NBSP } from 'src/ui/shared/typography';
 import ArrowRight from 'jsx:src/ui/assets/caret-right.svg';
 import SuccessIcon from 'jsx:./success.svg';
 import ErrorIcon from 'jsx:./error.svg';
-import type { ActionStatus } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { ActionStatus } from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { CircleSpinner } from 'src/ui/ui-kit/CircleSpinner';
 import * as styles from './SuccessStateLoader.module.css';
 

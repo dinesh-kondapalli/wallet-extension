@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { CustomConfiguration } from '@zeriontech/transactions';
+import type { CustomConfiguration } from '@bwicktech/transactions';
 import { WarningIcon } from 'src/ui/components/WarningIcon';
 import { Input } from 'src/ui/ui-kit/Input';
 import { UIText } from 'src/ui/ui-kit/UIText';

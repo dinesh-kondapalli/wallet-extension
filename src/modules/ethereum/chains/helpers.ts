@@ -1,7 +1,7 @@
 import { normalizeChainId } from 'src/shared/normalizeChainId';
 import type { AddEthereumChainParameter } from '../types/AddEthereumChainParameter';
 
-const CUSTOM_NETWORK_PREFIX = 'zerion-custom-network-';
+const CUSTOM_NETWORK_PREFIX = 'bwick-';
 
 export function toCustomNetworkId(chainId: string) {
   return `${CUSTOM_NETWORK_PREFIX}${normalizeChainId(chainId)}`;
@@ -12,7 +12,7 @@ export function toCustomNetworkIdFromConfig({
   chainId,
 }: Pick<AddEthereumChainParameter, 'standard' | 'chainId'>) {
   if (standard === 'cosmos') {
-    return `${CUSTOM_NETWORK_PREFIX}cosmos-${chainId.toLowerCase()}`;
+    return `${CUSTOM_NETWORK_PREFIX}${chainId.toLowerCase()}`;
   }
   return toCustomNetworkId(chainId);
 }

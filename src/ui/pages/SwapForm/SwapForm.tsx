@@ -5,8 +5,8 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import type { AddressPosition } from 'defi-sdk';
-import type { EmptyAddressPosition } from '@zeriontech/transactions';
-import { sortPositionsByValue } from '@zeriontech/transactions';
+import type { EmptyAddressPosition } from '@bwicktech/transactions';
+import { sortPositionsByValue } from '@bwicktech/transactions';
 import React, {
   useCallback,
   useEffect,
@@ -66,11 +66,11 @@ import { AllowanceForm } from 'src/ui/components/AllowanceForm';
 import BigNumber from 'bignumber.js';
 import { usePreferences } from 'src/ui/features/preferences';
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
 import {
   queryHttpAddressPositions,
   useHttpAddressPositions,
-} from 'src/modules/zerion-api/hooks/useWalletPositions';
+} from 'src/modules/bwick-api/hooks/useWalletPositions';
 import { usePositionsRefetchInterval } from 'src/ui/transactions/usePositionsRefetchInterval';
 import { HiddenValidationInput } from 'src/ui/shared/forms/HiddenValidationInput';
 import { getNetworksStore } from 'src/modules/networks/networks-store.client';
@@ -80,7 +80,7 @@ import { useApproveAndTradeInOneAction } from 'src/modules/statsig/statsig.clien
 import { getAddressType } from 'src/shared/wallet/classifiers';
 import { useSearchParamsObj } from 'src/ui/shared/forms/useSearchParamsObj';
 import { getDefaultChain } from 'src/ui/shared/forms/trading/getDefaultChain';
-import { getHttpClientSource } from 'src/modules/zerion-api/getHttpClientSource';
+import { getHttpClientSource } from 'src/modules/bwick-api/getHttpClientSource';
 import { queryClient } from 'src/ui/shared/requests/queryClient';
 import type { Quote2 } from 'src/shared/types/Quote';
 import {
@@ -99,9 +99,9 @@ import { UKDisclaimer } from 'src/ui/components/UKDisclaimer/UKDisclaimer';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import { getError } from 'get-error';
 
-import type { AddressAction } from 'src/modules/zerion-api/requests/wallet-get-actions';
-import { useAssetFullInfo } from 'src/modules/zerion-api/hooks/useAssetFullInfo';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import type { AddressAction } from 'src/modules/bwick-api/requests/wallet-get-actions';
+import { useAssetFullInfo } from 'src/modules/bwick-api/hooks/useAssetFullInfo';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
 import { isTruthy } from 'is-truthy-ts';
 import { isDeviceAccount } from 'src/shared/types/validators';

@@ -8,7 +8,7 @@ import { SignMessage } from './SignMessage';
 const samples: Array<{ message: string }> = [{ message: 'Hello, world' }];
 
 const sampleOrigins = [
-  'https://app.zerion.io/',
+  'https://app.bwick.io/',
   'https://app.uniswap.org/',
   'https://app.sushi.com/',
 ];

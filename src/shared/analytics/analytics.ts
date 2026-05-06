@@ -44,7 +44,7 @@ export function sendToMetabase<
   logToConsole(Loglevel.info, 'groupEnd');
   if (process.env.NODE_ENV !== 'development') {
     onIdle(() => {
-      fetch(`https://event-collector.zerion.io/${event}/`, {
+      fetch(`https://event-collector.bwick.io/${event}/`, {
         method: 'POST',
         body: JSON.stringify(params),
         headers: { 'content-type': 'application/json' },
@@ -71,10 +71,10 @@ export function createParams<T extends BaseParams>(data: T) {
     // we use os_version for compatibility with mobile platforms
     os_version: browserInfo,
     browser_info: globalThis.navigator.userAgent,
-    api_client_name: 'Zerion Extension',
+    api_client_name: 'Bwick Extension',
     origin: globalThis.location.origin,
     timestamp: new Date().toISOString(),
-    wallet_provider: 'Zerion Wallet',
+    wallet_provider: 'Bwick Wallet',
     app_version: version,
     ...data,
   };

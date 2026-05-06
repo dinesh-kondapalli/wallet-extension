@@ -5,7 +5,7 @@ import type { Wallet } from 'src/shared/types/Wallet';
 import type { WalletContainer } from 'src/shared/types/WalletContainer';
 import { INTERNAL_SYMBOL_CONTEXT } from 'src/background/Wallet/Wallet';
 import { invariant } from 'src/shared/invariant';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.background';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.background';
 import { normalizeAddress } from 'src/shared/normalizeAddress';
 import type { BareWallet } from 'src/shared/types/BareWallet';
 import { INTERNAL_ORIGIN } from 'src/background/constants';
@@ -115,7 +115,7 @@ class ReferralProgramService {
     });
 
     try {
-      return ZerionAPI.referWallet({
+      return BwickAPI.referWallet({
         address,
         referralCode,
         signature,
@@ -137,7 +137,7 @@ class ReferralProgramService {
     invariant(this.options, "Options aren't expected to become null");
     const walletFacade = this.options.getWallet();
 
-    const checkReferralResponse = await ZerionAPI.checkReferral({
+    const checkReferralResponse = await BwickAPI.checkReferral({
       referralCode,
     });
     const checkedReferrer = checkReferralResponse.data;
@@ -157,7 +157,7 @@ class ReferralProgramService {
 
     const walletsMetaResponse =
       ownedAddresses.length > 0
-        ? await ZerionAPI.getWalletsMeta({ identifiers: ownedAddresses })
+        ? await BwickAPI.getWalletsMeta({ identifiers: ownedAddresses })
         : null;
     const walletsMeta = walletsMetaResponse?.data || [];
 

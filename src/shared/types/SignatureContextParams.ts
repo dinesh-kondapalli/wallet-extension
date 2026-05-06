@@ -8,7 +8,7 @@ type ClientScope =
   | 'Swap'
   | 'Bridge'
   | 'Send'
-  | 'Zerion DNA'
+  | 'Bwick DNA'
   | 'External Dapp';
 
 export type TransactionContextParams = {

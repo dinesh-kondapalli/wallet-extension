@@ -32,7 +32,7 @@ async function encryptObject<T>(
     dataArray
   );
 
-  const ivBase64 = arrayBufferToBase64(iv);
+  const ivBase64 = arrayBufferToBase64(iv.buffer as ArrayBuffer);
   const encryptedBase64 = arrayBufferToBase64(encryptedBuffer);
 
   return {

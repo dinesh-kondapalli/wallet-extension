@@ -6,7 +6,6 @@ import { BottomSheetDialog } from 'src/ui/ui-kit/ModalDialogs/BottomSheetDialog'
 import type { HTMLDialogElementInterface } from 'src/ui/ui-kit/ModalDialogs/HTMLDialogElementInterface';
 import { showConfirmDialog } from 'src/ui/ui-kit/ModalDialogs/showConfirmDialog';
 import { NetworkSelectValue } from 'src/modules/networks/NetworkSelectValue';
-import { useAddressParams } from 'src/ui/shared/user-address/useAddressParams';
 import { Button } from 'src/ui/ui-kit/Button';
 import { HStack } from 'src/ui/ui-kit/HStack';
 import AllNetworksIcon from 'jsx:src/ui/assets/all-networks.svg';
@@ -18,15 +17,11 @@ import { useNetworks } from 'src/modules/networks/useNetworks';
 import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import type { Networks } from 'src/modules/networks/Networks';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
-import { useCurrency } from 'src/modules/currency/useCurrency';
 import { walletPort } from 'src/ui/shared/channels';
 import {
   mainNetworksStore,
   testenvNetworksStore,
 } from 'src/modules/networks/networks-store.client';
-import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import { isEthereumAddress } from 'src/shared/isEthereumAddress';
 import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 
 async function updateNetworks() {
@@ -65,14 +60,7 @@ export function NetworkSelect({
   showAllNetworksOption?: boolean;
   showEcosystemHint: boolean;
 }) {
-  const { params } = useAddressParams();
-  const { currency } = useCurrency();
-  const { data } = useWalletPortfolio(
-    { addresses: [params.address], currency },
-    { source: useHttpClientSource() },
-    { enabled: Boolean(isEthereumAddress(params.address)) }
-  );
-  const walletPortfolio = data?.data;
+  const walletPortfolio = null;
   const dialogRef = useRef<HTMLDialogElementInterface | null>(null);
 
   function handleDialogOpen() {

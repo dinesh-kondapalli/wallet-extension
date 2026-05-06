@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import { useDefiSdkClient } from 'src/modules/defi-sdk/useDefiSdkClient';
 import { useNetworkConfig } from 'src/modules/networks/useNetworks';
-import { EmptyAddressPosition } from '@zeriontech/transactions';
+import { EmptyAddressPosition } from '@bwicktech/transactions';
 import { createChain } from 'src/modules/networks/Chain';
 import { createAddressPosition } from 'src/ui/shared/requests/shared/createAddressPosition';
 import type { SendFormState } from './SendFormState';

@@ -6,7 +6,7 @@ import { isAccountContainer } from 'src/shared/types/validators';
 type AccountProviderName = Brand<string, 'AccountProviderName'>;
 
 enum AccountProvider {
-  zerionExtension = 'zerionExtension',
+  bwickExtension = 'bwickExtension',
   viewerNotAdded = 'viewerNotAdded',
   readOnly = 'readOnly',
 }
@@ -18,7 +18,7 @@ export function getProviderNameFromGroup(
     ? isAccountContainer(group.walletContainer)
       ? (group.walletContainer.provider as AccountProviderName) ??
         AccountProvider.readOnly
-      : AccountProvider.zerionExtension
+      : AccountProvider.bwickExtension
     : AccountProvider.viewerNotAdded;
 }
 
@@ -29,8 +29,8 @@ export function getProviderForApiV4(
     case AccountProvider.viewerNotAdded: {
       return 'viewer_not_added';
     }
-    case AccountProvider.zerionExtension: {
-      return 'zerion-extension';
+    case AccountProvider.bwickExtension: {
+      return 'bwick-extension';
     }
     case AccountProvider.readOnly: {
       return 'Read Only';
@@ -48,8 +48,8 @@ export function getProviderForMetabase(
     case AccountProvider.viewerNotAdded: {
       return 'viewer_not_added';
     }
-    case AccountProvider.zerionExtension: {
-      return 'Zerion Wallet';
+    case AccountProvider.bwickExtension: {
+      return 'Bwick Wallet';
     }
     case AccountProvider.readOnly: {
       return 'Read only'; // matching with ios event

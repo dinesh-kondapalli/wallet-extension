@@ -14,18 +14,15 @@ import WalletIcon from 'jsx:src/ui/assets/wallet.svg';
 import GiftIcon from 'jsx:src/ui/assets/gift.svg';
 import LockIcon from 'jsx:src/ui/assets/lock-outline.svg';
 import GlobeIcon from 'jsx:src/ui/assets/globe.svg';
-import QuestionIcon from 'jsx:src/ui/assets/question-hint.svg';
-import BulbIcon from 'jsx:src/ui/assets/bulb.svg';
 
 import ExperimentsIcon from 'jsx:src/ui/assets/experimental.svg';
 import DarkModeLampIcon from 'jsx:src/ui/assets/dark-mode-lamp.svg';
 import NetworksIcon from 'jsx:src/ui/assets/network.svg';
 import SecurityIcon from 'jsx:src/ui/assets/security.svg';
 import SettingsIcon from 'jsx:src/ui/assets/settings.svg';
-import RewardsIcon from 'jsx:src/ui/assets/rewards.svg';
 import ToolsIcon from 'jsx:src/ui/assets/hammer.svg';
 import { version } from 'src/shared/packageVersion';
-import { apostrophe, middot } from 'src/ui/shared/typography';
+import { apostrophe } from 'src/ui/shared/typography';
 import { AppearancePage } from 'src/ui/features/appearance/AppearancePage';
 import { preferenceStore } from 'src/ui/features/appearance';
 import { usePreferences } from 'src/ui/features/preferences';
@@ -36,25 +33,16 @@ import {
   SettingsDnaBanners,
 } from 'src/ui/DNA/components/DnaBanners';
 import { NavigationTitle } from 'src/ui/components/NavigationTitle';
-import { BugReportButton } from 'src/ui/components/BugReportButton';
 import { Frame } from 'src/ui/ui-kit/Frame';
-import {
-  FrameListItemAnchor,
-  FrameListItemLink,
-} from 'src/ui/ui-kit/FrameList';
-import { UnstyledAnchor } from 'src/ui/ui-kit/UnstyledAnchor';
+import { FrameListItemLink } from 'src/ui/ui-kit/FrameList';
 import { StickyBottomPanel } from 'src/ui/ui-kit/BottomPanel';
 import { Button } from 'src/ui/ui-kit/Button';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
 import { useBackgroundKind } from 'src/ui/components/Background';
-import { openHrefInTabIfSidepanel } from 'src/ui/shared/openInTabIfInSidepanel';
-import { useWalletParams } from 'src/ui/shared/requests/useWalletParams';
-import { invariant } from 'src/shared/invariant';
 import { useRemoteConfigValue } from 'src/modules/remote-config/useRemoteConfigValue';
 import { FEATURE_LOYALTY_FLOW } from 'src/env/config';
 import { emitter } from 'src/ui/shared/events';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
-import { getAddressType } from 'src/shared/wallet/classifiers';
 import { useCopyToClipboard } from 'src/ui/shared/useCopyToClipboard';
 import { getCurrentUser } from 'src/shared/getCurrentUser';
 import { useStore } from '@store-unit/react';
@@ -68,8 +56,6 @@ import type { PopoverToastHandle } from './PopoverToast';
 import { PopoverToast } from './PopoverToast';
 import { ToggleSettingLine } from './ToggleSettingsLine';
 
-const ZERION_ORIGIN = 'https://app.zerion.io';
-
 function SettingsMain() {
   const { singleAddressNormalized } = useAddressParams();
   const navigate = useNavigate();
@@ -81,27 +67,6 @@ function SettingsMain() {
     'extension_loyalty_enabled'
   );
 
-  const { data: currentWallet } = useQuery({
-    queryKey: ['wallet/uiGetCurrentWallet'],
-    queryFn: () => {
-      return walletPort.request('uiGetCurrentWallet');
-    },
-  });
-
-  const addressType = currentWallet
-    ? getAddressType(currentWallet?.address)
-    : null;
-
-  const { mutate: acceptZerionOrigin } = useMutation({
-    mutationFn: async () => {
-      invariant(currentWallet, 'Current wallet not found');
-      return walletPort.request('acceptOrigin', {
-        origin: ZERION_ORIGIN,
-        address: currentWallet.address,
-      });
-    },
-  });
-
   const { data: currentUserId } = useQuery({
     queryKey: ['getCurrentUserId'],
     queryFn: async () => (await getCurrentUser())?.id,
@@ -109,8 +74,6 @@ function SettingsMain() {
   });
 
   const { handleCopy, isSuccess } = useCopyToClipboard({ text: currentUserId });
-
-  const addWalletParams = useWalletParams(currentWallet);
 
   const { pathname } = useLocation();
   useBackgroundKind({ kind: 'white' });
@@ -199,31 +162,6 @@ function SettingsMain() {
                 </AngleRightRow>
               </FrameListItemLink>
             ) : null}
-            {FEATURE_LOYALTY_FLOW === 'on' &&
-            loyaltyEnabled &&
-            currentWallet &&
-            addressType === 'evm' ? (
-              <FrameListItemAnchor
-                href={`${ZERION_ORIGIN}/rewards?${addWalletParams}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  emitter.emit('buttonClicked', {
-                    buttonScope: 'Loaylty',
-                    buttonName: 'Rewards',
-                    pathname,
-                  });
-                  acceptZerionOrigin();
-                }}
-              >
-                <AngleRightRow kind="link">
-                  <HStack gap={8} alignItems="center">
-                    <RewardsIcon style={{ width: 24, height: 24 }} />
-                    <UIText kind="body/regular">Rewards</UIText>
-                  </HStack>
-                </AngleRightRow>
-              </FrameListItemAnchor>
-            ) : null}
           </VStack>
         </Frame>
         <Frame>
@@ -270,60 +208,11 @@ function SettingsMain() {
             </FrameListItemLink>
           </VStack>
         </Frame>
-
-        <Frame>
-          <VStack gap={0}>
-            <FrameListItemAnchor
-              onClick={openHrefInTabIfSidepanel}
-              href="https://help.zerion.io/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <AngleRightRow kind="link">
-                <HStack gap={8} alignItems="center">
-                  <QuestionIcon style={{ width: 24, height: 24 }} />
-                  <UIText kind="body/regular">Support & Feedback</UIText>
-                </HStack>
-              </AngleRightRow>
-            </FrameListItemAnchor>
-            <BugReportButton />
-            <FrameListItemAnchor
-              href="https://app.getbeamer.com/zerion/en?category=extension"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <AngleRightRow kind="link">
-                <HStack gap={8} alignItems="center">
-                  <BulbIcon />
-                  <UIText kind="body/regular">What{apostrophe}s New</UIText>
-                </HStack>
-              </AngleRightRow>
-            </FrameListItemAnchor>
-          </VStack>
-        </Frame>
         {ENABLE_DNA_BANNERS ? (
           <SettingsDnaBanners address={singleAddressNormalized} />
         ) : null}
-        <UIText kind="small/regular" color="var(--neutral-500)">
+        <UIText kind="small/regular" color="var(--neutral-500">
           <HStack gap={4} alignItems="center" justifyContent="center">
-            <UnstyledAnchor
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://s3.amazonaws.com/cdn.zerion.io/assets/privacy.pdf"
-              className="hover:underline"
-            >
-              Privacy
-            </UnstyledAnchor>
-            <span>{middot}</span>
-            <UnstyledAnchor
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://s3.amazonaws.com/cdn.zerion.io/assets/terms.pdf"
-              className="hover:underline"
-            >
-              Terms of use
-            </UnstyledAnchor>
-            <span>{middot}</span>
             <UnstyledButton
               className="hover:underline"
               disabled={!currentUserId}
@@ -540,17 +429,6 @@ function Privacy() {
                 Help us improve our app experience by sharing anonymous
                 statistics about how you use Wallet. We will not associate any
                 of this to you and your personal data will not be sent to us.
-                Read more in our{' '}
-                <UnstyledAnchor
-                  href="https://s3.amazonaws.com/cdn.zerion.io/assets/privacy.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:underline"
-                  style={{ color: 'var(--primary)' }}
-                >
-                  Privacy Policy
-                </UnstyledAnchor>
-                .
               </span>
             }
           />

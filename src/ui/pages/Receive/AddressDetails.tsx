@@ -11,16 +11,11 @@ import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import { BottomSheetDialog } from 'src/ui/ui-kit/ModalDialogs/BottomSheetDialog';
 import { DialogTitle } from 'src/ui/ui-kit/ModalDialogs/DialogTitle';
 import type { HTMLDialogElementInterface } from 'src/ui/ui-kit/ModalDialogs/HTMLDialogElementInterface';
-import EcosystemSolanaIcon from 'jsx:src/ui/assets/ecosystem-solana.svg';
-import EcosystemEthereumIcon from 'jsx:src/ui/assets/ecosystem-ethereum.svg';
 import { useNetworks } from 'src/modules/networks/useNetworks';
 import { PageStickyFooter } from 'src/ui/components/PageStickyFooter';
 import { isCustomNetworkId } from 'src/modules/ethereum/chains/helpers';
 import { NetworkIcon } from 'src/ui/components/NetworkIcon';
-import {
-  getAddressType,
-  type NetworkBlockchainType,
-} from 'src/shared/wallet/classifiers';
+import type { NetworkBlockchainType } from 'src/shared/wallet/classifiers';
 import WalletIcon from 'url:src/images/sample-avatar.png';
 
 function NetworkList({ standard }: { standard: NetworkBlockchainType }) {
@@ -29,7 +24,7 @@ function NetworkList({ standard }: { standard: NetworkBlockchainType }) {
     return networks
       ?.getDefaultNetworks(standard)
       .filter((item) => !item.is_testnet && !isCustomNetworkId(item.id));
-  }, [networks]);
+  }, [networks, standard]);
 
   return (
     <VStack gap={0}>
@@ -43,92 +38,19 @@ function NetworkList({ standard }: { standard: NetworkBlockchainType }) {
   );
 }
 
-function EthereumNetworksVisualStack() {
-  return (
-    <div style={{ display: 'flex' }}>
-      <img
-        style={{
-          width: 20,
-          height: 20,
-          border: '2px solid var(--white)',
-          borderRadius: 6,
-          backgroundColor: 'var(--white)',
-          marginLeft: -7,
-        }}
-        src="https://chain-icons.s3.amazonaws.com/optimism.png"
-      />
-      <img
-        style={{
-          width: 20,
-          height: 20,
-          border: '2px solid var(--white)',
-          borderRadius: 6,
-          backgroundColor: 'var(--white)',
-          marginLeft: -7,
-        }}
-        src="https://chain-icons.s3.amazonaws.com/polygon.png"
-      />
-      <img
-        style={{
-          width: 20,
-          height: 20,
-          border: '2px solid var(--white)',
-          borderRadius: 6,
-          backgroundColor: 'var(--white)',
-          marginLeft: -7,
-        }}
-        src="https://chain-icons.s3.amazonaws.com/bsc.png"
-      />
-      <img
-        style={{
-          width: 20,
-          height: 20,
-          border: '2px solid var(--white)',
-          borderRadius: 6,
-          backgroundColor: 'var(--white)',
-          marginLeft: -7,
-        }}
-        src="https://chain-icons.s3.amazonaws.com/chainlist/324"
-      />
-      <img
-        style={{
-          width: 20,
-          height: 20,
-          border: '2px solid var(--white)',
-          borderRadius: 6,
-          backgroundColor: 'var(--white)',
-          marginLeft: -7,
-        }}
-        src="https://chain-icons.s3.amazonaws.com/base.png"
-      />
-    </div>
-  );
-}
-
-function SupportedNetworks({ address }: { address: string }) {
-  const dialogRef = useRef<HTMLDialogElementInterface>(null);
-  const standard = getAddressType(address);
+function SupportedNetworks() {
+  const dialogRef = useRef<HTMLDialogElementInterface | null>(null);
 
   return (
     <>
       <VStack gap={8} style={{ placeItems: 'center' }}>
-        {standard === 'solana' ? (
-          <EcosystemSolanaIcon style={{ width: 24, height: 24 }} />
-        ) : (
-          <HStack gap={6}>
-            <EthereumNetworksVisualStack />
-            <UIText kind="small/regular" color="var(--neutral-500)">
-              +60 more
-            </UIText>
-          </HStack>
-        )}
         <UnstyledButton
           className="hover:underline"
           onClick={() => {
             dialogRef.current?.showModal();
           }}
         >
-          <UIText kind="caption/regular">Supported Networks</UIText>
+          <UIText kind="caption/regular">BWICK Chain</UIText>
         </UnstyledButton>
       </VStack>
       <BottomSheetDialog
@@ -143,39 +65,13 @@ function SupportedNetworks({ address }: { address: string }) {
             <VStack gap={16} style={{ padding: 16 }}>
               <DialogTitle
                 alignTitle="start"
-                title={<UIText kind="headline/h3">Supported Networks</UIText>}
+                title={<UIText kind="headline/h3">BWICK Chain</UIText>}
               />
               <UIText kind="body/regular">
-                These are the blockchains Wallet supports for sending,
-                receiving, and managing assets.
+                BWICK is a Cosmos-based blockchain. Use this address to send and
+                receive BWICK tokens.
               </UIText>
-              <HStack
-                gap={12}
-                style={{
-                  backgroundColor: 'var(--neutral-100)',
-                  paddingBlock: 8,
-                  paddingInline: 12,
-                  borderRadius: 16,
-                }}
-                alignItems="center"
-              >
-                {standard === 'solana' ? (
-                  <>
-                    <EcosystemEthereumIcon style={{ width: 36, height: 36 }} />
-                    <UIText kind="small/regular">
-                      To use the Ethereum ecosystem, choose an Ethereum wallet.
-                    </UIText>
-                  </>
-                ) : (
-                  <>
-                    <EcosystemSolanaIcon style={{ width: 36, height: 36 }} />
-                    <UIText kind="small/regular">
-                      To use the Solana ecosystem, choose a Solana wallet.
-                    </UIText>
-                  </>
-                )}
-              </HStack>
-              <NetworkList standard={standard} />
+              <NetworkList standard="cosmos" />
             </VStack>
             <PageStickyFooter
               lineColor="transparent"
@@ -230,7 +126,7 @@ export function AddressDetails({
           logoPadding={8}
         />
       </div>
-      <SupportedNetworks address={address} />
+      <SupportedNetworks />
       <VStack gap={8} style={{ justifyItems: 'center' }}>
         {domain ? <UIText kind="headline/h3">{domain}</UIText> : null}
         <UIText kind="small/regular">

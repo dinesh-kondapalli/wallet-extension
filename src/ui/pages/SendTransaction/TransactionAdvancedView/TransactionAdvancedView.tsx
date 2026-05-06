@@ -27,7 +27,7 @@ import type { MultichainTransaction } from 'src/shared/types/MultichainTransacti
 import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import { Networks } from 'src/modules/networks/Networks';
 import { RecipientLine } from 'src/ui/components/address-action/RecipientLine';
-import type { InterpretResponse } from 'src/modules/zerion-api/requests/wallet-simulate-transaction';
+import type { InterpretResponse } from 'src/modules/bwick-api/requests/wallet-simulate-transaction';
 
 function maybeHexValue(value?: BigNumberish | null): string | null {
   return value ? valueToHex(value) : null;

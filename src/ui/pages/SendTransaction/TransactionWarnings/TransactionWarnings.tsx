@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NetworkFeeConfiguration } from '@zeriontech/transactions';
+import type { NetworkFeeConfiguration } from '@bwicktech/transactions';
 import type { IncomingTransaction } from 'src/modules/ethereum/types/IncomingTransaction';
 import type { AnyAddressAction } from 'src/modules/ethereum/transactions/addressAction';
 import { ZStack } from 'src/ui/ui-kit/ZStack';

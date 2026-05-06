@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import type { UserInteractionRequested } from '@zeriontech/hardware-wallet-connection';
+import type { UserInteractionRequested } from '@bwicktech/hardware-wallet-connection';
 import {
   deniedByUser,
   getAddressesEth,
   getAddressesSolana,
   parseLedgerError,
-} from '@zeriontech/hardware-wallet-connection';
+} from '@bwicktech/hardware-wallet-connection';
 import type { DeviceAccount } from 'src/shared/types/Device';
 import {
   SegmentedControlGroup,

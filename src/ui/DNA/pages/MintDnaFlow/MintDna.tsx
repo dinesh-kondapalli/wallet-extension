@@ -32,15 +32,15 @@ import { invariant } from 'src/shared/invariant';
 import { useGasPrices } from 'src/ui/shared/requests/useGasPrices';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import { SidePanel } from 'src/ui/features/onboarding/shared/SidePanel';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import { useHttpAddressPositions } from 'src/modules/zerion-api/hooks/useWalletPositions';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
+import { useHttpAddressPositions } from 'src/modules/bwick-api/hooks/useWalletPositions';
 import { usePositionsRefetchInterval } from 'src/ui/transactions/usePositionsRefetchInterval';
 import * as helpersStyles from '../../shared/styles.module.css';
 import { Step } from '../../shared/Step';
 import { DNA_MINT_CONTRACT_ADDRESS } from '../../shared/constants';
 import * as styles from './styles.module.css';
 
-const ZERION_ORIGIN = 'https://app.zerion.io';
+const BWICK_ORIGIN = 'https://app.bwick.io';
 
 function useDnaMintTransaction(address: string) {
   const mintTransaction = useMemo(
@@ -269,7 +269,7 @@ export function MintDna() {
               <Button
                 style={{ width: '100%' }}
                 as={TextAnchor}
-                href={`${ZERION_ORIGIN}/send?addressInputValue=${address}`}
+                href={`${BWICK_ORIGIN}/send?addressInputValue=${address}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -279,7 +279,7 @@ export function MintDna() {
                 style={{ width: '100%' }}
                 kind="regular"
                 as={TextAnchor}
-                href={`${ZERION_ORIGIN}/deposit?${addWalletParams}`}
+                href={`${BWICK_ORIGIN}/deposit?${addWalletParams}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -302,7 +302,7 @@ export function MintDna() {
         <div style={{ position: 'absolute', bottom: -4, left: 128 }}>
           <animated.div style={chainAppearStyle[4]}>
             <img
-              src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/dna-6.png"
+              src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/dna-6.png"
               alt="dna image"
               style={{ objectFit: 'contain', width: 202 }}
             />
@@ -311,7 +311,7 @@ export function MintDna() {
         <div style={{ position: 'absolute', bottom: -4, left: 193 }}>
           <animated.div style={chainAppearStyle[3]}>
             <img
-              src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/dna-5.png"
+              src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/dna-5.png"
               alt="dna image"
               style={{ objectFit: 'contain', width: 220 }}
             />
@@ -320,7 +320,7 @@ export function MintDna() {
         <div style={{ position: 'absolute', bottom: -4, left: 250 }}>
           <animated.div style={chainAppearStyle[2]}>
             <img
-              src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/dna-4.png"
+              src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/dna-4.png"
               alt="dna image"
               style={{ width: 248, height: 264 }}
             />
@@ -329,7 +329,7 @@ export function MintDna() {
         <div style={{ position: 'absolute', bottom: -4, left: 330 }}>
           <animated.div style={chainAppearStyle[1]}>
             <img
-              src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/dna-3.png"
+              src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/dna-3.png"
               alt="dna image"
               style={{ objectFit: 'contain', width: 244 }}
             />
@@ -338,7 +338,7 @@ export function MintDna() {
         <div style={{ position: 'absolute', bottom: -4, left: 385 }}>
           <animated.div style={chainAppearStyle[0]}>
             <img
-              src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/dna-2.png"
+              src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/dna-2.png"
               alt="dna image"
               style={{ objectFit: 'contain', width: 273 }}
             />
@@ -353,7 +353,7 @@ export function MintDna() {
               }}
             >
               <img
-                src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/dna-1.png"
+                src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/dna-1.png"
                 alt="dna image"
                 style={{ objectFit: 'contain', width: 270 }}
               />
@@ -388,7 +388,7 @@ export function MintDna() {
           <UnstyledAnchor
             className={styles.siteLink}
             target="_blank"
-            href="https://zerion.io/dna"
+            href="https://bwick.io/dna"
             title="Wallet DNA"
           >
             <GlobeIcon style={{ width: 24, height: 24 }} />

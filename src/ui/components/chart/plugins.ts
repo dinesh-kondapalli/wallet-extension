@@ -16,11 +16,15 @@ export function drawRangePlugin({
       const startRangeX = getStartRangeX();
       const theme = getTheme();
 
-      if (!activeElement || !ctx || !startRangeX) {
+      if (!activeElement || !ctx || startRangeX == null) {
         return;
       }
 
       const { x } = activeElement.element.tooltipPosition(false);
+
+      if (x == null) {
+        return;
+      }
 
       ctx.save();
 

@@ -1,5 +1,5 @@
 {
-  "name": "zerion-wallet",
+  "name": "bwick-wallet-extension",
   "version": "1.38.2",
   "description": "A web3 wallet extension",
   "scripts": {
@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/zeriontech/zerion-wallet-extension.git"
+    "url": ""
   },
   "keywords": [
     "Wallet",
@@ -51,9 +51,9 @@
   "author": "everdimension <everdimension@gmail.com>",
   "license": "GPL-3.0-only",
   "bugs": {
-    "url": "https://github.com/zeriontech/zerion-wallet-extension/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/zeriontech/zerion-wallet-extension#readme",
+  "homepage": "",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "engines": {
     "node": ">=20.10.0"
@@ -99,8 +99,9 @@
     "typescript-eslint": "^8.35.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --cache --fix",
-    "*.{ts,tsx,css,md}": "prettier --write"
+    "{src,e2e,scripts,__tests__}/**/*.{ts,tsx}": "eslint --cache --fix",
+    "{src,e2e,scripts,__tests__}/**/*.{ts,tsx,css,md}": "prettier --write",
+    "*.md": "prettier --write"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -121,10 +122,10 @@
     "@tanstack/react-virtual": "^3.2.0",
     "@walletconnect/jsonrpc-provider": "^1.0.13",
     "@walletconnect/jsonrpc-utils": "^1.0.8",
-    "@zeriontech/components": "^1.1.0",
-    "@zeriontech/hardware-wallet-connection": "^2.0.0",
-    "@zeriontech/solana-wallet-standard": "^1.0.0-alpha.2",
-    "@zeriontech/transactions": "^0.4.2",
+    "@bwicktech/components": "file:vendor/@bwicktech/components",
+    "@bwicktech/hardware-wallet-connection": "file:vendor/@bwicktech/hardware-wallet-connection",
+    "@bwicktech/solana-wallet-standard": "file:vendor/@bwicktech/solana-wallet-standard",
+    "@bwicktech/transactions": "file:vendor/@bwicktech/transactions",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.1",
     "bip32": "^5.0.0-rc.0",
@@ -160,6 +161,7 @@
     "react-router-dom": "^6.18.0",
     "rlp": "^3.0.0",
     "store-unit": "^1.0.3",
+    "string_decoder": "^1.3.0",
     "stream-browserify": "^3.0.0",
     "tweetnacl": "^1.0.3",
     "uuid": "^9.0.0",

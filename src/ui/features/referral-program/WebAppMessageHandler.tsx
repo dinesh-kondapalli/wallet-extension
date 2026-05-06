@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { invariant } from 'src/shared/invariant';
 import { isObj } from 'src/shared/isObj';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import { saveReferrerData } from './shared/storage';
 
-const ZERION_WEB_APP_URL = new URL('https://app.zerion.io');
+const BWICK_WEB_APP_URL = new URL('https://app.bwick.io');
 
 type WebAppCallbackMethod =
   | 'set-referral-code'
@@ -25,7 +25,7 @@ function isWebAppMessage(
   }
 ): event is MessageEvent<WebAppMessage> {
   return (
-    event.origin === ZERION_WEB_APP_URL.origin &&
+    event.origin === BWICK_WEB_APP_URL.origin &&
     event.source === expectedSource &&
     isObj(event.data) &&
     'method' in event.data
@@ -46,7 +46,7 @@ export function WebAppMessageHandler({
   style?: React.CSSProperties;
 }) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const iframeUrl = new URL(pathname, ZERION_WEB_APP_URL);
+  const iframeUrl = new URL(pathname, BWICK_WEB_APP_URL);
 
   useEffect(() => {
     invariant(iframeRef.current, 'Iframe should be mounted');
@@ -90,7 +90,7 @@ async function setReferralCode(params: unknown) {
     throw new Error('Invalid referral code format or length');
   }
 
-  const checkReferralResponse = await ZerionAPI.checkReferral({
+  const checkReferralResponse = await BwickAPI.checkReferral({
     referralCode: sanitizedReferralCode,
   });
   const checkedReferrer = checkReferralResponse.data;

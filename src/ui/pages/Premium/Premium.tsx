@@ -217,7 +217,7 @@ export function PremiumPage() {
             kind="primary"
             size={48}
             as={UnstyledAnchor}
-            href="http://zerion.io/premium"
+            href="http://bwick.io/premium"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
@@ -245,7 +245,7 @@ export function PremiumPage() {
         <Button
           as={UnstyledAnchor}
           size={48}
-          href="http://zerion.io/premium"
+          href="http://bwick.io/premium"
           target="_blank"
           rel="noopener noreferrer"
           kind="regular"

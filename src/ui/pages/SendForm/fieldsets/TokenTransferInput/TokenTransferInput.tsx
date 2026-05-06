@@ -1,6 +1,6 @@
 import React, { useId, useRef } from 'react';
 import type { AddressPosition } from 'defi-sdk';
-import type { EmptyAddressPosition } from '@zeriontech/transactions';
+import type { EmptyAddressPosition } from '@bwicktech/transactions';
 import {
   getPositionBalance,
   getPositionPartialBalance,

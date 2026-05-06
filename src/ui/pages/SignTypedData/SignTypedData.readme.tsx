@@ -25,7 +25,7 @@ const samples: Array<{ typedDataRaw: string }> = [
 ];
 
 const sampleOrigins = [
-  'https://app.zerion.io/',
+  'https://app.bwick.io/',
   'https://app.uniswap.org/',
   'https://app.sushi.com/',
 ];

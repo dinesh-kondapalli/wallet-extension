@@ -80,7 +80,7 @@ export function FeeDescription({
                         kind="small/accent"
                         className={
                           item.title.includes('Wallet') ||
-                          item.title.includes('Zerion')
+                          item.title.includes('Bwick')
                             ? styles.gradientText
                             : null
                         }

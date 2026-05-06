@@ -81,6 +81,6 @@ export async function deriveEncryptionKeyFromPRF(
     ikm: prfOutput,
     salt,
     length: 32,
-    info: 'zerion-passkey-v1',
+    info: 'bwick-passkey-v1',
   });
 }

@@ -9,7 +9,7 @@ import { createParams, sendToMetabase } from './analytics';
 import {
   createAddProviderHook,
   initialize as initializeApiV4Analytics,
-} from './api-v4-zerion';
+} from './api-v4-bwick';
 import {
   getProviderForApiV4,
   getProviderForMetabase,

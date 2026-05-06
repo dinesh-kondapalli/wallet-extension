@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, Audio, Video } from 'src/ui/ui-kit/MediaFallback';
-import type { WalletMetaMediaContent } from 'src/modules/zerion-api/requests/wallet-get-meta';
+import type { WalletMetaMediaContent } from 'src/modules/bwick-api/requests/wallet-get-meta';
 
 export const MediaError = ({
   image = '🖼',

@@ -46,7 +46,7 @@ function PhantomWalletInstructionPanel({
           <div>
             <img
               style={{ width: 320 }}
-              src="https://cdn.zerion.io/images/dna-assets/phantom-instruction-screenshot_2x.png"
+              src="https://cdn.bwick.io/images/dna-assets/phantom-instruction-screenshot_2x.png"
               alt="Phantom wallet screenshot"
             />
           </div>
@@ -102,7 +102,7 @@ export function SecretKeyFAQ() {
               }}
             >
               <img
-                src="https://cdn.zerion.io/images/dna-assets/metamask-instruction-screenshot_2x.png"
+                src="https://cdn.bwick.io/images/dna-assets/metamask-instruction-screenshot_2x.png"
                 style={{ width: 218 }}
                 alt="Metamask wallet screenshot"
               />

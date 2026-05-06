@@ -6,7 +6,7 @@ import type {
   Amount,
   Collection,
   NFTPreview,
-} from 'src/modules/zerion-api/requests/wallet-get-actions';
+} from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { invariant } from 'src/shared/invariant';
 import { isNumeric } from 'src/shared/isNumeric';
 import { NavigationTitle } from 'src/ui/components/NavigationTitle';
@@ -23,7 +23,7 @@ import { minus } from 'src/ui/shared/typography';
 import { AssetLink } from 'src/ui/components/AssetLink';
 import { formatPriceValue } from 'src/shared/units/formatPriceValue';
 import { NFTLink } from 'src/ui/components/NFTLink';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
 import { BlurrableBalance } from 'src/ui/components/BlurrableBalance';
 import {
   isLocalAddressAction,

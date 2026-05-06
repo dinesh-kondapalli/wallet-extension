@@ -7,7 +7,7 @@ import { SendTransaction } from './SendTransaction';
 import { sample } from './transactions.sample';
 
 const sampleOrigins = [
-  'https://app.zerion.io/',
+  'https://app.bwick.io/',
   'https://app.uniswap.org/',
   'https://app.sushi.com/',
 ];

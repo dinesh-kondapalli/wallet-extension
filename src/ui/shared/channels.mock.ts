@@ -26,7 +26,7 @@ const testWallet2: BareWallet = {
 };
 
 const mockedPermissions: WalletRecord['permissions'] = {
-  'https://app.zerion.io': {
+  'https://app.bwick.io': {
     addresses: [normalizeAddress(testAddress)],
     chain: 'ethereum',
   },

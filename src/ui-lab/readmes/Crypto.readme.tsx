@@ -29,7 +29,7 @@ type Secret = {
 const Crypto = () => {
   const [password, setPassword] = useState('secret');
   const [salt, setSalt] = useState(createSalt());
-  const [text, setText] = useState('zerion');
+  const [text, setText] = useState('bwick');
   const [encryptedJSON, setEncryptedJSON] = useState('');
   const [decryptedText, setDecryptedText] = useState('');
   const [_cryptoKey, setCryptoKey] = useState<CryptoKey>();

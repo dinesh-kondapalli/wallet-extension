@@ -34,7 +34,7 @@ import { CircleSpinner } from 'src/ui/ui-kit/CircleSpinner';
 import { wait } from 'src/shared/wait';
 import { usePreferences } from 'src/ui/features/preferences';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
 import { NetworkFee } from '../../../SendTransaction/NetworkFee';
 import { useTransactionFee } from '../../../SendTransaction/TransactionConfiguration/useTransactionFee';

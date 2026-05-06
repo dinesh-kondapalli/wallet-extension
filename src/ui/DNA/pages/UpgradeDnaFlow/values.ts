@@ -42,9 +42,9 @@ export const VALUE_TEXTS: Record<
 };
 
 export const VALUE_IMAGE_URLS = [
-  'https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/self-custodial.png',
-  'https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/seek-alpha.png',
-  'https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/dont-be-maxi.png',
-  'https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/be-invested.png',
-  'https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/its-all-on-chain.png',
+  'https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/self-custodial.png',
+  'https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/seek-alpha.png',
+  'https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/dont-be-maxi.png',
+  'https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/be-invested.png',
+  'https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/its-all-on-chain.png',
 ];

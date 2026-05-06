@@ -20,6 +20,10 @@ export function drawDotPlugin({
 
       const { x, y } = activeElement.element.tooltipPosition(false);
 
+      if (x == null || y == null) {
+        return;
+      }
+
       const hasPointData =
         'raw' in activeElement.element
           ? Boolean((activeElement.element.raw as ParsedAssetChartPoint)?.extra)
@@ -63,6 +67,10 @@ export function drawVerticalLinePlugin({
       }
 
       const { x, y } = activeElement.element.tooltipPosition(false);
+
+      if (x == null || y == null) {
+        return;
+      }
 
       ctx.save();
 

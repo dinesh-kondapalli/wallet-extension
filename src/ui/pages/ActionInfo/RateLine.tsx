@@ -2,7 +2,7 @@ import React from 'react';
 import { HStack } from 'src/ui/ui-kit/HStack';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { formatTokenValue } from 'src/shared/units/formatTokenValue';
-import type { ActionRate } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { ActionRate } from 'src/modules/bwick-api/requests/wallet-get-actions';
 
 export function RateLine({ rate }: { rate: ActionRate }) {
   return (

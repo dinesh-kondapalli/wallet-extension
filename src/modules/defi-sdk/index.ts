@@ -1,12 +1,11 @@
 import memoizeOne from 'memoize-one';
-import { client, Client } from 'defi-sdk';
+import { client as defiSdkClient, Client } from 'defi-sdk';
 import {
   DEFI_SDK_API_URL,
   DEFI_SDK_API_TOKEN,
   BACKEND_ENV,
   DEFI_SDK_TESTNET_API_URL,
 } from 'src/env/config';
-import { invariant } from 'src/shared/invariant';
 import { version } from 'src/shared/packageVersion';
 import { platform } from 'src/shared/analytics/platform';
 import { BackgroundMemoryCache } from './BackgroundMemoryCache';
@@ -17,13 +16,13 @@ export const backgroundCache = new BackgroundMemoryCache();
 export async function configureUIClient() {
   // This client instance uses background script's memory as cache
   return backgroundCache.load().then(() => {
-    invariant(DEFI_SDK_API_URL, 'DEFI_SDK_API_URL not defined');
-    invariant(DEFI_SDK_API_TOKEN, 'DEFI_SDK_API_TOKEN not defined');
-    client.configure({
+    const url = DEFI_SDK_API_URL || 'wss://127.0.0.1:1';
+    const apiToken = DEFI_SDK_API_TOKEN || 'disabled';
+    defiSdkClient.configure({
       getCacheKey: ({ key }) => key,
       cache: backgroundCache,
-      url: DEFI_SDK_API_URL,
-      apiToken: DEFI_SDK_API_TOKEN,
+      url,
+      apiToken,
       hooks,
       ioOptions: {
         query: Object.assign(
@@ -36,11 +35,11 @@ export async function configureUIClient() {
 }
 
 export const configureUITestClient = memoizeOne(() => {
-  invariant(DEFI_SDK_TESTNET_API_URL, 'DEFI_SDK_TESTNET_API_URL not defined');
-  invariant(DEFI_SDK_API_TOKEN, 'DEFI_SDK_API_TOKEN not defined');
-  const client = new Client({
-    url: DEFI_SDK_TESTNET_API_URL,
-    apiToken: DEFI_SDK_API_TOKEN,
+  const url = DEFI_SDK_TESTNET_API_URL || 'wss://127.0.0.1:1';
+  const apiToken = DEFI_SDK_API_TOKEN || 'disabled';
+  const testClient = new Client({
+    url,
+    apiToken,
     hooks,
     ioOptions: {
       query: Object.assign(
@@ -49,5 +48,5 @@ export const configureUITestClient = memoizeOne(() => {
       ),
     },
   });
-  return client;
+  return testClient;
 });

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import type { CustomConfiguration } from '@zeriontech/transactions';
+import type { CustomConfiguration } from '@bwicktech/transactions';
 import type { ExternallyOwnedAccount } from 'src/shared/types/ExternallyOwnedAccount';
 import { HStack } from 'src/ui/ui-kit/HStack';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
@@ -67,7 +67,7 @@ export function TransactionConfirmationView({
     address: wallet.address,
     transactions,
     eligibilityQuery,
-    origin: 'https://app.zerion.io',
+    origin: 'https://app.bwick.io',
   });
 
   const interpretationString = useMemo(() => {

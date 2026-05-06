@@ -3,8 +3,8 @@ import { TokenIcon } from 'src/ui/ui-kit/TokenIcon';
 import type {
   Collection,
   NFTPreview,
-} from 'src/modules/zerion-api/requests/wallet-get-actions';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
+} from 'src/modules/bwick-api/requests/wallet-get-actions';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
 
 export function AssetIcon({
   fungible,

@@ -14,8 +14,8 @@ export function InviteFriendsBanner({ onDismiss }: { onDismiss?(): void }) {
       <img
         className={styles.image}
         style={{ width: 160, height: 108 }}
-        src="https://cdn.zerion.io/images/dna-assets/invite-banner-decoration.png"
-        srcSet="https://cdn.zerion.io/images/dna-assets/invite-banner-decoration.png, https://cdn.zerion.io/images/dna-assets/invite-banner-decoration_2x.png 2x"
+        src="https://cdn.bwick.io/images/dna-assets/invite-banner-decoration.png"
+        srcSet="https://cdn.bwick.io/images/dna-assets/invite-banner-decoration.png, https://cdn.bwick.io/images/dna-assets/invite-banner-decoration_2x.png 2x"
         alt=""
       />
       <UnstyledLink className={styles.bannerLink} to="/invite">

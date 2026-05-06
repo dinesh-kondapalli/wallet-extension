@@ -13,7 +13,7 @@ export const readme: Readme = {
     <MemoryRouter
       initialEntries={[
         `/requestAccounts?${new URLSearchParams({
-          origin: 'https://zerion.io',
+          origin: 'https://bwick.io',
           windowId: '1',
         })}`,
       ]}

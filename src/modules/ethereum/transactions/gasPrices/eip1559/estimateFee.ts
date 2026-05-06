@@ -1,4 +1,4 @@
-import type { EIP1559 } from '@zeriontech/transactions';
+import type { EIP1559 } from '@bwicktech/transactions';
 import BigNumber from 'bignumber.js';
 
 export function estimateFee({

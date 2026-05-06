@@ -1,5 +1,5 @@
 import { isNumeric } from 'src/shared/isNumeric';
-import type { CustomConfiguration } from '@zeriontech/transactions';
+import type { CustomConfiguration } from '@bwicktech/transactions';
 import { gweiToWei, weiToGwei } from 'src/shared/units/formatGasPrice';
 import type { SwapFormState } from '../../SwapForm/shared/SwapFormState';
 import type { SendFormState } from './SendFormState';

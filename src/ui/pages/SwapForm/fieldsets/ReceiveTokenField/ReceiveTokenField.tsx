@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useRef } from 'react';
 import type { AddressPosition } from 'defi-sdk';
-import type { EmptyAddressPosition } from '@zeriontech/transactions';
+import type { EmptyAddressPosition } from '@bwicktech/transactions';
 import { getPositionBalance } from 'src/ui/components/Positions/helpers';
 import {
   formatTokenValue,
@@ -122,7 +122,9 @@ export function ReceiveTokenField({
                 placeholder="0"
                 onChange={(event) =>
                   handleChange(
-                    event.currentTarget.value.replace(',', '.').replace(/\s/g, '')
+                    event.currentTarget.value
+                      .replace(',', '.')
+                      .replace(/\s/g, '')
                   )
                 }
                 pattern={FLOAT_INPUT_PATTERN}

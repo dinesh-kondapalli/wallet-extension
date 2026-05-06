@@ -2,7 +2,7 @@ import type { AddressPosition } from 'defi-sdk';
 
 /**
  * satisfies AddressPosition | EmptyAddressPosition
- * EmptyAddressPosition is a type from @zeriontech/transactions
+ * EmptyAddressPosition is a type from @bwicktech/transactions
  */
 export type BareAddressPosition = Pick<
   AddressPosition,

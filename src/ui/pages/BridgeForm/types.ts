@@ -1,4 +1,4 @@
-import type { NetworkFeeSpeed } from '@zeriontech/transactions';
+import type { NetworkFeeSpeed } from '@bwicktech/transactions';
 
 export type BridgeFormState = {
   /** @description Source blockchain for the swap */

@@ -43,13 +43,13 @@ export const ETHEREUM_CHAIN_SOURCES: EthereumChainConfig[] = [
         name: 'Ethereum',
         symbol: 'ETH',
       },
-      rpcUrls: ['https://rpc.zerion.io/v1/arbitrum'],
+      rpcUrls: ['https://rpc.bwick.io/v1/arbitrum'],
     },
   },
   {
     created: 1715170135504,
-    id: 'zerion-custom-network-0x1231231231',
-    origin: 'https://zerion-tech.atlassian.net',
+    id: 'bwick-custom-network-0x1231231231',
+    origin: 'https://bwick-tech.atlassian.net',
     previousIds: ['FlDuCHqCGIqflJdpAHAtX'],
     updated: 1715170135504,
     value: {
@@ -69,7 +69,7 @@ export const ETHEREUM_CHAIN_SOURCES: EthereumChainConfig[] = [
   {
     created: 1715170143534,
     id: 'scroll',
-    origin: 'https://zerion-tech.atlassian.net',
+    origin: 'https://bwick-tech.atlassian.net',
     previousIds: null,
     updated: 1715170143534,
     value: {

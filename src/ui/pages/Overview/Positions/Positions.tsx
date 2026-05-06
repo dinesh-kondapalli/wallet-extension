@@ -59,12 +59,11 @@ import { useStore } from '@store-unit/react';
 import { usePreferences } from 'src/ui/features/preferences';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
-import { useHttpAddressPositions } from 'src/modules/zerion-api/hooks/useWalletPositions';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
-import type { WalletPortfolio } from 'src/modules/zerion-api/requests/wallet-get-portfolio';
+import { useHttpAddressPositions } from 'src/modules/bwick-api/hooks/useWalletPositions';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
+import { useWalletPortfolio } from 'src/modules/bwick-api/hooks/useWalletPortfolio';
+import type { WalletPortfolio } from 'src/modules/bwick-api/requests/wallet-get-portfolio';
 import { usePositionsRefetchInterval } from 'src/ui/transactions/usePositionsRefetchInterval';
-import { openHrefInTabIfSidepanel } from 'src/ui/shared/openInTabIfInSidepanel';
 import { useFirebaseConfig } from 'src/modules/remote-config/plugins/useFirebaseConfig';
 import { isSolanaAddress } from 'src/modules/solana/shared';
 import { isCosmosAddress } from 'src/modules/cosmos/shared';
@@ -465,7 +464,7 @@ function ProtocolHeading({
 
 function PositionList({
   items,
-  address,
+  address: _address,
   moveGasPositionToFront,
   dappChain,
 }: {
@@ -587,12 +586,10 @@ function PositionList({
                 </SurfaceItemLink>
               ) : showAsLink ? (
                 <SurfaceItemAnchor
-                  onClick={openHrefInTabIfSidepanel}
-                  href={`https://app.zerion.io/tokens/${
-                    position.asset.symbol
-                  }-${position.asset.asset_code}${
-                    address ? `?address=${address}` : ''
-                  }`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                  }}
+                  href="#"
                   target="_blank"
                   decorationStyle={{ borderRadius: 16 }}
                 >
@@ -948,11 +945,13 @@ export function Positions({
     );
   }
   const moveGasPositionToFront = chainValue !== NetworkSelectValue.All;
-  const OVERRIDE_POSITIONS_SUPPORT = addrIsSolana; // todo: remove when backend updates NetworkConfig for Solana
+  const preferRpcPositions =
+    addrIsSolana ||
+    (chainValue !== NetworkSelectValue.All && selectedStandard === 'cosmos');
   const isSupportedByBackend =
     chain == null
       ? true
-      : OVERRIDE_POSITIONS_SUPPORT || networks?.supports('positions', chain);
+      : preferRpcPositions || networks?.supports('positions', chain);
 
   const emptyNetworkBalance = (
     <div
@@ -1025,7 +1024,10 @@ export function Positions({
       />
     );
   } else {
-    if (isLoading || portfolioQuery.fetchStatus === 'fetching') {
+    if (
+      isLoading ||
+      (!preferRpcPositions && portfolioQuery.fetchStatus === 'fetching')
+    ) {
       return renderLoadingViewForNetwork();
     }
     invariant(networks, `Failed to load network info for ${chain}`);

@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import type { CustomConfiguration } from '@zeriontech/transactions';
+import type { CustomConfiguration } from '@bwicktech/transactions';
 import QuestionHintIcon from 'jsx:src/ui/assets/question-hint.svg';
 import type {
   IncomingTransaction,
@@ -16,13 +16,13 @@ import { BottomSheetDialog } from 'src/ui/ui-kit/ModalDialogs/BottomSheetDialog'
 import { DialogTitle } from 'src/ui/ui-kit/ModalDialogs/DialogTitle';
 import type { HTMLDialogElementInterface } from 'src/ui/ui-kit/ModalDialogs/HTMLDialogElementInterface';
 import { CircleSpinner } from 'src/ui/ui-kit/CircleSpinner';
-import type { NetworkFeeType } from 'src/modules/zerion-api/types/NetworkFeeType';
+import type { NetworkFeeType } from 'src/modules/bwick-api/types/NetworkFeeType';
 import { formatTokenValue } from 'src/shared/units/formatTokenValue';
 import { formatCurrencyValueExtra } from 'src/shared/units/formatCurrencyValue';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import { isEthereumAddress } from 'src/shared/isEthereumAddress';
-import type { ActionFee } from 'src/modules/zerion-api/requests/wallet-get-actions';
-import type { InterpretResponse } from 'src/modules/zerion-api/requests/wallet-simulate-transaction';
+import type { ActionFee } from 'src/modules/bwick-api/requests/wallet-get-actions';
+import type { InterpretResponse } from 'src/modules/bwick-api/requests/wallet-simulate-transaction';
 import { NetworkFee } from '../NetworkFee';
 import { NonceLine } from '../NonceLine';
 import { useTransactionFee } from './useTransactionFee';

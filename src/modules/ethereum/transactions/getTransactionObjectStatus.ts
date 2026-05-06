@@ -1,5 +1,5 @@
 import { invariant } from 'src/shared/invariant';
-import type { ActionStatus } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { ActionStatus } from 'src/modules/bwick-api/requests/wallet-get-actions';
 import type { TransactionObject } from './types';
 
 function transactionReceiptToActionStatus(

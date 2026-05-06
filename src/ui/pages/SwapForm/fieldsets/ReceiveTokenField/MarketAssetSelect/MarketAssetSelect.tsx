@@ -1,4 +1,4 @@
-import { ETH, EmptyAddressPosition } from '@zeriontech/transactions';
+import { ETH, EmptyAddressPosition } from '@bwicktech/transactions';
 import React, { useCallback, useMemo, useState } from 'react';
 import type { Chain } from 'src/modules/networks/Chain';
 import { useNetworks } from 'src/modules/networks/useNetworks';
@@ -12,9 +12,9 @@ import { getAssetImplementationInChain } from 'src/modules/networks/asset';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import { useQuery } from '@tanstack/react-query';
 import type { BareAddressPosition } from 'src/shared/types/BareAddressPosition';
-import { useAssetListFungibles } from 'src/modules/zerion-api/hooks/useAssetListFungibles';
-import { fungibleToAsset } from 'src/modules/zerion-api/requests/wallet-get-positions';
-import { useSearchQueryFungibles } from 'src/modules/zerion-api/hooks/useSearchQueryFungibles';
+import { useAssetListFungibles } from 'src/modules/bwick-api/hooks/useAssetListFungibles';
+import { fungibleToAsset } from 'src/modules/bwick-api/requests/wallet-get-positions';
+import { useSearchQueryFungibles } from 'src/modules/bwick-api/hooks/useSearchQueryFungibles';
 import { getPopularTokens } from '../../../shared/getPopularTokens';
 
 export function MarketAssetSelect({

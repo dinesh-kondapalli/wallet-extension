@@ -43,14 +43,14 @@ import type { AnyWallet } from '../WalletSelect/shared';
 const ECOSYSTEM_ICONS: Record<BlockchainType, { src: string; srcSet: string }> =
   {
     evm: {
-      src: 'https://cdn.zerion.io/images/dna-assets/ethereum-connection.png',
+      src: 'https://cdn.bwick.io/images/dna-assets/ethereum-connection.png',
       srcSet:
-        'https://cdn.zerion.io/images/dna-assets/ethereum-connection.png, https://cdn.zerion.io/images/dna-assets/ethereum-connection_2x.png 2x',
+        'https://cdn.bwick.io/images/dna-assets/ethereum-connection.png, https://cdn.bwick.io/images/dna-assets/ethereum-connection_2x.png 2x',
     },
     solana: {
-      src: 'https://cdn.zerion.io/images/dna-assets/solana-connection.png',
+      src: 'https://cdn.bwick.io/images/dna-assets/solana-connection.png',
       srcSet:
-        'https://cdn.zerion.io/images/dna-assets/solana-connection.png, https://cdn.zerion.io/images/dna-assets/solana-connection_2x.png 2x',
+        'https://cdn.bwick.io/images/dna-assets/solana-connection.png, https://cdn.bwick.io/images/dna-assets/solana-connection_2x.png 2x',
     },
   };
 

@@ -12,7 +12,7 @@ import CopyIcon from 'jsx:src/ui/assets/copy.svg';
 import SuccessIcon from 'jsx:src/ui/assets/checkmark-allowed.svg';
 import { useCopyToClipboard } from 'src/ui/shared/useCopyToClipboard';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
-import type { ActionTransaction } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { ActionTransaction } from 'src/modules/bwick-api/requests/wallet-get-actions';
 import type { LocalActionTransaction } from 'src/modules/ethereum/transactions/addressAction';
 
 const ICON_SIZE = 20;

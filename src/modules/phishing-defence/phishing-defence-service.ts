@@ -2,8 +2,8 @@ import { prepareForHref } from 'src/ui/shared/prepareForHref';
 import browser from 'webextension-polyfill';
 import { INTERNAL_ORIGIN } from 'src/background/constants';
 import { setUrlContext } from 'src/shared/setUrlContext';
-import { ZerionAPI as ZerionAPIBackground } from '../zerion-api/zerion-api.background';
-import type { ZerionApiClient } from '../zerion-api/zerion-api-bare';
+import { BwickAPI as BwickAPIBackground } from '../bwick-api/bwick-api.background';
+import type { BwickApiClient } from '../bwick-api/bwick-api-bare';
 
 export type DappSecurityStatus =
   | 'loading'
@@ -15,9 +15,9 @@ export type DappSecurityStatus =
 class PhishingDefence {
   private whitelistedWebsites: Set<string> = new Set();
   private websiteStatus: Record<string, DappSecurityStatus> = {};
-  apiClient: ZerionApiClient;
+  apiClient: BwickApiClient;
 
-  constructor(apiClient: ZerionApiClient) {
+  constructor(apiClient: BwickApiClient) {
     this.apiClient = apiClient;
   }
 
@@ -111,4 +111,4 @@ class PhishingDefence {
 }
 
 /** TODO: should this be instantiated in Wallet/Wallet.ts? */
-export const phishingDefenceService = new PhishingDefence(ZerionAPIBackground);
+export const phishingDefenceService = new PhishingDefence(BwickAPIBackground);

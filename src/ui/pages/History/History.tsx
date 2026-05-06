@@ -19,13 +19,13 @@ import {
   offsetValues,
 } from 'src/ui/pages/Overview/getTabsOffset';
 import { getAddressType } from 'src/shared/wallet/classifiers';
-import { useWalletActions } from 'src/modules/zerion-api/hooks/useWalletActions';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
+import { useWalletActions } from 'src/modules/bwick-api/hooks/useWalletActions';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
 import type { AnyAddressAction } from 'src/modules/ethereum/transactions/addressAction';
 import type {
   ActionType,
   AddressAction,
-} from 'src/modules/zerion-api/requests/wallet-get-actions';
+} from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { useLocalAddressTransactions } from 'src/ui/transactions/useLocalAddressTransactions';
 import { useDefiSdkClient } from 'src/modules/defi-sdk/useDefiSdkClient';
 import { hashQueryKey, useQuery } from '@tanstack/react-query';

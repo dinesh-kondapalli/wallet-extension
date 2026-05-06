@@ -14,7 +14,7 @@ const mainColor = 'var(--black)';
 const secondaryColor = 'var(--neutral-500)';
 
 const EXPLAIN_APPROVE_URL =
-  'https://help.zerion.io/en/articles/4228406-what-does-approve-mean-when-making-a-transaction';
+  'https://help.bwick.io/en/articles/4228406-what-does-approve-mean-when-making-a-transaction';
 
 export function ApproveHintLine({ approved, actionName }: Props) {
   return (

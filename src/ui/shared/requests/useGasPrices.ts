@@ -6,7 +6,7 @@ import {
   getPreferences,
   usePreferences,
 } from 'src/ui/features/preferences/usePreferences';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import { useNetworkConfig } from 'src/modules/networks/useNetworks';
 import { queryClient } from './queryClient';
 
@@ -20,7 +20,7 @@ export async function queryGasPrices(chain: Chain) {
     queryFn: async () => {
       const networksStore = await getNetworksStore();
       const network = await networksStore.fetchNetworkById(chain.toString());
-      return fetchGasPrice({ network, source, apiClient: ZerionAPI });
+      return fetchGasPrice({ network, source, apiClient: BwickAPI });
     },
     staleTime: 10000,
   });
@@ -47,7 +47,7 @@ export function useGasPrices(
       if (!network) {
         return null;
       }
-      return fetchGasPrice({ network, source, apiClient: ZerionAPI });
+      return fetchGasPrice({ network, source, apiClient: BwickAPI });
     },
     useErrorBoundary: true,
     enabled: Boolean(network && network.standard === 'eip155'),

@@ -8,7 +8,7 @@ import { Input } from 'src/ui/ui-kit/Input';
 import { DialogTitle } from 'src/ui/ui-kit/ModalDialogs/DialogTitle';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';
-import type { ReferrerData } from 'src/modules/zerion-api/requests/check-referral';
+import type { ReferrerData } from 'src/modules/bwick-api/requests/check-referral';
 import { HTTPError } from 'ky';
 import { getError } from 'src/shared/errors/getError';
 

@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { hashQueryKey, useMutation, useQuery } from '@tanstack/react-query';
 import type { AddressPosition } from 'defi-sdk';
 import { Client } from 'defi-sdk';
-import { sortPositionsByValue } from '@zeriontech/transactions';
+import { sortPositionsByValue } from '@bwicktech/transactions';
 import { useAddressParams } from 'src/ui/shared/user-address/useAddressParams';
 import { PageColumn } from 'src/ui/components/PageColumn';
 import { PageTop } from 'src/ui/components/PageTop';
@@ -47,8 +47,8 @@ import { HiddenValidationInput } from 'src/ui/shared/forms/HiddenValidationInput
 import { useDefiSdkClient } from 'src/modules/defi-sdk/useDefiSdkClient';
 import { DisableTestnetShortcuts } from 'src/ui/features/testnet-mode/DisableTestnetShortcuts';
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import { useHttpAddressPositions } from 'src/modules/zerion-api/hooks/useWalletPositions';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
+import { useHttpAddressPositions } from 'src/modules/bwick-api/hooks/useWalletPositions';
 import { usePositionsRefetchInterval } from 'src/ui/transactions/usePositionsRefetchInterval';
 import type { SignTransactionResult } from 'src/shared/types/SignTransactionResult';
 import { ensureSolanaResult } from 'src/modules/shared/transactions/helpers';
@@ -59,11 +59,11 @@ import { getDefaultChain } from 'src/ui/shared/forms/trading/getDefaultChain';
 import { isMatchForEcosystem } from 'src/shared/wallet/shared';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import { getError } from 'get-error';
-import type { AddressAction } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { AddressAction } from 'src/modules/bwick-api/requests/wallet-get-actions';
 import BigNumber from 'bignumber.js';
-import { useAssetFullInfo } from 'src/modules/zerion-api/hooks/useAssetFullInfo';
+import { useAssetFullInfo } from 'src/modules/bwick-api/hooks/useAssetFullInfo';
 import { FormFieldset } from 'src/ui/ui-kit/FormFieldset';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { TransactionConfiguration } from '../SendTransaction/TransactionConfiguration';
 import { NetworkSelect } from '../Networks/NetworkSelect';
 import { NetworkFeeLineInfo } from '../SendTransaction/TransactionConfiguration/TransactionConfiguration';
@@ -125,7 +125,7 @@ function SendFormComponent() {
   const httpAddressPositionsQuery = useHttpAddressPositions(
     { addresses: [address], currency },
     { source: useHttpClientSource() },
-    { refetchInterval: usePositionsRefetchInterval(20000) }
+    { enabled: false, refetchInterval: usePositionsRefetchInterval(20000) }
   );
   /** All backend-known positions across all _supported_ chains */
   const allPositions = httpAddressPositionsQuery.data?.data || null;

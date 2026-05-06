@@ -23,7 +23,7 @@ const injectedRegexes: Record<string, RegExp> = {
 const labelsInjectedRe =
   injectedRegexes[window.location.origin] || injectedRegexes.default;
 const labelsMetamaskRe = /\bMeta[mM]ask\b/;
-const zerionRe = /zerion/i;
+const bwickRe = /bwick/i;
 
 function isReplacementMatch(textNode: Node, regex: RegExp) {
   const { textContent } = textNode;
@@ -73,11 +73,11 @@ function replaceButtonImage(node: HTMLElement, context: Context) {
   if (
     !element ||
     !(element instanceof HTMLElement || element instanceof SVGElement) ||
-    element.dataset.zerionReplaced === 'true'
+    element.dataset.bwickReplaced === 'true'
   ) {
     return;
   }
-  element.dataset.zerionReplaced = 'true';
+  element.dataset.bwickReplaced = 'true';
   if (element.nodeName === 'IMG') {
     (element as HTMLImageElement).src = walletLogoSrc;
   } else {
@@ -120,7 +120,7 @@ function rewriteConnectButtons(
   const injectedCandidates: Item[] = [];
   const metamaskCandidates: Item[] = [];
   let didMutateSomething = false;
-  let foundZerionText = false;
+  let foundBwickText = false;
 
   function mutateButton(element: HTMLElement, textNode: Node, regex: RegExp) {
     replaceButtonLabel(textNode, regex);
@@ -148,15 +148,15 @@ function rewriteConnectButtons(
       /**
        * - if we find metamask button, save it to list of metamask candidates,
        * - if we find injected button, save it to list of injected candidates,
-       * - if we find "zerion" text button, ignore candidates
+       * - if we find "bwick" text button, ignore candidates
        * This is to avoid mutating both Metamask and Injected buttons to Wallet
-       * and to avoid mutating Injected buttons when Zerion button exitst
+       * and to avoid mutating Injected buttons when Bwick button exitst
        */
       visitTextNodes(element, (textNode) => {
-        const matchesZerion = isReplacementMatch(textNode, zerionRe);
+        const matchesBwick = isReplacementMatch(textNode, bwickRe);
 
-        if (matchesZerion) {
-          foundZerionText = true;
+        if (matchesBwick) {
+          foundBwickText = true;
           return true;
         }
         const matchesInjected = isReplacementMatch(textNode, labelsInjectedRe);
@@ -175,7 +175,7 @@ function rewriteConnectButtons(
   for (const element of buttonLikeElements) {
     analyzeElement(element);
   }
-  if (foundZerionText) {
+  if (foundBwickText) {
     return;
   }
   for (const item of injectedCandidates) {

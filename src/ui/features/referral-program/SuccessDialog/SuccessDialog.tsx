@@ -8,7 +8,7 @@ import ChartPromoIcon from 'jsx:src/ui/assets/chart-promo.svg';
 import ReducedFeesPromoIcon from 'jsx:src/ui/assets/reduced-fees-promo.svg';
 import CsvPromoIcon from 'jsx:src/ui/assets/csv-promo.svg';
 import { focusNode } from 'src/ui/shared/focusNode';
-import type { ReferrerData } from 'src/modules/zerion-api/requests/check-referral';
+import type { ReferrerData } from 'src/modules/bwick-api/requests/check-referral';
 import { ReferrerLink } from '../shared/ReferrerLink';
 
 import { FeatureCard } from '../shared/FeatureCard';

@@ -20,7 +20,7 @@ import type { BlockchainType } from 'src/shared/wallet/classifiers';
 import {
   deniedByUser,
   parseLedgerError,
-} from '@zeriontech/hardware-wallet-connection';
+} from '@bwicktech/hardware-wallet-connection';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import { ToggleSettingLine } from 'src/ui/pages/Settings/ToggleSettingsLine';
 import { Frame } from 'src/ui/ui-kit/Frame/Frame';

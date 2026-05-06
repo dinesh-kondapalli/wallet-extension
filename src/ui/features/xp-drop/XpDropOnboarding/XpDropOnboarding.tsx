@@ -84,8 +84,8 @@ export function XpDropOnboarding() {
           <OnboardingStep
             title="Rewards"
             text="Unlock exclusive rewards by completing quests using Wallet"
-            imageSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-rewards.png"
-            image2xSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-rewards_2x.png"
+            imageSrc="https://cdn.bwick.io/images/dna-assets/extension-xp-drop-rewards.png"
+            image2xSrc="https://cdn.bwick.io/images/dna-assets/extension-xp-drop-rewards_2x.png"
             buttonText="Continue"
             nextLocation="/xp-drop/onboarding/quests"
           />
@@ -97,8 +97,8 @@ export function XpDropOnboarding() {
           <OnboardingStep
             title="Quests"
             text="Each quest brings you closer to more XP and higher Levels"
-            imageSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-quests.png"
-            image2xSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-quests_2x.png"
+            imageSrc="https://cdn.bwick.io/images/dna-assets/extension-xp-drop-quests.png"
+            image2xSrc="https://cdn.bwick.io/images/dna-assets/extension-xp-drop-quests_2x.png"
             buttonText="Continue"
             nextLocation="/xp-drop/onboarding/new-home-for-dna"
           />
@@ -110,8 +110,8 @@ export function XpDropOnboarding() {
           <OnboardingStep
             title="New Home for DNA"
             text="All DNA on the wallet will be merged, stats combined and moved to the Zero Network"
-            imageSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-dna.png"
-            image2xSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-dna_2x.png"
+            imageSrc="https://cdn.bwick.io/images/dna-assets/extension-xp-drop-dna.png"
+            image2xSrc="https://cdn.bwick.io/images/dna-assets/extension-xp-drop-dna_2x.png"
             buttonText="Continue"
             nextLocation="/xp-drop/onboarding/levels"
           />
@@ -123,8 +123,8 @@ export function XpDropOnboarding() {
           <OnboardingStep
             title="Levels"
             text="Higher levels unlock unique quests, perks and rewards"
-            imageSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-levels.png"
-            image2xSrc="https://cdn.zerion.io/images/dna-assets/extension-xp-drop-levels_2x.png"
+            imageSrc="https://cdn.bwick.io/images/dna-assets/extension-xp-drop-levels.png"
+            image2xSrc="https://cdn.bwick.io/images/dna-assets/extension-xp-drop-levels_2x.png"
             buttonText="Check Your Level"
             nextLocation="/xp-drop/onboarding/scoring"
           />

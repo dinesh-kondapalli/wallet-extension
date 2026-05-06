@@ -6,12 +6,12 @@ import type {
   ActionChain,
   Amount,
   NFTPreview,
-} from 'src/modules/zerion-api/requests/wallet-get-actions';
+} from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { invariant } from 'src/shared/invariant';
 import type { Asset, NFT } from 'defi-sdk';
 import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import type { Quote2 } from 'src/shared/types/Quote';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
 import type {
   IncomingTransaction,
   IncomingTransactionWithFrom,

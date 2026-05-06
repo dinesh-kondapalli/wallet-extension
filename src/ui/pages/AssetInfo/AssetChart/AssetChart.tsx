@@ -1,7 +1,7 @@
 import { useStore } from '@store-unit/react';
 import React, { useMemo, useRef } from 'react';
 import type { PointStyle } from 'chart.js';
-import type { Asset } from 'src/modules/zerion-api/requests/asset-get-fungible-full-info';
+import type { Asset } from 'src/modules/bwick-api/requests/asset-get-fungible-full-info';
 import { Chart } from 'src/ui/components/chart/Chart';
 import {
   type ChartDatasetConfig,
@@ -11,7 +11,7 @@ import {
 } from 'src/ui/components/chart/types';
 import { Theme, themeStore } from 'src/ui/features/appearance';
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import type { AssetChartActionDirection } from 'src/modules/zerion-api/requests/asset-get-chart';
+import type { AssetChartActionDirection } from 'src/modules/bwick-api/requests/asset-get-chart';
 import { serializeAssetChartActions } from './helpers';
 import { externalTooltip } from './tooltip';
 import {
@@ -36,13 +36,13 @@ const MultiActionPointImages = {
 };
 
 MultiActionPointImages.in.light.src =
-  'https://cdn.zerion.io/images/dna-assets/chart-dot-positive-light.svg';
+  'https://cdn.bwick.io/images/dna-assets/chart-dot-positive-light.svg';
 MultiActionPointImages.in.dark.src =
-  'https://cdn.zerion.io/images/dna-assets/chart-dot-positive-dark.svg';
+  'https://cdn.bwick.io/images/dna-assets/chart-dot-positive-dark.svg';
 MultiActionPointImages.out.light.src =
-  'https://cdn.zerion.io/images/dna-assets/chart-dot-negative-light.svg';
+  'https://cdn.bwick.io/images/dna-assets/chart-dot-negative-light.svg';
 MultiActionPointImages.out.dark.src =
-  'https://cdn.zerion.io/images/dna-assets/chart-dot-negative-dark.svg';
+  'https://cdn.bwick.io/images/dna-assets/chart-dot-negative-dark.svg';
 
 function getChartPointColor({
   theme,

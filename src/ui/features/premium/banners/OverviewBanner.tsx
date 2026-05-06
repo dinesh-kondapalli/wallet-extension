@@ -41,8 +41,8 @@ export function OverviewPremiumBanner({
           <img
             style={{ position: 'absolute', right: -88, top: -8, height: 160 }}
             alt="Premium banner decoration"
-            src="https://cdn.zerion.io/images/dna-assets/premium_banner_decoration.png"
-            srcSet="https://cdn.zerion.io/images/dna-assets/premium_banner_decoration.png, https://cdn.zerion.io/images/dna-assets/premium_banner_decoration_2x.png 2x"
+            src="https://cdn.bwick.io/images/dna-assets/premium_banner_decoration.png"
+            srcSet="https://cdn.bwick.io/images/dna-assets/premium_banner_decoration.png, https://cdn.bwick.io/images/dna-assets/premium_banner_decoration_2x.png 2x"
           />
           <div style={{ display: 'flex' }}>
             <StarIcon

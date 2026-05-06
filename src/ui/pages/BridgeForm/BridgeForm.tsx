@@ -15,11 +15,11 @@ import {
   useNetworkConfig,
   useNetworks,
 } from 'src/modules/networks/useNetworks';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
 import {
   queryHttpAddressPositions,
   useHttpAddressPositions,
-} from 'src/modules/zerion-api/hooks/useWalletPositions';
+} from 'src/modules/bwick-api/hooks/useWalletPositions';
 import { useBackgroundKind } from 'src/ui/components/Background';
 import { NavigationTitle } from 'src/ui/components/NavigationTitle';
 import { PageColumn } from 'src/ui/components/PageColumn';
@@ -30,7 +30,7 @@ import WarningIcon from 'jsx:src/ui/assets/warning.svg';
 import { getRootDomNode } from 'src/ui/shared/getRootDomNode';
 import { useAddressParams } from 'src/ui/shared/user-address/useAddressParams';
 import { usePositionsRefetchInterval } from 'src/ui/transactions/usePositionsRefetchInterval';
-import type { EmptyAddressPosition } from '@zeriontech/transactions';
+import type { EmptyAddressPosition } from '@bwicktech/transactions';
 import { HStack } from 'src/ui/ui-kit/HStack';
 import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import { WalletAvatar } from 'src/ui/components/WalletAvatar';
@@ -82,7 +82,7 @@ import {
 } from 'src/shared/types/Quote';
 import { queryClient } from 'src/ui/shared/requests/queryClient';
 import { getDefaultChain } from 'src/ui/shared/forms/trading/getDefaultChain';
-import { getHttpClientSource } from 'src/modules/zerion-api/getHttpClientSource';
+import { getHttpClientSource } from 'src/modules/bwick-api/getHttpClientSource';
 import { getNetworksStore } from 'src/modules/networks/networks-store.client';
 import { sortPositionsByValue } from 'src/ui/components/Positions/groupPositions';
 import { useSearchParamsObj } from 'src/ui/shared/forms/useSearchParamsObj';
@@ -100,10 +100,10 @@ import { UKDisclaimer } from 'src/ui/components/UKDisclaimer/UKDisclaimer';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import { getError } from 'get-error';
 import { TextAnchor } from 'src/ui/ui-kit/TextAnchor';
-import type { AddressAction } from 'src/modules/zerion-api/requests/wallet-get-actions';
-import { useAssetFullInfo } from 'src/modules/zerion-api/hooks/useAssetFullInfo';
+import type { AddressAction } from 'src/modules/bwick-api/requests/wallet-get-actions';
+import { useAssetFullInfo } from 'src/modules/bwick-api/hooks/useAssetFullInfo';
 import { NetworkId } from 'src/modules/networks/NetworkId';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
 import { isTruthy } from 'is-truthy-ts';
 import { isDeviceAccount } from 'src/shared/types/validators';
@@ -136,7 +136,7 @@ import { ReceiveTokenField } from './fieldsets/ReceiveTokenField';
 import { SuccessState } from './SuccessState';
 import { LabeledNetworkSelect } from './LabeledNetworkSelect';
 import { BridgeLine } from './BridgeLine';
-import { ZerionFeeLine } from './ZerionFeeLine';
+import { PlatformFeeLine } from './PlatformFeeLine';
 import { ReceiverAddressField } from './ReceiverAddressField';
 
 const rootNode = getRootDomNode();
@@ -1604,7 +1604,7 @@ function BridgeFormComponent() {
             onSortTypeChange={(value) => handleChange('sort', value)}
             onQuoteIdChange={(quoteId) => setUserQuoteId(quoteId)}
           />
-          {selectedQuote ? <ZerionFeeLine quote={selectedQuote} /> : null}
+          {selectedQuote ? <PlatformFeeLine quote={selectedQuote} /> : null}
           {isEthereumAddress(address) &&
           currentTransaction?.evm &&
           spendChain ? (

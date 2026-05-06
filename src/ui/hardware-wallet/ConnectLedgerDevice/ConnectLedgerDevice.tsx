@@ -1,9 +1,9 @@
-import type { TransportIdentifier } from '@zeriontech/hardware-wallet-connection';
+import type { TransportIdentifier } from '@bwicktech/hardware-wallet-connection';
 import {
   connectDevice,
   parseLedgerError,
   transports,
-} from '@zeriontech/hardware-wallet-connection';
+} from '@bwicktech/hardware-wallet-connection';
 import { useMutation } from '@tanstack/react-query';
 import React, { useRef } from 'react';
 import { VStack } from 'src/ui/ui-kit/VStack';

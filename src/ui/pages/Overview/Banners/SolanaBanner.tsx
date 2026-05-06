@@ -20,8 +20,8 @@ export function SolanaBanner({ onDismiss }: { onDismiss: () => void }) {
       <img
         style={{ position: 'absolute', right: 0, top: 0, height: 108 }}
         alt="Solana banner decoration"
-        src="https://cdn.zerion.io/images/dna-assets/solana-banner-decoration.png"
-        srcSet="https://cdn.zerion.io/images/dna-assets/solana-banner-decoration.png, https://cdn.zerion.io/images/dna-assets/solana-banner-decoration_2x.png 2x"
+        src="https://cdn.bwick.io/images/dna-assets/solana-banner-decoration.png"
+        srcSet="https://cdn.bwick.io/images/dna-assets/solana-banner-decoration.png, https://cdn.bwick.io/images/dna-assets/solana-banner-decoration_2x.png 2x"
       />
       <UnstyledButton
         onClick={onDismiss}

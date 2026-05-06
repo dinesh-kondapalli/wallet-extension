@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import type { ZerionApiClient } from 'src/modules/zerion-api/zerion-api-bare';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import type { BwickApiClient } from 'src/modules/bwick-api/bwick-api-bare';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import { usePreferences } from 'src/ui/features/preferences';
 import { adjustedCheckEligibility } from 'src/modules/ethereum/account-abstraction/fetchAndAssignPaymaster';
 
 export function useTxEligibility(
-  tx: Parameters<ZerionApiClient['paymasterCheckEligibility']>[0] | null,
+  tx: Parameters<BwickApiClient['paymasterCheckEligibility']>[0] | null,
   { enabled: enabledParam = true } = {}
 ) {
   const { preferences } = usePreferences();
@@ -18,7 +18,7 @@ export function useTxEligibility(
       if (!tx) {
         return null;
       }
-      return adjustedCheckEligibility(tx, { source, apiClient: ZerionAPI });
+      return adjustedCheckEligibility(tx, { source, apiClient: BwickAPI });
     },
     enabled,
   });

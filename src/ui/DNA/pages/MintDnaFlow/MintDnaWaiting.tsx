@@ -56,24 +56,24 @@ export function MintDnaWaiting() {
   return (
     <div className={helpersStyles.container} style={{ height: 600 }}>
       <img
-        src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/minting-1.png"
+        src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/minting-1.png"
         alt="minting"
         className={styles.mintingImage}
       />
       <img
-        src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/minting-2.png"
+        src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/minting-2.png"
         alt="minting"
         className={styles.mintingImage}
         style={{ animationDelay: '2000ms' }}
       />
       <img
-        src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/minting-3.png"
+        src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/minting-3.png"
         alt="minting"
         className={styles.mintingImage}
         style={{ animationDelay: '4000ms' }}
       />
       <img
-        src="https://s3.amazonaws.com/cdn.zerion.io/images/dna-assets/minting-4.png"
+        src="https://s3.amazonaws.com/cdn.bwick.io/images/dna-assets/minting-4.png"
         alt="minting"
         className={styles.mintingImage}
         style={{ animationDelay: '6000ms' }}
@@ -109,7 +109,7 @@ export function MintDnaWaiting() {
       <UnstyledAnchor
         className={styles.siteLink}
         target="_blank"
-        href="https://zerion.io/dna"
+        href="https://bwick.io/dna"
       >
         <GlobeIcon style={{ width: 24, height: 24 }} />
       </UnstyledAnchor>

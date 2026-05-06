@@ -1,8 +1,8 @@
-import type { EmptyAddressPosition } from '@zeriontech/transactions';
+import type { EmptyAddressPosition } from '@bwicktech/transactions';
 import {
   createSendNativeOrContractTransaction,
   createSendNFTTransaction,
-} from '@zeriontech/transactions';
+} from '@bwicktech/transactions';
 import type { AddressNFT, AddressPosition, Client } from 'defi-sdk';
 import {
   adjustedCheckEligibility,
@@ -20,7 +20,7 @@ import type { Chain } from 'src/modules/networks/Chain';
 import { createChain } from 'src/modules/networks/Chain';
 import { Networks } from 'src/modules/networks/Networks';
 import { getNetworksStore } from 'src/modules/networks/networks-store.client';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import { assertProp } from 'src/shared/assert-property';
 import { invariant } from 'src/shared/invariant';
 import { isEthereumAddress } from 'src/shared/isEthereumAddress';
@@ -30,14 +30,14 @@ import type { PartiallyRequired } from 'src/shared/type-utils/PartiallyRequired'
 import { baseToCommon, commonToBase } from 'src/shared/units/convert';
 import { valueToHex } from 'src/shared/units/valueToHex';
 import { queryGasPrices } from 'src/ui/shared/requests/useGasPrices';
-import { getHttpClientSource } from 'src/modules/zerion-api/getHttpClientSource';
+import { getHttpClientSource } from 'src/modules/bwick-api/getHttpClientSource';
 import { solToBase64 } from 'src/modules/solana/transactions/create';
 import type { MultichainTransaction } from 'src/shared/types/MultichainTransaction';
 import { isMatchForEcosystem } from 'src/shared/wallet/shared';
 import { getAddressType } from 'src/shared/wallet/classifiers';
 import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import { SOL_ASSET_FUNGIBLE } from 'src/modules/solana/transactions/parseSolanaTransaction';
-import type { NetworkFeeType } from 'src/modules/zerion-api/types/NetworkFeeType';
+import type { NetworkFeeType } from 'src/modules/bwick-api/types/NetworkFeeType';
 import BigNumber from 'bignumber.js';
 import { getNetworkFeeEstimation } from 'src/modules/ethereum/transactions/gasPrices/feeEstimation';
 import type { GasPriceObject } from 'src/modules/ethereum/transactions/gasPrices/GasPriceObject';
@@ -145,13 +145,13 @@ async function getEligibility(tx: IncomingTransaction) {
   assertProp(tx, 'gas');
   return adjustedCheckEligibility(tx, {
     source,
-    apiClient: ZerionAPI,
+    apiClient: BwickAPI,
   });
 }
 
 async function getPaymasterTx(transaction: IncomingTransaction) {
   const source = await getHttpClientSource();
-  return fetchAndAssignPaymaster(transaction, { source, apiClient: ZerionAPI });
+  return fetchAndAssignPaymaster(transaction, { source, apiClient: BwickAPI });
 }
 
 type SendSubmitData = (

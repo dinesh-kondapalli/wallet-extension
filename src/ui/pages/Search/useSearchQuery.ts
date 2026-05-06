@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
-import type { Response } from 'src/modules/zerion-api/requests/search-query';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
+import type { Response } from 'src/modules/bwick-api/requests/search-query';
 
 export function useSearchQuery({
   query,
@@ -14,7 +14,7 @@ export function useSearchQuery({
   return useQuery<Response | null>({
     queryKey: ['searchQuery', query, currency, limit],
     queryFn: () => {
-      return ZerionAPI.searchQuery({
+      return BwickAPI.searchQuery({
         query,
         currency,
         limit,

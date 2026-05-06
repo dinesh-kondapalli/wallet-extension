@@ -3,8 +3,8 @@ import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
 import omit from 'lodash/omit';
 import { Networks } from 'src/modules/networks/Networks';
 import { sendRpcRequest } from 'src/shared/custom-rpc/rpc-request';
-import type { NetworksSource } from 'src/modules/zerion-api/shared';
-import type { ZerionApiClient } from 'src/modules/zerion-api/zerion-api-bare';
+import type { NetworksSource } from 'src/modules/bwick-api/shared';
+import type { BwickApiClient } from 'src/modules/bwick-api/bwick-api-bare';
 import type { IncomingTransaction } from '../types/IncomingTransaction';
 import { assignGasPrice } from './gasPrices/assignGasPrice';
 import { hasNetworkFee } from './gasPrices/hasNetworkFee';
@@ -74,7 +74,7 @@ export async function estimateGas(
 async function fetchGasPriceForTransaction(
   transaction: IncomingTransaction,
   networks: Networks,
-  { source, apiClient }: { source: NetworksSource; apiClient: ZerionApiClient }
+  { source, apiClient }: { source: NetworksSource; apiClient: BwickApiClient }
 ): Promise<ChainGasPrice> {
   const chainId = resolveChainId(transaction);
   const network = wrappedGetNetworkById(networks, chainId);
@@ -94,7 +94,7 @@ export function hasGasEstimation(transaction: IncomingTransaction) {
 export async function prepareGasAndNetworkFee<T extends IncomingTransaction>(
   transaction: T,
   networks: Networks,
-  { source, apiClient }: { source: NetworksSource; apiClient: ZerionApiClient }
+  { source, apiClient }: { source: NetworksSource; apiClient: BwickApiClient }
 ) {
   const [gas, networkFeeInfo] = await Promise.all([
     hasGasEstimation(transaction)

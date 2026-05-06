@@ -1,4 +1,4 @@
-import type { WalletIcon } from '@zeriontech/solana-wallet-standard';
+import type { WalletIcon } from '@bwicktech/solana-wallet-standard';
 
 import walletLogoDataUrl from 'data-url:src/images/sample-avatar.png';
 

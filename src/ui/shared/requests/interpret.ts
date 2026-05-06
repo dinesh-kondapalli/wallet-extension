@@ -1,9 +1,9 @@
 import { valueToHex } from 'src/shared/units/valueToHex';
 import type { MultichainTransaction } from 'src/shared/types/MultichainTransaction';
-import type { BackendSourceParams } from 'src/modules/zerion-api/shared';
-import type { InterpretResponse } from 'src/modules/zerion-api/requests/wallet-simulate-transaction';
-import type { SignatureInterpretResponse } from 'src/modules/zerion-api/requests/wallet-simulate-signature';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import type { BackendSourceParams } from 'src/modules/bwick-api/shared';
+import type { InterpretResponse } from 'src/modules/bwick-api/requests/wallet-simulate-transaction';
+import type { SignatureInterpretResponse } from 'src/modules/bwick-api/requests/wallet-simulate-signature';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import { invariant } from 'src/shared/invariant';
 import type { TransactionEVM } from 'src/shared/types/Quote';
 import type { TypedData } from '../../../modules/ethereum/message-signing/TypedData';
@@ -79,7 +79,7 @@ export function interpretTransactions(
     }
     return { solana: transaction.solana };
   });
-  return ZerionAPI.walletSimulateTransactions(
+  return BwickAPI.walletSimulateTransactions(
     {
       address,
       chain,
@@ -107,7 +107,7 @@ export function interpretSignature(
   },
   { source }: BackendSourceParams
 ): Promise<SignatureInterpretResponse> {
-  return ZerionAPI.walletSimulateSignature(
+  return BwickAPI.walletSimulateSignature(
     {
       address,
       chain,

@@ -6,6 +6,7 @@ import {
   fromSolanaKeypair,
 } from 'src/modules/solana/keypairs';
 import { isSolanaPrivateKey } from 'src/modules/solana/shared';
+import { deriveCosmosAddress } from 'src/modules/cosmos/shared';
 import type { BareMnemonicWallet } from 'src/background/Wallet/model/BareWallet';
 import type { BareWallet } from '../types/BareWallet';
 import { invariant } from '../invariant';
@@ -38,10 +39,11 @@ function fromEthersWallet(wallet: PrivateKeyWallet): BareWallet;
 function fromEthersWallet(
   wallet: EthersV5Wallet | PrivateKeyWallet
 ): BareWallet | BareMnemonicWallet {
+  const privateKey = wallet.privateKey;
   return {
     mnemonic: wallet.mnemonic,
-    privateKey: wallet.privateKey,
-    address: wallet.address,
+    privateKey,
+    address: deriveCosmosAddress({ privateKey, prefix: 'bwick' }),
     name: null,
   };
 }

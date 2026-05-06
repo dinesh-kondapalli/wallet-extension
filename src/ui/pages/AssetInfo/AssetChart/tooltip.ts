@@ -1,5 +1,5 @@
 import { type TooltipOptions, type Chart } from 'chart.js';
-import type { AssetChartActions } from 'src/modules/zerion-api/requests/asset-get-chart';
+import type { AssetChartActions } from 'src/modules/bwick-api/requests/asset-get-chart';
 import { createNode as r } from 'src/content-script/in-dapp-notifications/createNode';
 import { deserializeAssetChartActions } from './helpers';
 

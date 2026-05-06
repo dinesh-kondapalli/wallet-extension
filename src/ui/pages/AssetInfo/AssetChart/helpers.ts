@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { capitalize } from 'capitalize-ts';
-import type { AssetChartActions } from 'src/modules/zerion-api/requests/asset-get-chart';
-import type { Asset } from 'src/modules/zerion-api/requests/asset-get-fungible-full-info';
+import type { AssetChartActions } from 'src/modules/bwick-api/requests/asset-get-chart';
+import type { Asset } from 'src/modules/bwick-api/requests/asset-get-fungible-full-info';
 import { formatPriceValue } from 'src/shared/units/formatPriceValue';
 import { formatTokenValue } from 'src/shared/units/formatTokenValue';
 import { ellipsis, minus } from 'src/ui/shared/typography';

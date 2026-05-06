@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { hashQueryKey, useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Client } from 'defi-sdk';
-import type { CustomConfiguration } from '@zeriontech/transactions';
+import type { CustomConfiguration } from '@bwicktech/transactions';
 import {
   getActionApproval,
   type AnyAddressAction,
@@ -64,8 +64,8 @@ import type { HTMLDialogElementInterface } from 'src/ui/ui-kit/ModalDialogs/HTML
 import { DialogTitle } from 'src/ui/ui-kit/ModalDialogs/DialogTitle';
 import { TextLink } from 'src/ui/ui-kit/TextLink';
 import { normalizeChainId } from 'src/shared/normalizeChainId';
-import type { NetworksSource } from 'src/modules/zerion-api/shared';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import type { NetworksSource } from 'src/modules/bwick-api/shared';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import type { ChainGasPrice } from 'src/modules/ethereum/transactions/gasPrices/types';
 import { hasNetworkFee } from 'src/modules/ethereum/transactions/gasPrices/hasNetworkFee';
 import { uiGetBestKnownTransactionCount } from 'src/modules/ethereum/transactions/getBestKnownTransactionCount/uiGetBestKnownTransactionCount';
@@ -103,10 +103,10 @@ import { NetworkId } from 'src/modules/networks/NetworkId';
 import { getError } from 'get-error';
 import { ErrorMessage } from 'src/ui/shared/error-display/ErrorMessage';
 import { baseToCommon, commonToBase } from 'src/shared/units/convert';
-import type { InterpretResponse } from 'src/modules/zerion-api/requests/wallet-simulate-transaction';
+import type { InterpretResponse } from 'src/modules/bwick-api/requests/wallet-simulate-transaction';
 import { getDecimals } from 'src/modules/networks/asset';
 import { UNLIMITED_APPROVAL_AMOUNT } from 'src/modules/ethereum/constants';
-import { getHardwareError } from '@zeriontech/hardware-wallet-connection';
+import { getHardwareError } from '@bwicktech/hardware-wallet-connection';
 import { useGlobalPreferences } from 'src/ui/features/preferences/usePreferences';
 import type { PopoverToastHandle } from '../Settings/PopoverToast';
 import { PopoverToast } from '../Settings/PopoverToast';
@@ -206,7 +206,7 @@ async function resolveGasAndFee(
   const networks = await networksStore.loadNetworksByChainId(chainId);
   return await prepareGasAndNetworkFee(transaction, networks, {
     source,
-    apiClient: ZerionAPI,
+    apiClient: BwickAPI,
   });
 }
 
@@ -603,7 +603,7 @@ function SendTransactionContent({
       invariant(gas, 'gasLimit missing');
       return adjustedCheckEligibility(
         { ...tx, gas: valueToHex(gas) },
-        { source, apiClient: ZerionAPI }
+        { source, apiClient: BwickAPI }
       );
     },
   });
@@ -725,7 +725,7 @@ function SendTransactionContent({
       if (paymasterEligible) {
         tx = await fetchAndAssignPaymaster(tx, {
           source,
-          apiClient: ZerionAPI,
+          apiClient: BwickAPI,
         });
       }
       const feeValueCommon = feeValueCommonRef.current || null;

@@ -2,8 +2,8 @@ import type { AddressPosition } from 'defi-sdk';
 import { useMemo } from 'react';
 import type { Chain } from 'src/modules/networks/Chain';
 import { useNetworks } from 'src/modules/networks/useNetworks';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import { useHttpAddressPositions } from 'src/modules/zerion-api/hooks/useWalletPositions';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
+import { useHttpAddressPositions } from 'src/modules/bwick-api/hooks/useWalletPositions';
 import { useAddressPositionsFromNode } from 'src/ui/shared/requests/useAddressPositionsFromNode';
 import { usePositionsRefetchInterval } from 'src/ui/transactions/usePositionsRefetchInterval';
 

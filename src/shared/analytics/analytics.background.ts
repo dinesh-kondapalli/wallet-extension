@@ -16,14 +16,14 @@ import {
 import { statsigTrack } from 'src/modules/statsig/shared';
 import { getGas } from 'src/modules/ethereum/transactions/getGas';
 import { backgroundQueryClient } from 'src/modules/query-client/query-client.background';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.background';
-import type { Params as FungibleFullInfoParams } from 'src/modules/zerion-api/requests/asset-get-fungible-full-info';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.background';
+import type { Params as FungibleFullInfoParams } from 'src/modules/bwick-api/requests/asset-get-fungible-full-info';
 import {
   toAddressPositions,
   type Params as WalletGetPositionsParams,
-} from 'src/modules/zerion-api/requests/wallet-get-positions';
+} from 'src/modules/bwick-api/requests/wallet-get-positions';
 import { getPositionBalance } from 'src/ui/components/Positions/helpers';
-import type { NetworksSource } from 'src/modules/zerion-api/shared';
+import type { NetworksSource } from 'src/modules/bwick-api/shared';
 import { WalletOrigin } from '../WalletOrigin';
 import {
   isMnemonicContainer,
@@ -42,7 +42,7 @@ import { createParams as createBaseParams, sendToMetabase } from './analytics';
 import {
   createAddProviderHook,
   initialize as initializeApiV4Analytics,
-} from './api-v4-zerion';
+} from './api-v4-bwick';
 import {
   getProviderForApiV4,
   getProviderForMetabase,
@@ -82,7 +82,7 @@ function queryFungibleInfo(payload: FungibleFullInfoParams) {
   return backgroundQueryClient.fetchQuery({
     queryKey: ['assetGetFungibleFullInfo', fungibleId, currency],
     queryFn: async () =>
-      ZerionAPI.assetGetFungibleFullInfo({ fungibleId, currency }),
+      BwickAPI.assetGetFungibleFullInfo({ fungibleId, currency }),
     staleTime: 20000,
   });
 }
@@ -92,9 +92,9 @@ async function queryWalletPositions(
   source: NetworksSource
 ) {
   return backgroundQueryClient.fetchQuery({
-    queryKey: ['ZerionAPI.getWalletsMeta', payload, source],
+    queryKey: ['BwickAPI.getWalletsMeta', payload, source],
     queryFn: async () => {
-      const response = await ZerionAPI.walletGetPositions(payload, { source });
+      const response = await BwickAPI.walletGetPositions(payload, { source });
       return toAddressPositions(response);
     },
     staleTime: 10000,
@@ -557,8 +557,8 @@ function trackAppEvents({ account }: { account: Account }) {
       network_fee: quote.networkFee?.amount?.usdValue ?? undefined,
       gas_price: quote.transactionSwap?.evm?.gasPrice ?? undefined,
       guaranteed_output_amount: quote.minimumOutputAmount.quantity,
-      zerion_fee_percentage: quote.protocolFee.percentage,
-      zerion_fee_usd_amount: quote.protocolFee.amount.usdValue ?? 0,
+      platform_fee_percentage: quote.protocolFee.percentage,
+      platform_fee_usd_amount: quote.protocolFee.amount.usdValue ?? 0,
       input_chain: formState.inputChain,
       output_chain: formState.outputChain ?? formState.inputChain,
       slippage: slippagePercent,

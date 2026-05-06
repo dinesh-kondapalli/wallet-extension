@@ -1,59 +1,35 @@
-import { wait } from 'src/shared/wait';
 import type { Client } from 'defi-sdk';
-import { rejectAfterDelay } from 'src/shared/rejectAfterDelay';
-import { fetchChains, getNetworksBySearch } from '../ethereum/chains/requests';
-import { isTestClient } from '../defi-sdk/isTestClient';
+import { getBundledBwickNetworkConfig } from '../ethereum/chains/bundledChainConfigs';
 import type { NetworkConfig } from './NetworkConfig';
-import { networksFallbackInfo } from './networks-fallback';
-import { Networks } from './Networks';
-
-const CHAIN_INFO_TIMEOUT = 12000;
-
-async function getNetworksFallback() {
-  await wait(CHAIN_INFO_TIMEOUT);
-  return networksFallbackInfo;
-}
 
 export function getNetworks({
   ids,
-  client,
-  include_testnets,
-  supported_only = false,
+  client: _client,
+  include_testnets: _include_testnets,
+  supported_only: _supported_only = false,
 }: {
   ids: string[] | null;
   client: Client;
   include_testnets: boolean;
   supported_only: boolean;
 }): Promise<NetworkConfig[]> {
-  return Promise.race([
-    fetchChains(
-      {
-        ids: ids || undefined,
-        include_testnets: Boolean(ids) || include_testnets,
-        supported_only,
-      },
-      client
-    ),
-    ids || isTestClient(client) // do not use fallback for testnet mode
-      ? rejectAfterDelay(
-          CHAIN_INFO_TIMEOUT,
-          `getNetworks(${ids?.join() ?? ''})`
-        )
-      : getNetworksFallback(),
-  ]);
+  const bwick = getBundledBwickNetworkConfig();
+  return Promise.resolve(
+    ids?.length
+      ? [bwick].filter((network) => ids.includes(network.id))
+      : [bwick]
+  );
 }
 
-export async function getNetworkByChainId(chainId: string, client: Client) {
-  const possibleNetworks = await Promise.race([
-    getNetworksBySearch({
-      query: Number(chainId).toString(),
-      client,
-      includeTestnets: true,
-    }),
-    rejectAfterDelay(CHAIN_INFO_TIMEOUT, `getNetworkByChainId(${chainId})`),
-  ]);
-  const network = possibleNetworks.find(
-    (item) => Networks.getChainId(item) === chainId
-  );
-  return network || null;
+export async function getNetworkByChainId(chainId: string, _client: Client) {
+  const bwick = getBundledBwickNetworkConfig();
+  const normalizedChainId = chainId.toLowerCase();
+  if (
+    bwick.specification.cosmos?.chain_id === normalizedChainId ||
+    bwick.id === normalizedChainId ||
+    normalizedChainId.includes('bwick')
+  ) {
+    return bwick;
+  }
+  return null;
 }

@@ -20,7 +20,7 @@ import { useWalletParams } from 'src/ui/shared/requests/useWalletParams';
 import { emitter } from 'src/ui/shared/events';
 import { useLocation } from 'react-router-dom';
 
-const ZERION_ORIGIN = 'https://app.zerion.io';
+const BWICK_ORIGIN = 'https://app.bwick.io';
 
 export function XpDropClaimSuccess() {
   useBackgroundKind({ kind: 'white' });
@@ -90,11 +90,11 @@ export function XpDropClaimSuccess() {
     };
   }, [fireConfetti]);
 
-  const { mutate: acceptZerionOrigin } = useMutation({
+  const { mutate: acceptBwickOrigin } = useMutation({
     mutationFn: async () => {
       invariant(currentWallet, 'Current wallet not found');
       return walletPort.request('acceptOrigin', {
-        origin: ZERION_ORIGIN,
+        origin: BWICK_ORIGIN,
         address: currentWallet.address,
       });
     },
@@ -133,7 +133,7 @@ export function XpDropClaimSuccess() {
           <Button
             as={TextAnchor}
             kind="primary"
-            href={`${ZERION_ORIGIN}/rewards?${addWalletParams}`}
+            href={`${BWICK_ORIGIN}/rewards?${addWalletParams}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
@@ -142,7 +142,7 @@ export function XpDropClaimSuccess() {
                 buttonName: 'Rewards',
                 pathname,
               });
-              acceptZerionOrigin();
+              acceptBwickOrigin();
             }}
           >
             <HStack gap={8} alignItems="center" justifyContent="center">

@@ -2,7 +2,7 @@ import { createChain } from 'src/modules/networks/Chain';
 import { sendRpcRequest } from 'src/shared/custom-rpc/rpc-request';
 import { Networks } from 'src/modules/networks/Networks';
 import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';
-import type { ZerionApiClient } from 'src/modules/zerion-api/zerion-api-bare';
+import type { BwickApiClient } from 'src/modules/bwick-api/bwick-api-bare';
 import type { ChainGasPrice } from './types';
 
 export async function fetchGasPriceFromNode(
@@ -41,7 +41,7 @@ export async function fetchGasPrice({
 }: {
   network: NetworkConfig;
   source: 'testnet' | 'mainnet';
-  apiClient: ZerionApiClient;
+  apiClient: BwickApiClient;
 }) {
   try {
     const response = await apiClient.getGasPrices(

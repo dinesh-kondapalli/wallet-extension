@@ -1,5 +1,5 @@
 import React from 'react';
-import type { UserInteractionRequested } from '@zeriontech/hardware-wallet-connection';
+import type { UserInteractionRequested } from '@bwicktech/hardware-wallet-connection';
 import type { BlockchainType } from 'src/shared/wallet/classifiers';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import LockIcon from 'jsx:../../assets/lock-outline.svg';

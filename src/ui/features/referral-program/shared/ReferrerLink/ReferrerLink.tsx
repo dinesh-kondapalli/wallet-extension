@@ -17,7 +17,7 @@ export function ReferrerLink({
 
   return (
     <TextAnchor
-      href={`https://app.zerion.io/${address}/overview`}
+      href={`https://app.bwick.io/${address}/overview`}
       target="_blank"
       rel="noopener noreferrer"
       style={{ overflowWrap: 'anywhere' }}

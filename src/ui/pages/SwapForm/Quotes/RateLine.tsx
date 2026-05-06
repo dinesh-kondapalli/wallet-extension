@@ -30,9 +30,9 @@ export function RateLine({
   const { isLoading, error, quotes } = quotesData;
 
   const { data: firebaseData } = useFirebaseConfig(['fee_comparison_config']);
-  const zerionPremiumFee = useMemo(() => {
+  const bwickPremiumFee = useMemo(() => {
     return (
-      firebaseData?.fee_comparison_config.find((item) => item.isZerionFee)
+      firebaseData?.fee_comparison_config.find((item) => item.isPlatformFee)
         ?.fee ?? null
     );
   }, [firebaseData?.fee_comparison_config]);
@@ -41,8 +41,8 @@ export function RateLine({
     ? null
     : !selectedQuote.protocolFee.percentage
     ? 'og'
-    : zerionPremiumFee != null
-    ? selectedQuote.protocolFee.percentage === zerionPremiumFee
+    : bwickPremiumFee != null
+    ? selectedQuote.protocolFee.percentage === bwickPremiumFee
       ? 'premium'
       : 'regular'
     : null;

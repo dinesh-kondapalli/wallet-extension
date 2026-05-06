@@ -2,7 +2,7 @@ import { utils as zkSyncUtils } from 'zksync-ethers';
 import { invariant } from 'src/shared/invariant';
 import { valueToHex } from 'src/shared/units/valueToHex';
 import { normalizeChainId } from 'src/shared/normalizeChainId';
-import type { ZerionApiClient } from 'src/modules/zerion-api/zerion-api-bare';
+import type { BwickApiClient } from 'src/modules/bwick-api/bwick-api-bare';
 import { assertProp } from 'src/shared/assert-property';
 import { getGas } from '../transactions/getGas';
 import type { IncomingTransaction } from '../types/IncomingTransaction';
@@ -11,8 +11,8 @@ import { GAS_PER_PUBDATA_BYTE_DEFAULT } from './constants';
 type NetworksSource = 'mainnet' | 'testnet';
 
 export function adjustedCheckEligibility(
-  params: Parameters<ZerionApiClient['paymasterCheckEligibility']>[0],
-  { source, apiClient }: { source: NetworksSource; apiClient: ZerionApiClient }
+  params: Parameters<BwickApiClient['paymasterCheckEligibility']>[0],
+  { source, apiClient }: { source: NetworksSource; apiClient: BwickApiClient }
 ) {
   const txCopy = { ...params };
   const gas = getGas(txCopy);
@@ -51,11 +51,11 @@ async function getPaymasterParams(
   }: {
     gasPerPubdataByte: string;
     source: NetworksSource;
-    apiClient: ZerionApiClient;
+    apiClient: BwickApiClient;
   }
 ) {
   const transaction = normalizeTransactionProps(incomingTransaction);
-  type Request = Parameters<ZerionApiClient['getPaymasterParams']>[0];
+  type Request = Parameters<BwickApiClient['getPaymasterParams']>[0];
   const params: Request = {
     transaction: {
       from: transaction.from,
@@ -76,7 +76,7 @@ async function getPaymasterParams(
 
 export async function fetchAndAssignPaymaster<T extends IncomingTransaction>(
   tx: T,
-  { source, apiClient }: { source: NetworksSource; apiClient: ZerionApiClient }
+  { source, apiClient }: { source: NetworksSource; apiClient: BwickApiClient }
 ) {
   const txCopy = { ...tx };
   const gas = getGas(txCopy);

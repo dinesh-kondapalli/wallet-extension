@@ -13,8 +13,8 @@ import { NeutralDecimals } from 'src/ui/ui-kit/NeutralDecimals';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { VStack } from 'src/ui/ui-kit/VStack';
 import type { PnlMode } from 'src/background/Wallet/model/types';
-import type { WalletPortfolio } from 'src/modules/zerion-api/requests/wallet-get-portfolio';
-import type { WalletPnL } from 'src/modules/zerion-api/requests/wallet-get-pnl';
+import type { WalletPortfolio } from 'src/modules/bwick-api/requests/wallet-get-portfolio';
+import type { WalletPnL } from 'src/modules/bwick-api/requests/wallet-get-pnl';
 import { usePreferences } from 'src/ui/features/preferences';
 import { BadgeTrigger } from './BadgeTrigger';
 import * as styles from './PercentageChange.module.css';
@@ -78,12 +78,14 @@ interface Props {
   walletPortfolio: WalletPortfolio | undefined;
   walletPnl: WalletPnL | undefined;
   currency: string;
+  fallbackTotalValue?: number;
 }
 
 export function PercentageChange({
   walletPortfolio,
   walletPnl,
   currency,
+  fallbackTotalValue = 0,
 }: Props) {
   const { preferences, setPreferences } = usePreferences();
   const selectedMode: PnlMode = preferences?.pnlMode ?? 'pnl';
@@ -135,7 +137,9 @@ export function PercentageChange({
               )}
             />
           ) : (
-            NBSP
+            <NeutralDecimals
+              parts={formatCurrencyToParts(fallbackTotalValue, 'en', currency)}
+            />
           )}
         </UIText>
       </BlurrableBalance>

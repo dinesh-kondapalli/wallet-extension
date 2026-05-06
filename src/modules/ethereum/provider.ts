@@ -54,7 +54,7 @@ export class EthereumProvider extends JsonRpcProvider {
   accounts: string[];
   chainId: string;
   networkVersion: string;
-  isZerion = true;
+  isBwick = true;
   isMetaMask?: boolean;
   // Metamask provides this proxy with few experimental functions
   // Some dapps rely on its methods (e.g. app.hop.exchange)

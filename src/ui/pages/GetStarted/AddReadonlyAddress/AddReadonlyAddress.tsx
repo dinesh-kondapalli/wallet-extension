@@ -18,7 +18,7 @@ import { accountPublicRPCPort, walletPort } from 'src/ui/shared/channels';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentAddress } from 'src/ui/shared/requests/setCurrentAddress';
 import { DebouncedInput } from 'src/ui/ui-kit/Input/DebouncedInput';
-import { ZerionAPI } from 'src/modules/zerion-api/zerion-api.client';
+import { BwickAPI } from 'src/modules/bwick-api/bwick-api.client';
 import { useCustomValidity } from 'src/ui/shared/forms/useCustomValidity';
 import { isEthereumAddress } from 'src/shared/isEthereumAddress';
 import { VStack } from 'src/ui/ui-kit/VStack';
@@ -43,7 +43,7 @@ async function submitReadonlyAddress({ address }: { address: string }) {
 
 function getHints(
   query: string,
-  data: undefined | Awaited<ReturnType<(typeof ZerionAPI)['getWalletsMeta']>>
+  data: undefined | Awaited<ReturnType<(typeof BwickAPI)['getWalletsMeta']>>
 ): { address: string | null; domains: string[] | null } {
   if (!data || !data.data?.length) {
     return { address: null, domains: null };
@@ -58,7 +58,7 @@ function getHints(
 }
 
 async function lookup(value: string) {
-  const result = await ZerionAPI.getWalletsMeta({ identifiers: [value] });
+  const result = await BwickAPI.getWalletsMeta({ identifiers: [value] });
   if (result.data?.length === 0) {
     const message = result.errors?.[0]?.title;
     throw new Error(message || 'No resolved identities');

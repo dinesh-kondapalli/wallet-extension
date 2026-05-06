@@ -1,6 +1,6 @@
 import { useCurrency } from 'src/modules/currency/useCurrency';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
+import { useWalletPortfolio } from 'src/modules/bwick-api/hooks/useWalletPortfolio';
 import { normalizeAddress } from 'src/shared/normalizeAddress';
 
 export function PortfolioValue({

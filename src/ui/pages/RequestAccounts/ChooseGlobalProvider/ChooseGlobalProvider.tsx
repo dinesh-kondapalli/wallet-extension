@@ -93,7 +93,7 @@ export function ChooseGlobalProvider({
             kind="small/accent"
             color="var(--neutral-500)"
             as={UnstyledAnchor}
-            href="https://zerion.io/blog/"
+            href="https://bwick.io/blog/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:underline"

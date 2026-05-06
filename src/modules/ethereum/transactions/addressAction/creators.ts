@@ -14,7 +14,7 @@ import { v5ToPlainTransactionResponse } from 'src/background/Wallet/model/ethers
 import { parseSolanaTransaction } from 'src/modules/solana/transactions/parseSolanaTransaction';
 import { invariant } from 'src/shared/invariant';
 import { solFromBase64 } from 'src/modules/solana/transactions/create';
-import type { AddressAction } from 'src/modules/zerion-api/requests/wallet-get-actions';
+import type { AddressAction } from 'src/modules/bwick-api/requests/wallet-get-actions';
 import { getDecimals } from 'src/modules/networks/asset';
 import { baseToCommon } from 'src/shared/units/convert';
 import type { NetworkConfig } from 'src/modules/networks/NetworkConfig';

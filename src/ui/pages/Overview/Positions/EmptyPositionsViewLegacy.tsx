@@ -13,7 +13,7 @@ import { UnstyledAnchor } from 'src/ui/ui-kit/UnstyledAnchor';
 import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
 import { VStack } from 'src/ui/ui-kit/VStack';
 
-const ZERION_ORIGIN = 'https://app.zerion.io';
+const BWICK_ORIGIN = 'https://app.bwick.io';
 
 export function EmptyPositionsViewLegacy() {
   const { data: wallet } = useQuery({
@@ -95,8 +95,8 @@ export function EmptyPositionsViewLegacy() {
       <VStack gap={12} style={{ justifyItems: 'center' }}>
         <img
           alt="Empty Wallet Cover"
-          src="https://cdn.zerion.io/images/dna-assets/empty-wallet-img.png"
-          srcSet="https://cdn.zerion.io/images/dna-assets/empty-wallet-img.png, https://cdn.zerion.io/images/dna-assets/empty-wallet-img_2x.png 2x"
+          src="https://cdn.bwick.io/images/dna-assets/empty-wallet-img.png"
+          srcSet="https://cdn.bwick.io/images/dna-assets/empty-wallet-img.png, https://cdn.bwick.io/images/dna-assets/empty-wallet-img_2x.png 2x"
           style={{ height: 64 }}
         />
         <VStack gap={0}>
@@ -111,7 +111,7 @@ export function EmptyPositionsViewLegacy() {
           size={48}
           kind="primary"
           as={UnstyledAnchor}
-          href={`${ZERION_ORIGIN}/deposit?${addWalletParams}`}
+          href={`${BWICK_ORIGIN}/deposit?${addWalletParams}`}
           target="_blank"
           rel="noopener noreferrer"
         >

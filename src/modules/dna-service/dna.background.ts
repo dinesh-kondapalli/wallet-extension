@@ -17,7 +17,7 @@ import type { DnaAction } from './types';
 
 const REGISTER_ALL_WALLETS_INVOKED_KEY = 'registerAllWalletsInvoked-14-10-2024';
 const ACTION_QUEUE_KEY = 'actionDnaQueue-22-12-2021';
-const DNA_API_ENDPOINT = 'https://dna.zerion.io/api/v1';
+const DNA_API_ENDPOINT = 'https://dna.bwick.io/api/v1';
 
 type DnaActionWithTimestamp = DnaAction & { timestamp: number };
 
@@ -262,12 +262,12 @@ export class DnaService {
   }
 
   async registerAllWallets() {
-    // To make sure referral codes are generated for new wallets we need to call 'registerWallet' on the Zerion DNA Service.
+    // To make sure referral codes are generated for new wallets we need to call 'registerWallet' on the Bwick DNA Service.
     // Existing "owned" wallets (wallets with provider) require to have referral codes as well,
     // but the backend lacks sufficient data to assign them.
     //
     // Additionally, re-registration is crucial due to a previous backend error:
-    // Zerion DNA Service expected a version prefix 'v' for 'registerWallet' requests, which we were not including.
+    // Bwick DNA Service expected a version prefix 'v' for 'registerWallet' requests, which we were not including.
     // This backend issue has since been resolved, but as a result,
     // wallets previously registered without 'v' are effectively unregistered.
     // To handle this, we have to re-register all existing wallets.

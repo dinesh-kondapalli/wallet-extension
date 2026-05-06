@@ -15,19 +15,19 @@ import FlagIcon from 'jsx:src/ui/assets/flag.svg';
 import ShareIcon from 'jsx:src/ui/assets/share.svg';
 import { UIText } from 'src/ui/ui-kit/UIText';
 import { PageTop } from 'src/ui/components/PageTop';
-import { useAssetFullInfo } from 'src/modules/zerion-api/hooks/useAssetFullInfo';
-import type { Asset } from 'src/modules/zerion-api/requests/asset-get-fungible-full-info';
+import { useAssetFullInfo } from 'src/modules/bwick-api/hooks/useAssetFullInfo';
+import type { Asset } from 'src/modules/bwick-api/requests/asset-get-fungible-full-info';
 import { UnstyledAnchor } from 'src/ui/ui-kit/UnstyledAnchor';
 import { useQuery } from '@tanstack/react-query';
 import { walletPort } from 'src/ui/shared/channels';
 import { useAddressParams } from 'src/ui/shared/user-address/useAddressParams';
 import { isReadonlyAccount } from 'src/shared/types/validators';
-import { useWalletAssetDetails } from 'src/modules/zerion-api/hooks/useWalletAssetDetails';
+import { useWalletAssetDetails } from 'src/modules/bwick-api/hooks/useWalletAssetDetails';
 import { useBackgroundKind } from 'src/ui/components/Background';
 import { UnstyledLink } from 'src/ui/ui-kit/UnstyledLink';
-import { useWalletPortfolio } from 'src/modules/zerion-api/hooks/useWalletPortfolio';
-import { useHttpClientSource } from 'src/modules/zerion-api/hooks/useHttpClientSource';
-import { useWalletAssetPnl } from 'src/modules/zerion-api/hooks/useWalletAssetPnl';
+import { useWalletPortfolio } from 'src/modules/bwick-api/hooks/useWalletPortfolio';
+import { useHttpClientSource } from 'src/modules/bwick-api/hooks/useHttpClientSource';
+import { useWalletAssetPnl } from 'src/modules/bwick-api/hooks/useWalletAssetPnl';
 import { NetworkId } from 'src/modules/networks/NetworkId';
 import { CircleSpinner } from 'src/ui/ui-kit/CircleSpinner';
 import { whiteBackgroundKind } from 'src/ui/components/Background/Background';
@@ -51,7 +51,7 @@ function ReportAssetLink({ asset }: { asset: Asset }) {
   return (
     <UnstyledAnchor
       target="_blank"
-      href={`https://zerion-io.typeform.com/to/IVsRHfBy?typeform-medium=embed-snippet#symbol=${asset.symbol}&asset_id=${asset.id}`}
+      href={`https://bwick-io.typeform.com/to/IVsRHfBy?typeform-medium=embed-snippet#symbol=${asset.symbol}&asset_id=${asset.id}`}
       rel="noopener noreferrer"
       className="parent-hover"
       style={{
@@ -75,7 +75,7 @@ function ReportAssetLink({ asset }: { asset: Asset }) {
 function ShareAssetLink({ asset }: { asset: Asset }) {
   const toastRef = useRef<PopoverToastHandle>(null);
   const { handleCopy } = useCopyToClipboard({
-    text: `https://app.zerion.io/tokens/${asset.symbol}-${asset.id}`,
+    text: `https://app.bwick.io/tokens/${asset.symbol}-${asset.id}`,
     onSuccess: () => toastRef.current?.showToast(),
   });
 

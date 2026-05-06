@@ -29,13 +29,7 @@ function GenerateWalletView() {
   const ecosystems = params.getAll('ecosystems');
   invariant(ecosystems.length > 0, 'Must provide ecosystems get-param');
   assertKnownEcosystems(ecosystems);
-  const walletEcosystems = ecosystems.filter(
-    (item): item is BlockchainType => item === 'evm' || item === 'solana'
-  );
-  invariant(
-    walletEcosystems.length === ecosystems.length,
-    'Cosmos wallet generation is not supported'
-  );
+  const walletEcosystems: BlockchainType[] = ['evm'];
 
   const [idempotentRequest] = useState(() => new IdempotentRequest());
 

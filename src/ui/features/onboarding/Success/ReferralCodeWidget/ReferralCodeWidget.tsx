@@ -12,7 +12,7 @@ import { walletPort } from 'src/ui/shared/channels';
 import { Input } from 'src/ui/ui-kit/Input';
 import { Spacer } from 'src/ui/ui-kit/Spacer';
 import { ZStack } from 'src/ui/ui-kit/ZStack';
-import type { ReferrerData } from 'src/modules/zerion-api/requests/check-referral';
+import type { ReferrerData } from 'src/modules/bwick-api/requests/check-referral';
 import { UnstyledButton } from 'src/ui/ui-kit/UnstyledButton';
 import * as styles from './styles.module.css';
 

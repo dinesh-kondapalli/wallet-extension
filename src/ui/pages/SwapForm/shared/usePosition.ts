@@ -1,4 +1,4 @@
-import { EmptyAddressPosition } from '@zeriontech/transactions';
+import { EmptyAddressPosition } from '@bwicktech/transactions';
 import type { AddressPosition } from 'defi-sdk';
 import { client, useAssetsPrices } from 'defi-sdk';
 import { isTruthy } from 'is-truthy-ts';

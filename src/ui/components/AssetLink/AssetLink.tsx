@@ -1,15 +1,14 @@
 import type { Asset } from 'defi-sdk';
 import React from 'react';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
 import { usePreferences } from 'src/ui/features/preferences';
-import { openInNewWindow } from 'src/ui/shared/openInNewWindow';
 import { TextAnchor } from 'src/ui/ui-kit/TextAnchor';
 import { TextLink } from 'src/ui/ui-kit/TextLink';
 
 export function AssetAnchor({
   asset,
   title,
-  address,
+  address: _address,
 }: {
   asset: Pick<Asset, 'symbol' | 'name' | 'id'>;
   title?: string;
@@ -22,12 +21,11 @@ export function AssetAnchor({
   }
   return (
     <TextAnchor
-      href={`https://app.zerion.io/explore/asset/${asset.symbol}-${asset.id}?address=${address}`}
+      href="#"
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => {
         e.stopPropagation();
-        openInNewWindow(e);
       }}
       title={content}
       style={{

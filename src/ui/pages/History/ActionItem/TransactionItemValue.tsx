@@ -13,8 +13,8 @@ import type {
   Approval,
   NFTPreview,
   Transfer,
-} from 'src/modules/zerion-api/requests/wallet-get-actions';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
+} from 'src/modules/bwick-api/requests/wallet-get-actions';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
 import type { Kind } from 'src/ui/ui-kit/UIText';
 import { BlurrableBalance } from 'src/ui/components/BlurrableBalance';
 import { formatTokenValue } from 'src/shared/units/formatTokenValue';

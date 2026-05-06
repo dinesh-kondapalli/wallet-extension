@@ -36,7 +36,7 @@ import { invariant } from 'src/shared/invariant';
 import { isReadonlyContainer } from 'src/shared/types/validators';
 import { UnstyledAnchor } from 'src/ui/ui-kit/UnstyledAnchor';
 import { WalletList } from 'src/ui/pages/WalletSelect/WalletList';
-import type { ReferrerData } from 'src/modules/zerion-api/requests/check-referral';
+import type { ReferrerData } from 'src/modules/bwick-api/requests/check-referral';
 import { useWalletsMetaByChunks } from 'src/ui/shared/requests/useWalletsMetaByChunks';
 import { emitter } from 'src/ui/shared/events';
 import { useWalletParams } from 'src/ui/shared/requests/useWalletParams';
@@ -283,14 +283,14 @@ function Heading({
       <NavigationTitle title={null} documentTitle="Invite Friends to Wallet" />
       <img
         alt=""
-        src="https://cdn.zerion.io/images/dna-assets/invite-flow-decoration-left.png"
-        srcSet="https://cdn.zerion.io/images/dna-assets/invite-flow-decoration-left.png, https://cdn.zerion.io/images/dna-assets/invite-flow-decoration-left_2x.png 2x"
+        src="https://cdn.bwick.io/images/dna-assets/invite-flow-decoration-left.png"
+        srcSet="https://cdn.bwick.io/images/dna-assets/invite-flow-decoration-left.png, https://cdn.bwick.io/images/dna-assets/invite-flow-decoration-left_2x.png 2x"
         className={styles.cardsLeft}
       />
       <img
         alt=""
-        src="https://cdn.zerion.io/images/dna-assets/invite-flow-decoration-right.png"
-        srcSet="https://cdn.zerion.io/images/dna-assets/invite-flow-decoration-right.png, https://cdn.zerion.io/images/dna-assets/invite-flow-decoration-right_2x.png 2x"
+        src="https://cdn.bwick.io/images/dna-assets/invite-flow-decoration-right.png"
+        srcSet="https://cdn.bwick.io/images/dna-assets/invite-flow-decoration-right.png, https://cdn.bwick.io/images/dna-assets/invite-flow-decoration-right_2x.png 2x"
         className={styles.cardsRight}
       />
       <VStack gap={24} className={styles.titleContainer}>
@@ -301,7 +301,7 @@ function Heading({
   );
 }
 
-const ZERION_ORIGIN = 'https://app.zerion.io';
+const BWICK_ORIGIN = 'https://app.bwick.io';
 
 export function Invite() {
   useBackgroundKind({ kind: 'white' });
@@ -340,11 +340,11 @@ export function Invite() {
   const successDialogRef = useRef<HTMLDialogElementInterface | null>(null);
 
   const addWalletParams = useWalletParams(currentWallet);
-  const { mutate: acceptZerionOrigin } = useMutation({
+  const { mutate: acceptBwickOrigin } = useMutation({
     mutationFn: async () => {
       invariant(currentWallet, 'Current wallet not found');
       return walletPort.request('acceptOrigin', {
-        origin: ZERION_ORIGIN,
+        origin: BWICK_ORIGIN,
         address: currentWallet.address,
       });
     },
@@ -397,7 +397,7 @@ export function Invite() {
               <Button
                 kind="regular"
                 as={UnstyledAnchor}
-                href={`${ZERION_ORIGIN}/rewards?${addWalletParams}`}
+                href={`${BWICK_ORIGIN}/rewards?${addWalletParams}`}
                 target="_blank"
                 onClick={() => {
                   emitter.emit('buttonClicked', {
@@ -405,7 +405,7 @@ export function Invite() {
                     buttonName: 'Rewards',
                     pathname,
                   });
-                  acceptZerionOrigin();
+                  acceptBwickOrigin();
                 }}
               >
                 <UIText kind="body/accent">Explore Rewards</UIText>

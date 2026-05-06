@@ -3,8 +3,8 @@ import type { LocalAddressAction } from 'src/modules/ethereum/transactions/addre
 import type {
   Collection,
   NFTPreview,
-} from 'src/modules/zerion-api/requests/wallet-get-actions';
-import type { Fungible } from 'src/modules/zerion-api/types/Fungible';
+} from 'src/modules/bwick-api/requests/wallet-get-actions';
+import type { Fungible } from 'src/modules/bwick-api/types/Fungible';
 
 function fungibleMatches(query: string, fungible: Fungible | null) {
   if (!fungible) {

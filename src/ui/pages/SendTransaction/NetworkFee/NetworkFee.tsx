@@ -1,6 +1,6 @@
 import { isTruthy } from 'is-truthy-ts';
 import React, { useRef } from 'react';
-import type { NetworkFeeConfiguration } from '@zeriontech/transactions';
+import type { NetworkFeeConfiguration } from '@bwicktech/transactions';
 import type { ChainGasPrice } from 'src/modules/ethereum/transactions/gasPrices/types';
 import { CircleSpinner } from 'src/ui/ui-kit/CircleSpinner';
 import { HStack } from 'src/ui/ui-kit/HStack';
@@ -15,7 +15,7 @@ import type { IncomingTransactionWithFrom } from 'src/modules/ethereum/types/Inc
 import { useNetworks } from 'src/modules/networks/useNetworks';
 import { useCurrency } from 'src/modules/currency/useCurrency';
 import { formatCurrencyValueExtra } from 'src/shared/units/formatCurrencyValue';
-import type { InterpretResponse } from 'src/modules/zerion-api/requests/wallet-simulate-transaction';
+import type { InterpretResponse } from 'src/modules/bwick-api/requests/wallet-simulate-transaction';
 import type { TransactionFee } from '../TransactionConfiguration/useTransactionFee';
 import { NetworkFeeDialog } from './NetworkFeeDialog';
 import { NETWORK_SPEED_TO_TITLE } from './constants';

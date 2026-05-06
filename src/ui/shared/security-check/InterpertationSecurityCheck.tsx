@@ -16,7 +16,7 @@ import type {
   InterpretResponse,
   Warning,
   WarningSeverity,
-} from 'src/modules/zerion-api/requests/wallet-simulate-transaction';
+} from 'src/modules/bwick-api/requests/wallet-simulate-transaction';
 import { SecurityStatusButton } from './SecurityStatusButton';
 import type { SecurityButtonKind } from './SecurityStatusButton';
 
